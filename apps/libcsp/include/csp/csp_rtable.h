@@ -150,22 +150,6 @@ static inline int csp_route_set(uint8_t dest_address, csp_iface_t *ifc, uint8_t 
     return csp_rtable_set(dest_address, CSP_ID_HOST_SIZE, ifc, via);
 }
 
-/**
-   Print routing table.
-   @deprecated Use csp_rtable_print() instead.
-*/
-static inline void csp_route_print_table() {
-    csp_rtable_print();
-}
-
-/**
-   Print list of interfaces.
-   @deprecated Use csp_iflist_print() instead.
-*/
-static inline void csp_route_print_interfaces(void) {
-    csp_iflist_print();
-}
-
 #ifdef __cplusplus
 }
 #endif
