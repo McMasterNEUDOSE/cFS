@@ -1,8 +1,15 @@
 build
 
 #Following two lines generates files in sample_defs
+#
 #cp cfe/cmake/Makefile.sample Makefile
 #cp -r cfe/cmake/sample_defs sample_defs
 /sample_defs/sample_defs/
 
-
+#Following lines generate files that should be ignored
+#portFreeRTOS is aribtrary, updating this creates new directory
+#
+#make SIMULATION=cpu1 O=portFreeRTOS prep
+#make
+#make install
+/portFreeRTOS/
