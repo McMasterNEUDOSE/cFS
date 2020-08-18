@@ -113,7 +113,7 @@ void CFE_PSP_ExceptionSigHandler (int signo, siginfo_t *si, void *ctxt)
      * notify the main (idle) thread that an interesting event occurred.
      * Note on this platform this cannot _directly_ invoke CFE from a signal handler.
      */
-    pthread_kill(CFE_PSP_IdleTaskState.ThreadID, CFE_PSP_EXCEPTION_EVENT_SIGNAL);
+
 }
 
 /*
