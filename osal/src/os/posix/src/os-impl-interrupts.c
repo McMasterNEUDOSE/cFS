@@ -130,7 +130,6 @@ int32 OS_IntSetMask_Impl ( uint32 MaskSetting )
  *-----------------------------------------------------------------*/
 int32 OS_IntGetMask_Impl ( uint32 * MaskSettingPtr )
 {
-    *MaskSettingPtr = 0;
     return(OS_ERR_NOT_IMPLEMENTED);
 } /* end OS_IntGetMask_Impl */
 

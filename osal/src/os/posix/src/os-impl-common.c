@@ -58,49 +58,7 @@ int32 OS_API_Impl_Init(uint32 idtype)
 {
     int32               return_code;
 
-    return_code = OS_Posix_TableMutex_Init(idtype);
-    if (return_code != OS_SUCCESS)
-    {
-        return return_code;
-    }
-
-
-    switch(idtype)
-    {
-    case OS_OBJECT_TYPE_OS_TASK:
-        return_code = OS_Posix_TaskAPI_Impl_Init();
-        break;
-    case OS_OBJECT_TYPE_OS_QUEUE:
-        return_code = OS_Posix_QueueAPI_Impl_Init();
-        break;
-    case OS_OBJECT_TYPE_OS_BINSEM:
-        return_code = OS_Posix_BinSemAPI_Impl_Init();
-        break;
-    case OS_OBJECT_TYPE_OS_COUNTSEM:
-        return_code = OS_Posix_CountSemAPI_Impl_Init();
-        break;
-    case OS_OBJECT_TYPE_OS_MUTEX:
-        return_code = OS_Posix_MutexAPI_Impl_Init();
-        break;
-    case OS_OBJECT_TYPE_OS_MODULE:
-        return_code = OS_Posix_ModuleAPI_Impl_Init();
-        break;
-    case OS_OBJECT_TYPE_OS_TIMEBASE:
-        return_code = OS_Posix_TimeBaseAPI_Impl_Init();
-        break;
-    case OS_OBJECT_TYPE_OS_STREAM:
-        return_code = OS_Posix_StreamAPI_Impl_Init();
-        break;
-    case OS_OBJECT_TYPE_OS_DIR:
-        return_code = OS_Posix_DirAPI_Impl_Init();
-        break;
-    case OS_OBJECT_TYPE_OS_FILESYS:
-        return_code = OS_Posix_FileSysAPI_Impl_Init();
-        break;
-    default:
-        break;
-    }
-
+    return_code = OS_SUCCESS;
 
     return(return_code);
 } /* end OS_API_Impl_Init */
@@ -158,18 +116,10 @@ void OS_ApplicationShutdown_Impl(void)
  *-----------------------------------------------------------------*/
 void  OS_Posix_CompAbsDelayTime( uint32 msecs, struct timespec * tm)
 {
-    clock_gettime( CLOCK_REALTIME,  tm );
-
     /* add the delay to the current time */
-    tm->tv_sec  += (time_t) (msecs / 1000) ;
-    /* convert residue ( msecs )  to nanoseconds */
-    tm->tv_nsec +=  (msecs % 1000) * 1000000L ;
 
-    if(tm->tv_nsec  >= 1000000000L )
-    {
-        tm->tv_nsec -= 1000000000L ;
-        tm->tv_sec ++ ;
-    }
+    /* convert residue ( msecs )  to nanoseconds */
+
 } /* end OS_CompAbsDelayTime */
 
 

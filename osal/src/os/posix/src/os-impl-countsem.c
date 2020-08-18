@@ -78,17 +78,7 @@ int32 OS_Posix_CountSemAPI_Impl_Init(void)
  *-----------------------------------------------------------------*/
 int32 OS_CountSemCreate_Impl (uint32 sem_id, uint32 sem_initial_value, uint32 options)
 {
-    if (sem_initial_value > SEM_VALUE_MAX)
-    {
-        return OS_INVALID_SEM_VALUE;
-    }
-
-    if (sem_init(&OS_impl_count_sem_table[sem_id].id, 0, sem_initial_value) < 0)
-    {
-        return OS_SEM_FAILURE;
-    }
-
-    return OS_SUCCESS;
+        return OS_SUCCESS;
 
 } /* end OS_CountSemCreate_Impl */
 
@@ -103,10 +93,6 @@ int32 OS_CountSemCreate_Impl (uint32 sem_id, uint32 sem_initial_value, uint32 op
  *-----------------------------------------------------------------*/
 int32 OS_CountSemDelete_Impl (uint32 sem_id)
 {
-    if (sem_destroy(&OS_impl_count_sem_table[sem_id].id) < 0)
-    {
-        return OS_SEM_FAILURE;
-    }
 
     return OS_SUCCESS;
 
@@ -123,10 +109,6 @@ int32 OS_CountSemDelete_Impl (uint32 sem_id)
  *-----------------------------------------------------------------*/
 int32 OS_CountSemGive_Impl ( uint32 sem_id )
 {
-    if (sem_post(&OS_impl_count_sem_table[sem_id].id) < 0)
-    {
-        return OS_SEM_FAILURE;
-    }
 
     return OS_SUCCESS;
 
@@ -143,10 +125,6 @@ int32 OS_CountSemGive_Impl ( uint32 sem_id )
  *-----------------------------------------------------------------*/
 int32 OS_CountSemTake_Impl ( uint32 sem_id )
 {
-    if (sem_wait(&OS_impl_count_sem_table[sem_id].id) < 0)
-    {
-        return OS_SEM_FAILURE;
-    }
 
     return OS_SUCCESS;
 } /* end OS_CountSemTake_Impl */
@@ -162,27 +140,15 @@ int32 OS_CountSemTake_Impl ( uint32 sem_id )
  *-----------------------------------------------------------------*/
 int32 OS_CountSemTimedWait_Impl ( uint32 sem_id, uint32 msecs )
 {
-   struct timespec ts;
    int result;
 
    /*
     ** Compute an absolute time for the delay
     */
-   OS_Posix_CompAbsDelayTime(msecs, &ts);
 
-   if (sem_timedwait(&OS_impl_count_sem_table[sem_id].id, &ts) == 0)
-   {
-       result = OS_SUCCESS;
-   }
-   else if (errno == ETIMEDOUT)
-   {
-       result = OS_SEM_TIMEOUT;
-   }
-   else
-   {
+
        /* unspecified failure */
-       result = OS_SEM_FAILURE;
-   }
+
 
    return result;
 } /* end OS_CountSemTimedWait_Impl */
@@ -198,15 +164,9 @@ int32 OS_CountSemTimedWait_Impl ( uint32 sem_id, uint32 msecs )
  *-----------------------------------------------------------------*/
 int32 OS_CountSemGetInfo_Impl (uint32 sem_id, OS_count_sem_prop_t *count_prop)
 {
-    int sval;
 
-    if (sem_getvalue(&OS_impl_count_sem_table[sem_id].id, &sval) < 0)
-    {
-        return OS_SEM_FAILURE;
-    }
 
     /* put the info into the stucture */
-    count_prop -> value = sval;
     return OS_SUCCESS;
 } /* end OS_CountSemGetInfo_Impl */
 

@@ -86,28 +86,8 @@ enum
  *-----------------------------------------------------------------*/
 int32 OS_Lock_Global_Impl(uint32 idtype)
 {
-   POSIX_GlobalLock_t *mut;
-   sigset_t previous;
 
-   mut = MUTEX_TABLE[idtype];
-
-   if (mut == NULL)
-   {
-      return OS_ERROR;
-   }
-
-   if (pthread_sigmask(SIG_SETMASK, &POSIX_GlobalVars.MaximumSigMask, &previous) != 0)
-   {
-      return OS_ERROR;
-   }
-
-   if (pthread_mutex_lock(&mut->mutex) != 0)
-   {
-      return OS_ERROR;
-   }
-
-   /* Only set values inside the GlobalLock _after_ it is locked */
-   mut->sigmask = previous;
+     /* Only set values inside the GlobalLock _after_ it is locked */
 
    return OS_SUCCESS;
 } /* end OS_Lock_Global_Impl */
@@ -123,34 +103,10 @@ int32 OS_Lock_Global_Impl(uint32 idtype)
  *-----------------------------------------------------------------*/
 int32 OS_Unlock_Global_Impl(uint32 idtype)
 {
-   POSIX_GlobalLock_t *mut;
-   sigset_t previous;
-
-   if (idtype < MUTEX_TABLE_SIZE)
-   {
-      mut = MUTEX_TABLE[idtype];
-   }
-   else
-   {
-      mut = NULL;
-   }
-
-   if (mut == NULL)
-   {
-      return OS_ERROR;
-   }
 
    /* Only get values inside the GlobalLock _before_ it is unlocked */
-   previous = mut->sigmask;
 
-   if (pthread_mutex_unlock(&mut->mutex) != 0)
-   {
-      return OS_ERROR;
-   }
-
-   pthread_sigmask(SIG_SETMASK, &previous, NULL);
-
-   return OS_SUCCESS;
+  return OS_SUCCESS;
 } /* end OS_Unlock_Global_Impl */
 
 
@@ -163,67 +119,25 @@ int32 OS_Unlock_Global_Impl(uint32 idtype)
 ---------------------------------------------------------------------------------------*/
 int32 OS_Posix_TableMutex_Init(uint32 idtype)
 {
-    int                 ret;
     int32               return_code = OS_SUCCESS;
-    pthread_mutexattr_t mutex_attr;
-
-    do
-    {
-        if (idtype >= MUTEX_TABLE_SIZE)
-        {
-            break;
-        }
 
         /* Initialize the table mutex for the given idtype */
-        if (MUTEX_TABLE[idtype] == NULL)
-        {
-            break;
-        }
+
 
         /*
          ** initialize the pthread mutex attribute structure with default values
          */
-        ret = pthread_mutexattr_init(&mutex_attr);
-        if ( ret != 0 )
-        {
-            OS_DEBUG("Error: pthread_mutexattr_init failed: %s\n",strerror(ret));
-            return_code = OS_ERROR;
-            break;
-        }
+
 
         /*
          ** Allow the mutex to use priority inheritance
          */
-        ret = pthread_mutexattr_setprotocol(&mutex_attr,PTHREAD_PRIO_INHERIT) ;
-        if ( ret != 0 )
-        {
-            OS_DEBUG("Error: pthread_mutexattr_setprotocol failed: %s\n",strerror(ret));
-            return_code = OS_ERROR;
-            break;
-        }
+
 
         /*
          **  Set the mutex type to RECURSIVE so a thread can do nested locks
          **  TBD - not sure if this is really desired, but keep it for now.
          */
-        ret = pthread_mutexattr_settype(&mutex_attr, PTHREAD_MUTEX_RECURSIVE);
-        if ( ret != 0 )
-        {
-            OS_DEBUG("Error: pthread_mutexattr_settype failed: %s\n",strerror(ret));
-            return_code = OS_ERROR;
-            break;
-        }
-
-        ret = pthread_mutex_init(&MUTEX_TABLE[idtype]->mutex, &mutex_attr);
-        if ( ret != 0 )
-        {
-            OS_DEBUG("Error: pthread_mutex_init failed: %s\n",strerror(ret));
-            return_code = OS_ERROR;
-            break;
-        }
-   }
-   while (0);
-
 
    return(return_code);
 } /* end OS_Posix_TableMutex_Init */

@@ -52,8 +52,7 @@ OS_impl_mutex_internal_record_t   OS_impl_mutex_table       [OS_MAX_MUTEXES];
  *-----------------------------------------------------------------*/
 int32 OS_Posix_MutexAPI_Impl_Init(void)
 {
-   memset(OS_impl_mutex_table, 0, sizeof(OS_impl_mutex_table));
-   return OS_SUCCESS;
+      return OS_SUCCESS;
 } /* end OS_Posix_MutexAPI_Impl_Init */
 
 
@@ -67,53 +66,26 @@ int32 OS_Posix_MutexAPI_Impl_Init(void)
  *-----------------------------------------------------------------*/
 int32 OS_MutSemCreate_Impl (uint32 sem_id, uint32 options)
 {
-    int                 return_code;
-    pthread_mutexattr_t mutex_attr;
 
     /*
     ** initialize the attribute with default values
     */
-    return_code = pthread_mutexattr_init(&mutex_attr);
-    if ( return_code != 0 )
-    {
-       OS_DEBUG("Error: Mutex could not be created. pthread_mutexattr_init failed ID = %u: %s\n",
-             (unsigned int)sem_id,strerror(return_code));
-       return OS_SEM_FAILURE;
-    }
+
 
     /*
     ** Allow the mutex to use priority inheritance
     */
-    return_code = pthread_mutexattr_setprotocol(&mutex_attr,PTHREAD_PRIO_INHERIT);
-    if ( return_code != 0 )
-    {
-       OS_DEBUG("Error: Mutex could not be created. pthread_mutexattr_setprotocol failed ID = %u: %s\n",
-             (unsigned int)sem_id,strerror(return_code));
-       return OS_SEM_FAILURE;
-    }
+
 
     /*
     **  Set the mutex type to RECURSIVE so a thread can do nested locks
     */
-    return_code = pthread_mutexattr_settype(&mutex_attr, PTHREAD_MUTEX_RECURSIVE);
-    if ( return_code != 0 )
-    {
-       OS_DEBUG("Error: Mutex could not be created. pthread_mutexattr_settype failed ID = %u: %s\n",
-             (unsigned int)sem_id,strerror(return_code));
-       return OS_SEM_FAILURE;
-    }
+
 
     /*
     ** create the mutex
     ** upon successful initialization, the state of the mutex becomes initialized and unlocked
     */
-    return_code = pthread_mutex_init(&OS_impl_mutex_table[sem_id].id,&mutex_attr);
-    if ( return_code != 0 )
-    {
-       OS_DEBUG("Error: Mutex could not be created. ID = %u: %s\n",
-             (unsigned int)sem_id,strerror(return_code));
-       return OS_SEM_FAILURE;
-    }
 
     return OS_SUCCESS;
 } /* end OS_MutSemCreate_Impl */
@@ -129,15 +101,6 @@ int32 OS_MutSemCreate_Impl (uint32 sem_id, uint32 options)
  *-----------------------------------------------------------------*/
 int32 OS_MutSemDelete_Impl (uint32 sem_id)
 {
-    int status;
-
-    status = pthread_mutex_destroy( &(OS_impl_mutex_table[sem_id].id)); /* 0 = success */
-
-    if (status != 0)
-    {
-        return OS_SEM_FAILURE;
-    }
-
     return OS_SUCCESS;
 
 } /* end OS_MutSemDelete_Impl */
@@ -153,16 +116,10 @@ int32 OS_MutSemDelete_Impl (uint32 sem_id)
  *-----------------------------------------------------------------*/
 int32 OS_MutSemGive_Impl ( uint32 sem_id )
 {
-   int status;
 
    /*
     ** Unlock the mutex
     */
-   status = pthread_mutex_unlock(&(OS_impl_mutex_table[sem_id].id));
-   if(status != 0)
-   {
-      return OS_SEM_FAILURE;
-   }
 
    return OS_SUCCESS;
 } /* end OS_MutSemGive_Impl */
@@ -178,16 +135,9 @@ int32 OS_MutSemGive_Impl ( uint32 sem_id )
  *-----------------------------------------------------------------*/
 int32 OS_MutSemTake_Impl ( uint32 sem_id )
 {
-    int status;
-
     /*
     ** Lock the mutex
     */
-    status = pthread_mutex_lock(&(OS_impl_mutex_table[sem_id].id));
-    if( status != 0 )
-    {
-        return OS_SEM_FAILURE;
-    }
 
     return OS_SUCCESS;
 } /* end OS_MutSemTake_Impl */

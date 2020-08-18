@@ -54,7 +54,7 @@
 /*
  * Use the global definitions from the shared layer
  */
-#include <os-shared-globaldefs.h>
+#include "os-shared-globaldefs.h"
 
 /****************************************************************************************
                                      DEFINES
