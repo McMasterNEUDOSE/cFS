@@ -1,1 +1,8 @@
 build
+
+#Following two lines generates files in sample_defs
+#cp cfe/cmake/Makefile.sample Makefile
+#cp -r cfe/cmake/sample_defs sample_defs
+/sample_defs/sample_defs/
+
+
