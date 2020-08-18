@@ -48,7 +48,6 @@
 */
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 
 /******************************************************************************
 **  Function:  CFE_PSP_InitSSR
