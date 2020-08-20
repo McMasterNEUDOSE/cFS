@@ -1,4 +1,4 @@
-**NOTE FOR THOSE WORKING ON THIS REPOSITORY** Make sure you read follow the setup steps below, understand the workflow as described in the [Using Git Guide](../docs/GitGuide.md).
+**NOTE FOR THOSE WORKING ON THIS REPOSITORY** Make sure you read follow the setup steps below, understand the workflow as described in the [Using Git Guide](https://github.com/McMasterNEUDOSE/cFS/blob/docs/docs/UsingGit.md).
 
 If you're working on porting, name your branches either "osal-\<something\>" or "psp-\<something\>" if you're porting the osal or psp, respectively. Make the "something" descriptive and short.
     Submit pull requests to the porting-main branch.
