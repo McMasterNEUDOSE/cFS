@@ -1,3 +1,11 @@
+**NOTE FOR THOSE WORKING ON THIS REPOSITORY** Make sure you read follow the setup steps below, understand the workflow as described in the [Using Git Guide](../GitGuide.md). 
+
+If you're working on porting, name your branches either "osal-\<something\>" or "psp-\<something\>" if you're porting the osal or psp, respectively. Make the "something" descriptive and short. 
+    Submit pull requests to the porting-main branch.
+    
+If you're working on other cFS stuff, name your branches something descriptive and short. 
+    Submit pull requests to the master branch. 
+
 # McMaster NEUDOSE - Core Flight System 
 
 This repository is the most up-to-date version of the flight software that is being used on the McMaster NEUDOSE mission. It is forked from NASA's Core Flight System (cFS) github and will likely commit many of the changes NASA engineers contribute to that repo. 
@@ -38,7 +46,7 @@ Then to initialise and download all the submodules (apps, cfe, osal, etc)
     git submodule update
 
 
-## Build and Run
+### Build and Run
 
 The cFS Framework including sample applications will build and run on the pc-linux platform support package (should run on most Linux distributions), via the steps described in https://github.com/nasa/cFE/tree/master/cmake/README.md.  Quick-start is below:
 
@@ -60,7 +68,7 @@ To exit the program at any time, just use ctrl-C
 
 Note! Unit tests can be added with `ENABLE_UNIT_TESTS=true`, run with `make test`, and coverage reported with `make lcov`.
 
-## Running cFS Ground Station (Send commands, receive telemetry)
+### Running cFS Ground Station (Send commands, receive telemetry)
 
 The ground station GUI has dependencies on a bunch of different packages, so we need to make sure the setup has all of them. 
 Run the following commands to download the necessary packages (python3, PyQt5, Zmq)
@@ -96,7 +104,7 @@ Try sending telemetry commands. If you get an error about a file not found in cm
 Now, everything should work smoothly! With that, you should have cFS setup and the Ground System GUI up and running! 
 
 
-## Enabling Telemetry 
+### Enabling Telemetry 
 
 1. Select "Start Command System"
 2. Select "Enable Tlm"
