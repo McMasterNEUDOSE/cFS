@@ -16,15 +16,10 @@ We'll be using Ubuntu 18.04.4 for our operating system on our virtual machine du
 
 In your chosen VM software, create a new virtual machine and install the Ubuntu you just downloaded. I would dynamically allocate around 15gb if you have the space since the operating system is a little large. This step will take a while as Ubuntu first loads. If you have any troubles with this step, ask Paula Bosca.
 
-Make sure you have "make", download it with 
+Make sure you have "make", "cmake", and "git". You can easily download these from the command line using the following 
 
-    sudo apt-get install make
-
-Making sure you have "cmake", download it with 
-    
-    sudo apt-get install cmake
-Also git
-    
+    sudo apt-get install make   
+    sudo apt-get install cmake    
     sudo apt-get install git
 
 
