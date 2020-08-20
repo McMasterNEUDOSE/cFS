@@ -1,30 +1,30 @@
-**NOTE FOR THOSE WORKING ON THIS REPOSITORY** Make sure you read follow the setup steps below, understand the workflow as described in the [Using Git Guide](../GitGuide.md). 
+**NOTE FOR THOSE WORKING ON THIS REPOSITORY** Make sure you read follow the setup steps below, understand the workflow as described in the [Using Git Guide](../docs/GitGuide.md).
 
-If you're working on porting, name your branches either "osal-\<something\>" or "psp-\<something\>" if you're porting the osal or psp, respectively. Make the "something" descriptive and short. 
+If you're working on porting, name your branches either "osal-\<something\>" or "psp-\<something\>" if you're porting the osal or psp, respectively. Make the "something" descriptive and short.
     Submit pull requests to the porting-main branch.
-    
-If you're working on other cFS stuff, name your branches something descriptive and short. 
-    Submit pull requests to the master branch. 
 
-# McMaster NEUDOSE - Core Flight System 
+If you're working on other cFS stuff, name your branches something descriptive and short.
+    Submit pull requests to the master branch.
 
-This repository is the most up-to-date version of the flight software that is being used on the McMaster NEUDOSE mission. It is forked from NASA's Core Flight System (cFS) github and will likely commit many of the changes NASA engineers contribute to that repo. 
+# McMaster NEUDOSE - Core Flight System
+
+This repository is the most up-to-date version of the flight software that is being used on the McMaster NEUDOSE mission. It is forked from NASA's Core Flight System (cFS) github and will likely commit many of the changes NASA engineers contribute to that repo.
 
 
 ## Release Notes
 **cFS Version PB - Preliminary Base**
 
-This version includes the CFE, PSP, OSAL submodules from NASA, as well as all sample apps included in the cFS Bundle. It also includes cFS apps that the McMaster NEUDOSE team will use: the Housekeeping (HK) and Scheduler (SCH) apps. 
+This version includes the CFE, PSP, OSAL submodules from NASA, as well as all sample apps included in the cFS Bundle. It also includes cFS apps that the McMaster NEUDOSE team will use: the Housekeeping (HK) and Scheduler (SCH) apps.
 
 
 ## Setup
-If you're on Windows, we'll be running a Virtual Machine to run cFS. I like using Virtual Box (https://www.virtualbox.org). Go ahead and download whatever VM software you like. 
+If you're on Windows, we'll be running a Virtual Machine to run cFS. I like using Virtual Box (https://www.virtualbox.org). Go ahead and download whatever VM software you like.
 
 We'll be using Ubuntu 18.04.4 for our operating system on our virtual machine due to it's long-term support. Ubuntu can be downloaded here: https://releases.ubuntu.com/18.04/
 
 In your chosen VM software, create a new virtual machine and install the Ubuntu you just downloaded. I would dynamically allocate around 15gb if you have the space since the operating system is a little large. This step will take a while as Ubuntu first loads. If you have any troubles with this step, ask Paula Bosca.
 
-Make sure you have "make", "cmake", and "git". You can easily download these from the command line using the following 
+Make sure you have "make", "cmake", and "git". You can easily download these from the command line using the following
 
     sudo apt-get install make   
     sudo apt-get install cmake    
@@ -34,11 +34,11 @@ Make sure you have "make", "cmake", and "git". You can easily download these fro
 To setup the McMaster cFS release directly from the latest set of interoperable repositories:
 
     git clone https://github.com/McMasterNEUDOSE/cFS.git
- 
- or, if you're using ssh (see the GitGuide.md for help) 
- 
+
+ or, if you're using ssh (see the GitGuide.md for help)
+
     git clone git@github.com:McMasterNEUDOSE/cFS.git
-    
+
 Then to initialise and download all the submodules (apps, cfe, osal, etc)
 
     cd cFS
@@ -60,7 +60,7 @@ To prep, compile, and run on the host (from cFS directory above) as a normal use
 
 Should see startup messages, and CFE_ES_Main entering OPERATIONAL state.  Note the code must be executed from the build/exe/cpu1 directory to find the startup script and shared objects.
 
-!Note the sudo at beginning of the last command! Try it first without sudo privileges. You might received errors about setting certain scheduling parameters, this is because some of the cFS stuff is setting basic OS parameters and the vm/windows/ubuntu might not like that. If you get the error, include the sudo in the command and it should work. 
+!Note the sudo at beginning of the last command! Try it first without sudo privileges. You might received errors about setting certain scheduling parameters, this is because some of the cFS stuff is setting basic OS parameters and the vm/windows/ubuntu might not like that. If you get the error, include the sudo in the command and it should work.
 
 Now you should have cFS running! You'll see a bunch of app initialization!
 
@@ -70,7 +70,7 @@ Note! Unit tests can be added with `ENABLE_UNIT_TESTS=true`, run with `make test
 
 ### Running cFS Ground Station (Send commands, receive telemetry)
 
-The ground station GUI has dependencies on a bunch of different packages, so we need to make sure the setup has all of them. 
+The ground station GUI has dependencies on a bunch of different packages, so we need to make sure the setup has all of them.
 Run the following commands to download the necessary packages (python3, PyQt5, Zmq)
 
     sudo apt-get install python3
@@ -78,21 +78,21 @@ Run the following commands to download the necessary packages (python3, PyQt5, Z
     sudo apt-get install python3-zmq
     sudo apt-get install libcanberra-gtk-module
 
-If you get an error that certain packages couldn't install, try running 
-    
+If you get an error that certain packages couldn't install, try running
+
     sudo apt-get update
 
-then re-running the command that broke 
+then re-running the command that broke
 
 Now, to make the actual system, run
-  
+
     ( cd Subsystems/cmdUtil/ && make )
 
 And to run the GUI
 
     python3 GroundSystem.py
 
-Now you should see the Ground System GUI! 
+Now you should see the Ground System GUI!
 
 Try sending telemetry commands. If you get an error about a file not found in cmdUtil in the terminal window or you just don't see the packet received numbers going up, try the following commands
 
@@ -101,10 +101,10 @@ Try sending telemetry commands. If you get an error about a file not found in cm
     cd ../..
     python3 GroundSystem.py
 
-Now, everything should work smoothly! With that, you should have cFS setup and the Ground System GUI up and running! 
+Now, everything should work smoothly! With that, you should have cFS setup and the Ground System GUI up and running!
 
 
-### Enabling Telemetry 
+### Enabling Telemetry
 
 1. Select "Start Command System"
 2. Select "Enable Tlm"
@@ -112,7 +112,7 @@ Now, everything should work smoothly! With that, you should have cFS setup and t
 
 Should see telemetry, can send noops and see command counters increment
 
-<br/> 
+<br/>
 
 ***
 ***
@@ -160,7 +160,7 @@ See related repositories for current open issues.
     - Executable on real/emulated/simulated/ or dockerized targets
     - Add PSP coverage testing framework
     - Add PSP and cFE functional testing framework for APIs
-    - Scrub OSAL coverage and functional tests 
+    - Scrub OSAL coverage and functional tests
   - Open source automated build verification execution framework for emulated targets (likely docker based)
   - Provide capability for mission customization of core services
   - Deployment quality of life improvements (configuration, transition to CMake source selection vs compiler directives)
