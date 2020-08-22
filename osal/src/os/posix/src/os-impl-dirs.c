@@ -20,7 +20,7 @@
 
 /**
  * \file     os-impl-dirs.c
- * \ingroup  posix
+ * \ingroup  FreeRTOS
  * \author   joseph.p.hickey@nasa.gov
  *
  */
@@ -32,8 +32,6 @@
 #include <fcntl.h>
 #include <dirent.h>
 #include <sys/stat.h>
-#include <sys/types.h>
-#include <sys/wait.h>
 
 #include "os-posix.h"
 #include "os-impl-dirs.h"
@@ -60,8 +58,8 @@ OS_impl_dir_internal_record_t OS_impl_dir_table[OS_MAX_NUM_OPEN_DIRS];
 
     Returns: OS_SUCCESS if success
  ---------------------------------------------------------------------------------------*/
-int32 OS_Posix_DirAPI_Impl_Init(void)
+int32 OS_FreeRTOS_DirAPI_Impl_Init(void)
 {
-   return OS_SUCCESS;
+   return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_Posix_DirAPI_Impl_Init */
 
