@@ -20,7 +20,7 @@
 
 /**
  * \file     os-impl-queues.c
- * \ingroup  posix
+ * \ingroup  FreeRTOS
  * \author   joseph.p.hickey@nasa.gov
  *
  */
@@ -30,7 +30,6 @@
  ***************************************************************************************/
 
 #include "os-posix.h"
-#include "bsp-impl.h"
 
 #include "os-impl-queues.h"
 #include "os-shared-queue.h"
@@ -51,25 +50,7 @@ OS_impl_queue_internal_record_t     OS_impl_queue_table         [OS_MAX_QUEUES];
  ----------------------------------------------------------------------------------------*/
 int32 OS_Posix_QueueAPI_Impl_Init(void)
 {
-
-
-   /*
-    * Automatic truncation is dependent on the OSAL_CONFIG_DEBUG_PERMISSIVE_MODE compile-time define - so
-    * creating a too-large message queue on a target without OSAL_CONFIG_DEBUG_PERMISSIVE_MODE will fail
-    * with an OS error as intended.
-    */
-
-   /*
-    * Use the BSP-provided limit
-    */
-
-
-   /*
-    * Initialize this to zero to indicate no limit
-    */
-
-
-   return OS_SUCCESS;
+   return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_Posix_QueueAPI_Impl_Init */
 
 
@@ -98,14 +79,7 @@ int32 OS_QueueCreate_Impl (uint32 queue_id, uint32 flags)
  *-----------------------------------------------------------------*/
 int32 OS_QueueDelete_Impl (uint32 queue_id)
 {
-   int32     return_code;
-
-   /* Try to delete and unlink the queue */
-
-   return_code = OS_SUCCESS;
-
-
-    return return_code;
+    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_QueueDelete_Impl */
 
 
@@ -119,50 +93,7 @@ int32 OS_QueueDelete_Impl (uint32 queue_id)
  *-----------------------------------------------------------------*/
 int32 OS_QueueGet_Impl (uint32 queue_id, void *data, uint32 size, uint32 *size_copied, int32 timeout)
 {
-   int32 return_code;
-
-   /*
-    ** Read the message queue for data
-    */
-
-      /*
-       ** A signal can interrupt the mq_receive call, so the call has to be done with
-       ** a loop
-       */
-
-
-      /*
-       * NOTE - a prior implementation of OS_CHECK would check the mq_attr for a nonzero depth
-       * and then call mq_receive().  This is insufficient since another thread might do the same
-       * thing at the same time in which case one thread will read and the other will block.
-       *
-       * Calling mq_timedreceive with a zero timeout effectively does the same thing in the typical
-       * case, but for the case where two threads do a simultaneous read, one will get the message
-       * while the other will NOT block (as expected).
-       */
-
-
-      /*
-       ** If the mq_timedreceive call is interrupted by a system call or signal,
-       ** call it again.
-       */
-
-
-    /* END timeout */
-
-   /* Figure out the return code */
-
-
-      /* Map the system errno to the most appropriate OSAL return code */
-
-         /* OS_PEND was supposed to pend forever until a message arrived
-          * so something else is wrong.  Otherwise, at this point the only
-          * "acceptable" errno is TIMEDOUT for the other cases.
-          */
-
-   return_code  = OS_SUCCESS;
-
-   return return_code;
+   return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_QueueGet_Impl */
 
 
@@ -176,25 +107,8 @@ int32 OS_QueueGet_Impl (uint32 queue_id, void *data, uint32 size, uint32 *size_c
  *-----------------------------------------------------------------*/
 int32 OS_QueuePut_Impl (uint32 queue_id, const void *data, uint32 size, uint32 flags)
 {
-   int32 return_code;
 
-
-   /*
-    * NOTE - using a zero timeout here for the same reason that QueueGet does ---
-    * checking the attributes and doing the actual send is non-atomic, and if
-    * two threads call QueuePut() at the same time on a nearly-full queue,
-    * one could block.
-    */
-
-   /* send message */
-
-
-      /* Something else went wrong */
-
-   return_code = OS_SUCCESS;
-
-   return return_code;
-
+   return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_QueuePut_Impl */
 
 
