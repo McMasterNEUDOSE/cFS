@@ -20,7 +20,7 @@
 
 /**
  * \file     os-impl-timebase.c
- * \ingroup  posix
+ * \ingroup  FreeRTOS
  * \author   joseph.p.hickey@nasa.gov
  *
  * This file contains the OSAL Timebase API for POSIX systems.
@@ -120,57 +120,7 @@ void OS_TimeBaseUnlock_Impl(uint32 local_id)
  */
 int32 OS_Posix_TimeBaseAPI_Impl_Init(void)
 {
-
-   int32  return_code;
-
-   return_code = OS_SUCCESS;
-
-       /*
-       ** Mark all timers as available
-       */
-
-       /*
-       ** get the resolution of the selected clock
-       */
-
-      /*
-      ** Convert to microseconds
-      ** Note that the resolution MUST be in the sub-second range, if not then
-      ** it looks like the POSIX timer API in the C library is broken.
-      ** Note for any flavor of RTOS we would expect <= 1ms.  Even a "desktop"
-      ** linux or development system should be <= 100ms absolute worst-case.
-      */
-
-       /* Round to the nearest microsecond */
-
-       /*
-       ** initialize the attribute with default values
-       */
-
-       /*
-       ** Allow the mutex to use priority inheritance
-       */
-           /*
-           ** create the timebase sync mutex
-           ** This gives a mechanism to synchronize updates to the timer chain with the
-           ** expiration of the timer and processing the chain.
-           */
-
-       /*
-        * Pre-calculate the clock tick to microsecond conversion factor.
-        * This is used by OS_Tick2Micros(), OS_Milli2Ticks(), etc.
-        */
-
-
-       /*
-        * Calculate microseconds per tick
-        *  - If the ratio is not an integer, this will round to the nearest integer value
-        *  - This is used internally for reporting accuracy,
-        *  - TicksPerSecond values over 2M will return zero
-        */
-
-
-   return(return_code);
+   return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_Posix_TimeBaseAPI_Impl_Init */
 
 /****************************************************************************************
@@ -215,11 +165,7 @@ int32 OS_TimeBaseSet_Impl(uint32 timer_id, int32 start_time, int32 interval_time
  *-----------------------------------------------------------------*/
 int32 OS_TimeBaseDelete_Impl(uint32 timer_id)
 {
-    /*
-    ** Delete the timer
-    */
-
-    return OS_SUCCESS;
+    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_TimeBaseDelete_Impl */
 
 
@@ -233,7 +179,6 @@ int32 OS_TimeBaseDelete_Impl(uint32 timer_id)
  *-----------------------------------------------------------------*/
 int32 OS_TimeBaseGetInfo_Impl (uint32 timer_id, OS_timebase_prop_t *timer_prop)
 {
-    return OS_SUCCESS;
-
+    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_TimeBaseGetInfo_Impl */
 
