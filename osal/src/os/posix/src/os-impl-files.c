@@ -20,7 +20,7 @@
 
 /**
  * \file     os-impl-files.c
- * \ingroup  posix
+ * \ingroup  FreeRTOS
  * \author   joseph.p.hickey@nasa.gov
  *
  */
@@ -28,12 +28,6 @@
 /****************************************************************************************
                                     INCLUDE FILES
  ***************************************************************************************/
-
-#include <fcntl.h>
-#include <dirent.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <sys/wait.h>
 
 #include "os-posix.h"
 #include "os-impl-files.h"
@@ -88,6 +82,6 @@ const int OS_IMPL_REGULAR_FILE_FLAGS = O_NONBLOCK;
 int32 OS_Posix_StreamAPI_Impl_Init(void)
 {
 
-    return OS_SUCCESS;
+    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_Posix_StreamAPI_Impl_Init */
 

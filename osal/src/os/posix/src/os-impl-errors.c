@@ -20,7 +20,7 @@
 
 /**
  * \file     os-impl-errors.c
- * \ingroup  posix
+ * \ingroup  FreeRTOS
  * \author   joseph.p.hickey@nasa.gov
  *
  */
