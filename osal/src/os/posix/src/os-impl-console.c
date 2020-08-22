@@ -29,25 +29,9 @@
                                     INCLUDE FILES
  ***************************************************************************************/
 
-#include "os-posix.h"
 #include "os-impl-console.h"
 
 #include "os-shared-printf.h"
-
-/*
- * By default the console output is always asynchronous
- * (equivalent to "OS_UTILITY_TASK_ON" being set)
- *
- * This option was removed from osconfig.h and now is
- * assumed to always be on.
- */
-#define OS_CONSOLE_ASYNC                true
-#define OS_CONSOLE_TASK_PRIORITY        OS_UTILITYTASK_PRIORITY
-
-
-/* Tables where the OS object information is stored */
-OS_impl_console_internal_record_t   OS_impl_console_table       [OS_MAX_CONSOLES];
-
 
 /********************************************************************/
 /*                 CONSOLE OUTPUT                                   */
@@ -64,10 +48,6 @@ OS_impl_console_internal_record_t   OS_impl_console_table       [OS_MAX_CONSOLES
 void  OS_ConsoleWakeup_Impl(uint32 local_id)
 {
 
-        /* post the sem for the utility task to run */
-
-        /* output directly */
-
 } /* end OS_ConsoleWakeup_Impl */
 
 /*----------------------------------------------------------------
@@ -81,10 +61,6 @@ void  OS_ConsoleWakeup_Impl(uint32 local_id)
 int32 OS_ConsoleCreate_Impl(uint32 local_id)
 {
 
-    int32 return_code;
-
-    return_code = OS_SUCCESS;
-
-    return return_code;
+    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_ConsoleCreate_Impl */
 
