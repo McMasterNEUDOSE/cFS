@@ -20,7 +20,7 @@
 
 /**
  * \file     os-impl-mutex.c
- * \ingroup  posix
+ * \ingroup  FreeRTOS
  * \author   joseph.p.hickey@nasa.gov
  *
  */
@@ -29,7 +29,6 @@
                                     INCLUDE FILES
  ***************************************************************************************/
 
-#include "os-posix.h"
 #include "os-shared-mutex.h"
 #include "os-impl-mutex.h"
 
@@ -52,7 +51,7 @@ OS_impl_mutex_internal_record_t   OS_impl_mutex_table       [OS_MAX_MUTEXES];
  *-----------------------------------------------------------------*/
 int32 OS_Posix_MutexAPI_Impl_Init(void)
 {
-      return OS_SUCCESS;
+      return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_Posix_MutexAPI_Impl_Init */
 
 
@@ -66,28 +65,7 @@ int32 OS_Posix_MutexAPI_Impl_Init(void)
  *-----------------------------------------------------------------*/
 int32 OS_MutSemCreate_Impl (uint32 sem_id, uint32 options)
 {
-
-    /*
-    ** initialize the attribute with default values
-    */
-
-
-    /*
-    ** Allow the mutex to use priority inheritance
-    */
-
-
-    /*
-    **  Set the mutex type to RECURSIVE so a thread can do nested locks
-    */
-
-
-    /*
-    ** create the mutex
-    ** upon successful initialization, the state of the mutex becomes initialized and unlocked
-    */
-
-    return OS_SUCCESS;
+    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_MutSemCreate_Impl */
 
 
@@ -101,8 +79,7 @@ int32 OS_MutSemCreate_Impl (uint32 sem_id, uint32 options)
  *-----------------------------------------------------------------*/
 int32 OS_MutSemDelete_Impl (uint32 sem_id)
 {
-    return OS_SUCCESS;
-
+    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_MutSemDelete_Impl */
 
 
@@ -116,12 +93,7 @@ int32 OS_MutSemDelete_Impl (uint32 sem_id)
  *-----------------------------------------------------------------*/
 int32 OS_MutSemGive_Impl ( uint32 sem_id )
 {
-
-   /*
-    ** Unlock the mutex
-    */
-
-   return OS_SUCCESS;
+   return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_MutSemGive_Impl */
 
 
@@ -135,11 +107,7 @@ int32 OS_MutSemGive_Impl ( uint32 sem_id )
  *-----------------------------------------------------------------*/
 int32 OS_MutSemTake_Impl ( uint32 sem_id )
 {
-    /*
-    ** Lock the mutex
-    */
-
-    return OS_SUCCESS;
+    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_MutSemTake_Impl */
 
 
@@ -153,7 +121,6 @@ int32 OS_MutSemTake_Impl ( uint32 sem_id )
  *-----------------------------------------------------------------*/
 int32 OS_MutSemGetInfo_Impl (uint32 sem_id, OS_mut_sem_prop_t *mut_prop)
 {
-    return OS_SUCCESS;
-
+    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_MutSemGetInfo_Impl */
 
