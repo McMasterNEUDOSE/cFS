@@ -20,7 +20,7 @@
 
 /**
  * \file     os-impl-loader.c
- * \ingroup  posix
+ * \ingroup  FreeRTOS
  * \author   joseph.p.hickey@nasa.gov
  *
  */
@@ -29,8 +29,6 @@
                                     INCLUDE FILES
  ***************************************************************************************/
 
-#include <stdlib.h>
-#include <string.h>
 #include "os-impl-loader.h"
 #include "os-shared-module.h"
 
@@ -45,7 +43,7 @@ OS_impl_module_internal_record_t OS_impl_module_table[OS_MAX_MODULES];
  *-----------------------------------------------------------------*/
 int32 OS_Posix_ModuleAPI_Impl_Init(void)
 {
-   return(OS_SUCCESS);
+   return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_Posix_ModuleAPI_Impl_Init */
 
 
