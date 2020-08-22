@@ -1,6 +1,6 @@
 ######################################################################
 #
-# CMAKE build recipe for LINUX Board Support Package (BSP)
+# CMAKE build recipe for FREERTOS Board Support Package (BSP)
 #
 ######################################################################
 

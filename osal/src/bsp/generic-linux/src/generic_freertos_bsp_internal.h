@@ -37,11 +37,11 @@
 typedef struct
 {
     bool    EnableTermControl;    /**< Will be set "true" when invoked from a TTY device, false otherwise */
-} OS_BSP_GenericLinuxGlobalData_t;
+} OS_BSP_GenericFreeRTOSGlobalData_t;
 
 /*
  * Global Data object
  */
-extern OS_BSP_GenericLinuxGlobalData_t OS_BSP_GenericLinuxGlobal;
+extern OS_BSP_GenericFreeRTOSGlobalData_t OS_BSP_GenericFreeRTOSGlobal;
 
 #endif /* GENERIC_LINUX_BSP_INTERNAL_H_ */
