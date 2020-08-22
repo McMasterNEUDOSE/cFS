@@ -72,19 +72,6 @@ void  OS_ConsoleWakeup_Impl(uint32 local_id)
 
 /*----------------------------------------------------------------
  *
- * Function: OS_ConsoleTask_Entry
- *
- *  Purpose: Local Helper function
- *           Implements the console output task
- *
- *-----------------------------------------------------------------*/
-static void*  OS_ConsoleTask_Entry(void* arg)
-{
-    return NULL;
-} /* end OS_ConsoleTask_Entry */
-
-/*----------------------------------------------------------------
- *
  * Function: OS_ConsoleCreate_Impl
  *
  *  Purpose: Implemented per internal OSAL API

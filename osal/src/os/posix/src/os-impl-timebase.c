@@ -50,7 +50,6 @@
                                 INTERNAL FUNCTION PROTOTYPES
  ***************************************************************************************/
 
-static void  OS_UsecToTimespec(uint32 usecs, struct timespec *time_spec);
 
 /****************************************************************************************
                                      DEFINES
@@ -81,29 +80,6 @@ OS_impl_timebase_internal_record_t OS_impl_timebase_table[OS_MAX_TIMEBASES];
 
 /*----------------------------------------------------------------
  *
- * Function: OS_UsecToTimespec
- *
- *  Purpose: Local helper routine, not part of OSAL API.
- *           Convert Microseconds to a POSIX timespec structure.
- *
- *-----------------------------------------------------------------*/
-static void OS_UsecToTimespec(uint32 usecs, struct timespec *time_spec)
-{
-
-   if ( usecs < 1000000 )
-   {
-      time_spec->tv_nsec = (usecs * 1000);
-      time_spec->tv_sec = 0;
-   }
-   else
-   {
-      time_spec->tv_sec = usecs / 1000000;
-      time_spec->tv_nsec = (usecs % 1000000) * 1000;
-   }
-} /* end OS_UsecToTimespec */
-
-/*----------------------------------------------------------------
- *
  * Function: OS_TimeBaseLock_Impl
  *
  *  Purpose: Implemented per internal OSAL API
@@ -127,38 +103,6 @@ void OS_TimeBaseUnlock_Impl(uint32 local_id)
 {
 
 } /* end OS_TimeBaseUnlock_Impl */
-
-
-/*----------------------------------------------------------------
- *
- * Function: OS_TimeBase_SoftWaitImpl
- *
- *  Purpose: Local helper routine, not part of OSAL API.
- *
- *-----------------------------------------------------------------*/
-static uint32 OS_TimeBase_SigWaitImpl(uint32 timer_id)
-{
-    uint32 interval_time;
-
-        /*
-         * the sigwait call failed.
-         * returning 0 will cause the process to repeat.
-         */
-
-        /*
-         * Normal steady-state behavior.
-         * interval_time reflects the configured interval time.
-         */
-
-
-        /*
-         * Reset/First interval behavior.
-         * timer_set() was invoked since the previous interval occurred (if any).
-         * interval_time reflects the configured start time.
-         */
-
-    return interval_time;
-} /* end OS_TimeBase_SoftWaitImpl */
 
 
 /****************************************************************************************
@@ -233,11 +177,6 @@ int32 OS_Posix_TimeBaseAPI_Impl_Init(void)
                                    Time Base API
  ***************************************************************************************/
 
-static void *OS_TimeBasePthreadEntry(void *arg)
-{
-    return NULL;
-}
-
 /*----------------------------------------------------------------
  *
  * Function: OS_TimeBaseCreate_Impl
@@ -248,82 +187,7 @@ static void *OS_TimeBasePthreadEntry(void *arg)
  *-----------------------------------------------------------------*/
 int32 OS_TimeBaseCreate_Impl(uint32 timer_id)
 {
-    int32  return_code;
-
-    /*
-     * Spawn a dedicated time base handler thread
-     *
-     * This alleviates the need to handle expiration in the context of a signal handler -
-     * The handler thread can call a BSP synchronized delay implementation as well as the
-     * application callback function.  It should run with elevated priority to reduce latency.
-     *
-     * Note the thread will not actually start running until this function exits and releases
-     * the global table lock.
-     */
-
-
-    /*
-     * Set up the necessary OS constructs
-     *
-     * If an external sync function is used then there is nothing to do here -
-     * we simply call that function and it should synchronize to the time source.
-     *
-     * If no external sync function is provided then this will set up a POSIX
-     * timer to locally simulate the timer tick using the CPU clock.
-     */
-
-
-        /*
-         * find an RT signal that is not used by another time base object.
-         * This is all done while the global lock is held so no chance of the
-         * underlying tables changing
-         */
-
-            /*
-             * Ensure that the chosen signal is NOT already pending.
-             *
-             * Perform a "sigtimedwait" with a zero timeout to poll the
-             * status of the selected signal.  RT signals are also queued,
-             * so this needs to be called in a loop to until sigtimedwait()
-             * returns an error.
-             *
-             * The max number of signals that can be queued is available
-             * via sysconf() as the _SC_SIGQUEUE_MAX value.
-             *
-             * The output is irrelevant here; the objective is to just ensure
-             * that the signal is not already pending.*/
-
-                    /* signal is NOT pending */
-
-
-            /*
-            **  Initialize the sigevent structures for the handler.
-            */
-
-
-            /*
-             * Pass the Timer Index value of the object ID to the signal handler --
-             *  Note that the upper bits can be safely assumed as a timer ID to recreate the original,
-             *  and doing it this way should still work on a system where sizeof(sival_int) < sizeof(uint32)
-             *  (as long as sizeof(sival_int) >= number of bits in OS_OBJECT_INDEX_MASK)
-             */
-
-
-            /*
-            ** Create the timer
-            ** Note using the "MONOTONIC" clock here as this will still produce consistent intervals
-            ** even if the system clock is stepped (e.g. clock_settime).
-            */
-
-
-        /*
-         * NOTE about the thread cancellation -- this technically is just a backup,
-         * we should not need to cancel it because the handler thread will exit automatically
-         * if the active ID does not match the expected value.  This check would fail
-         * if this function returns non-success (the ID in the global will be set zero)
-         */
-
-    return return_code;
+    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_TimeBaseCreate_Impl */
 
 /*----------------------------------------------------------------
@@ -336,23 +200,7 @@ int32 OS_TimeBaseCreate_Impl(uint32 timer_id)
  *-----------------------------------------------------------------*/
 int32 OS_TimeBaseSet_Impl(uint32 timer_id, int32 start_time, int32 interval_time)
 {
-
-    int32 return_code;
-
-    return_code = OS_SUCCESS;
-
-    /* There is only something to do here if we are generating a simulated tick */
-
-        /*
-        ** Convert from Microseconds to timespec structures
-        */
-
-
-        /*
-        ** Program the real timer
-        */
-
-    return return_code;
+    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_TimeBaseSet_Impl */
 
 

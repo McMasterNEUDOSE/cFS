@@ -84,43 +84,7 @@ int32 OS_Posix_QueueAPI_Impl_Init(void)
  *-----------------------------------------------------------------*/
 int32 OS_QueueCreate_Impl (uint32 queue_id, uint32 flags)
 {
-   int                     return_code;
-
-
-   /* set queue attributes */
-
-
-   /*
-    * The "TruncateQueueDepth" indicates a soft limit to the size of a queue.
-    * If nonzero, anything larger than this will be silently truncated
-    * (Supports running applications as non-root)
-    */
-
-
-    /*
-    ** Construct the queue name:
-    ** The name will consist of "/<process_id>.queue_name"
-    */
-
-   /*
-    ** create message queue
-    */
-
-
-      /*
-       * Unlink the queue right now --
-       * queues have kernel persistence and if we do a lot of restarts (i.e. during debugging)
-       * a lot of stale message queues will collect in the system.  It is OK to unlink right now
-       * as this only affects the ability of another process to open the same queue, but we do
-       * not need that to happen anyway.
-       */
-
-         /* Note - since the queue is already closed, we cannot really handle this failure gracefully,
-          * The queue is no longer usable so we can't return an error and go back to the way things were.
-          * In this case we need to return OS_SUCCESS so the rest of the entry will be cleaned up.
-          */
-
-   return return_code;
+   return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_QueueCreate_Impl */
 
 

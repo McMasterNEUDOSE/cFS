@@ -140,17 +140,7 @@ int32 OS_CountSemTake_Impl ( uint32 sem_id )
  *-----------------------------------------------------------------*/
 int32 OS_CountSemTimedWait_Impl ( uint32 sem_id, uint32 msecs )
 {
-   int result;
-
-   /*
-    ** Compute an absolute time for the delay
-    */
-
-
-       /* unspecified failure */
-
-
-   return result;
+   return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_CountSemTimedWait_Impl */
 
 
