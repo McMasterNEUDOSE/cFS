@@ -31,7 +31,6 @@
                                     INCLUDE FILES
  ***************************************************************************************/
 
-#include "os-posix.h"
 #include "os-shared-binsem.h"
 #include "os-impl-binsem.h"
 
@@ -62,7 +61,7 @@ OS_impl_binsem_internal_record_t    OS_impl_bin_sem_table       [OS_MAX_BIN_SEMA
 int32 OS_Posix_BinSemAcquireMutex(pthread_mutex_t *mut)
 {
 
-    return OS_SUCCESS;
+    return OS_ERR_NOT_IMPLEMENTED;
 }
 
 /*---------------------------------------------------------------------------------------
@@ -94,7 +93,7 @@ void OS_Posix_BinSemReleaseMutex(void *mut)
  ----------------------------------------------------------------------------------------*/
 int32 OS_Posix_BinSemAPI_Impl_Init(void)
 {
-   return OS_SUCCESS;
+   return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_Posix_BinSemAPI_Impl_Init */
 
 
@@ -108,9 +107,8 @@ int32 OS_Posix_BinSemAPI_Impl_Init(void)
  *-----------------------------------------------------------------*/
 int32 OS_BinSemCreate_Impl (uint32 sem_id, uint32 initial_value, uint32 options)
 {
-    int32 return_code;
 
-    return return_code;
+    return OS_ERR_NOT_IMPLEMENTED;
 
 } /* end OS_BinSemCreate_Impl */
 
@@ -125,23 +123,7 @@ int32 OS_BinSemCreate_Impl (uint32 sem_id, uint32 initial_value, uint32 options)
  *-----------------------------------------------------------------*/
 int32 OS_BinSemDelete_Impl (uint32 sem_id)
 {
-    int32 return_code;
-
-       /* sem could be busy, i.e. some task is pending on it already.
-        * that means it cannot be deleted at this time. */
-
-       /* Now that the CV is destroyed this sem is unusable,
-        * so we must do our best to clean everything else.  Even if cleanup
-        * does not fully work, returning anything other than OS_SUCCESS would
-        * suggest to the caller that the sem is still usable which it is not.
-        */
-       return_code = OS_SUCCESS;
-
-       /* destroy the associated mutex --
-        * Note that this might fail if the mutex is locked,
-        * but there is no sane way to recover from that (see above). */
-
-    return return_code;
+    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_BinSemDelete_Impl */
 
 
@@ -156,30 +138,7 @@ int32 OS_BinSemDelete_Impl (uint32 sem_id)
  *-----------------------------------------------------------------*/
 int32 OS_BinSemGive_Impl ( uint32 sem_id )
 {
-
-
-    /*
-     * Note there is a possibility that another thread is concurrently taking this sem,
-     * and has just checked the current_value but not yet inside the cond_wait call.
-     *
-     * To address this possibility - the lock must be taken here.  This is unfortunate
-     * as it means there may be a task switch when _giving_ a binary semaphore.  But the
-     * alternative of having a BinSemGive not wake up the other thread is a bigger issue.
-     *
-     * Counting sems do not suffer from this, as there is a native POSIX mechanism for those.
-     *
-     * Note: This lock should be readily available, with only minimal delay if any.
-     * If a long delay occurs here, it means something is fundamentally wrong.
-     */
-
-    /* Lock the mutex ( not the table! ) */
-
-    /* Binary semaphores are always set as "1" when given */
-
-    /* unblock one thread that is waiting on this sem */
-
-
-    return OS_SUCCESS;
+    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_BinSemGive_Impl */
 
 
@@ -193,79 +152,8 @@ int32 OS_BinSemGive_Impl ( uint32 sem_id )
  *-----------------------------------------------------------------*/
 int32 OS_BinSemFlush_Impl (uint32 sem_id)
 {
-
-    /* Lock the mutex ( not the table! ) */
-
-
-    /* increment the flush counter.  Any other threads that are
-     * currently pending in SemTake() will see the counter change and
-     * return _without_ modifying the semaphore count.
-     */
-
-    /* unblock all threads that are be waiting on this sem */
-
-
-    return OS_SUCCESS;
+    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_BinSemFlush_Impl */
-
-/*---------------------------------------------------------------------------------------
-   Name: OS_GenericBinSemTake_Impl
-
-   Purpose: Helper function that takes a simulated binary semaphore with a "timespec" timeout
-            If the value is zero this will block until either the value
-            becomes nonzero (via SemGive) or the semaphore gets flushed.
-
----------------------------------------------------------------------------------------*/
-static int32 OS_GenericBinSemTake_Impl (OS_impl_binsem_internal_record_t *sem, const struct timespec *timeout)
-{
-   int32 return_code;
-
-   /*
-    * Note - this lock should be quickly available - should not delay here.
-    * The main delay is in the pthread_cond_wait() below.
-    */
-   /* Lock the mutex ( not the table! ) */
-
-   /* because pthread_cond_wait() is also a cancellation point,
-    * this uses a cleanup handler to ensure that if canceled during this call,
-    * the mutex is also released */
-
-   return_code = OS_SUCCESS;
-
-   /*
-    * Note that for vxWorks compatibility, we need to stop pending on the semaphore
-    * and return from this function under two possible circumstances:
-    *
-    *  a) the semaphore count was nonzero (may be pre-existing or due to a give)
-    *     this is the normal case, we should decrement the count by 1 and return.
-    *  b) the semaphore got "flushed"
-    *     in this case ALL tasks are un-blocked and we do NOT decrement the count.
-    */
-
-   /*
-    * first take a local snapshot of the flush request counter,
-    * if it changes, we know that someone else called SemFlush.
-    */
-
-   /* Note - the condition must be checked in a while loop because
-    * even if pthread_cond_wait() returns, it does NOT guarantee that
-    * the condition we are looking for has been met.
-    *
-    * Also if the current_value is already nonzero we will not wait.
-    */
-
-
-   /* If the flush counter did not change, set the value to zero */
-
-
-   /*
-    * Pop the cleanup handler.
-    * Passing "true" means it will be executed, which
-    * handles releasing the mutex.
-    */
-
-   return return_code;
-} /* end OS_GenericBinSemTake_Impl */
 
 
 /*----------------------------------------------------------------
@@ -278,7 +166,7 @@ static int32 OS_GenericBinSemTake_Impl (OS_impl_binsem_internal_record_t *sem, c
  *-----------------------------------------------------------------*/
 int32 OS_BinSemTake_Impl ( uint32 sem_id )
 {
-   return (OS_GenericBinSemTake_Impl (&OS_impl_bin_sem_table[sem_id], NULL));
+   return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_BinSemTake_Impl */
 
 
@@ -292,12 +180,8 @@ int32 OS_BinSemTake_Impl ( uint32 sem_id )
  *-----------------------------------------------------------------*/
 int32 OS_BinSemTimedWait_Impl ( uint32 sem_id, uint32 msecs )
 {
- int a; //had to add in for the return
-   /*
-    ** Compute an absolute time for the delay
-    */
-//   return (OS_GenericBinSemTake_Impl (&OS_impl_bin_sem_table[sem_id], &ts));
- return a;
+
+ return OS_ERR_NOT_IMPLEMENTED;
 
 } /* end OS_BinSemTimedWait_Impl */
 
@@ -312,8 +196,6 @@ int32 OS_BinSemTimedWait_Impl ( uint32 sem_id, uint32 msecs )
  *-----------------------------------------------------------------*/
 int32 OS_BinSemGetInfo_Impl (uint32 sem_id, OS_bin_sem_prop_t *sem_prop)
 {
-    /* put the info into the stucture */
-
-    return OS_SUCCESS;
+    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_BinSemGetInfo_Impl */
 
