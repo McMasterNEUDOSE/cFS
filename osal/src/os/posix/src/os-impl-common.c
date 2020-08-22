@@ -29,9 +29,6 @@
                                     INCLUDE FILES
  ***************************************************************************************/
 
-#include "os-posix.h"
-#include "bsp-impl.h"
-
 #include "os-impl-tasks.h"
 #include "os-impl-queues.h"
 #include "os-impl-binsem.h"
@@ -41,9 +38,6 @@
 #include "os-shared-common.h"
 #include "os-shared-idmap.h"
 #include "os-shared-errors.h"
-
-
-POSIX_GlobalVars_t   POSIX_GlobalVars = { 0 };
 
 
 /*---------------------------------------------------------------------------------------
@@ -56,11 +50,7 @@ POSIX_GlobalVars_t   POSIX_GlobalVars = { 0 };
 ---------------------------------------------------------------------------------------*/
 int32 OS_API_Impl_Init(uint32 idtype)
 {
-    int32               return_code;
-
-    return_code = OS_SUCCESS;
-
-    return(return_code);
+    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_API_Impl_Init */
 
 
@@ -74,15 +64,7 @@ int32 OS_API_Impl_Init(uint32 idtype)
  *-----------------------------------------------------------------*/
 void OS_IdleLoop_Impl(void)
 {
-   /*
-    * Unblock signals and wait for something to occur
-    *
-    * Note - "NormalSigMask" was calculated during task init to be the original signal mask
-    * of the process PLUS all "RT" signals.  The RT signals are used by timers, so we want
-    * to keep them masked here (this is different than the original POSIX impl).  The
-    * timebase objects have a dedicated thread that will be doing "sigwait" on those.
-    */
-   sigsuspend(&POSIX_GlobalVars.NormalSigMask);
+
 } /* end OS_IdleLoop_Impl */
 
 
@@ -96,11 +78,7 @@ void OS_IdleLoop_Impl(void)
  *-----------------------------------------------------------------*/
 void OS_ApplicationShutdown_Impl(void)
 {
-   /*
-    * Raise a signal that is unblocked in OS_IdleLoop(),
-    * which should break it out of the sigsuspend() call.
-    */
-   kill(getpid(), SIGHUP);
+
 } /* end OS_ApplicationShutdown_Impl */
 
 /*----------------------------------------------------------------
@@ -116,9 +94,6 @@ void OS_ApplicationShutdown_Impl(void)
  *-----------------------------------------------------------------*/
 void  OS_Posix_CompAbsDelayTime( uint32 msecs, struct timespec * tm)
 {
-    /* add the delay to the current time */
-
-    /* convert residue ( msecs )  to nanoseconds */
 
 } /* end OS_CompAbsDelayTime */
 

@@ -34,24 +34,7 @@
 #include "os-shared-binsem.h"
 #include "os-impl-binsem.h"
 
-/*
- * This controls the maximum time the that the calling thread will wait to
- * acquire the condition mutex before returning an error.
- *
- * Under normal conditions, this lock is held by giving/taking threads very
- * briefly, so the lock should be available with minimal delay.  However,
- * if the "taking" thread is canceled or exits abnormally without releasing the
- * lock, it means any other task accessing the sem can get blocked indefinitely.
- *
- * There should be no reason for a user to configure this, as it should
- * not be relevant in a normally operating system.  This only prevents a
- * deadlock condition in off-nominal circumstances.
- */
-#define  OS_POSIX_BINSEM_MAX_WAIT_SECONDS       2
 
-
-/* Tables where the OS object information is stored */
-OS_impl_binsem_internal_record_t    OS_impl_bin_sem_table       [OS_MAX_BIN_SEMAPHORES];
 
 /*---------------------------------------------------------------------------------------
  * Helper function for acquiring the mutex when beginning a binary sem operation
@@ -77,13 +60,6 @@ void OS_Posix_BinSemReleaseMutex(void *mut)
                                BINARY SEMAPHORE API
  ***************************************************************************************/
 
-/*
- * Note that the pthreads world does not provide VxWorks-style binary semaphores that the OSAL API is modeled after.
- * Instead, semaphores are simulated using pthreads mutexes, condition variables, and a bit of internal state.
- *
- * IMPORTANT: the side effect of this is that Binary Semaphores are not usable from signal handlers / ISRs.
- * Use Counting Semaphores instead.
- */
 
 /*---------------------------------------------------------------------------------------
    Name: OS_Posix_BinSemAPI_Impl_Init

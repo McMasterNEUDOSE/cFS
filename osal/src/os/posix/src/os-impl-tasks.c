@@ -353,11 +353,7 @@ int32 OS_TaskRegister_Impl(uint32 global_task_id)
  *-----------------------------------------------------------------*/
 uint32 OS_TaskGetId_Impl (void)
 {
-   OS_U32ValueWrapper_t self_record;
-
-   self_record.opaque_arg = pthread_getspecific(POSIX_GlobalVars.ThreadKey);
-
-   return(self_record.value);
+   return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_TaskGetId_Impl */
 
 
