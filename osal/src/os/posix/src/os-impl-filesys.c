@@ -20,7 +20,7 @@
 
 /**
  * \file     os-impl-filesys.c
- * \ingroup  posix
+ * \ingroup  FreeRTOS
  * \author   joseph.p.hickey@nasa.gov
  *
  */
@@ -150,7 +150,7 @@ int32 OS_FileSysUnmountVolume_Impl (uint32 filesys_id)
  *-----------------------------------------------------------------*/
 int32 OS_FileSysStatVolume_Impl (uint32 filesys_id, OS_statvfs_t *result)
 {
-   return(OS_ERR_NOT_IMPLEMENTED);
+   return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_FileSysStatVolume_Impl */
 
 

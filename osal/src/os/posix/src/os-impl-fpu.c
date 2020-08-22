@@ -20,7 +20,7 @@
 
 /**
  * \file     os-impl-fpu.c
- * \ingroup  posix
+ * \ingroup  FreeRTOS
  * \author   joseph.p.hickey@nasa.gov
  *
  */
@@ -29,8 +29,6 @@
                                     INCLUDE FILES
  ***************************************************************************************/
 
-#include "os-posix.h"
-#include "bsp-impl.h"
 #include "os-shared-fpu.h"
 
 /****************************************************************************************
@@ -49,10 +47,7 @@
 int32 OS_FPUExcAttachHandler_Impl(uint32 ExceptionNumber, osal_task_entry ExceptionHandler,
                                  int32 parameter)
 {
-    /*
-    ** Not implemented in linux.
-    */
-    return(OS_ERR_NOT_IMPLEMENTED);
+    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_FPUExcAttachHandler_Impl */
 
 /*----------------------------------------------------------------
@@ -65,10 +60,7 @@ int32 OS_FPUExcAttachHandler_Impl(uint32 ExceptionNumber, osal_task_entry Except
  *-----------------------------------------------------------------*/
 int32 OS_FPUExcEnable_Impl(int32 ExceptionNumber)
 {
-    /*
-    ** Not implemented in linux.
-    */
-    return(OS_SUCCESS);
+    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_FPUExcEnable_Impl */
 
 /*----------------------------------------------------------------
@@ -81,10 +73,7 @@ int32 OS_FPUExcEnable_Impl(int32 ExceptionNumber)
  *-----------------------------------------------------------------*/
 int32 OS_FPUExcDisable_Impl(int32 ExceptionNumber)
 {
-    /*
-    ** Not implemented in linux.
-    */
-    return(OS_SUCCESS);
+    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_FPUExcDisable_Impl */
 
 
@@ -98,10 +87,7 @@ int32 OS_FPUExcDisable_Impl(int32 ExceptionNumber)
  *-----------------------------------------------------------------*/
 int32 OS_FPUExcSetMask_Impl(uint32 mask)
 {
-    /*
-    ** Not implemented in linux.
-    */
-    return(OS_ERR_NOT_IMPLEMENTED);
+    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_FPUExcSetMask_Impl */
 
 
@@ -115,9 +101,6 @@ int32 OS_FPUExcSetMask_Impl(uint32 mask)
  *-----------------------------------------------------------------*/
 int32 OS_FPUExcGetMask_Impl(uint32 *mask)
 {
-    /*
-    ** Not implemented in linux.
-    */
-    return(OS_ERR_NOT_IMPLEMENTED);
+    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_FPUExcGetMask_Impl */
 
