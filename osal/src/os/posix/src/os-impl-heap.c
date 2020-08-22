@@ -20,7 +20,7 @@
 
 /**
  * \file     os-impl-heap.c
- * \ingroup  posix
+ * \ingroup  FreeRTOS
  * \author   joseph.p.hickey@nasa.gov
  *
  */
@@ -29,7 +29,6 @@
                                     INCLUDE FILES
  ***************************************************************************************/
 
-#include "os-posix.h"
 #include "os-shared-heap.h"
 
 /*----------------------------------------------------------------
@@ -42,9 +41,6 @@
  *-----------------------------------------------------------------*/
 int32 OS_HeapGetInfo_Impl(OS_heap_prop_t *heap_prop)
 {
-    /*
-    ** Not implemented yet
-    */
-    return (OS_ERR_NOT_IMPLEMENTED);
+    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_HeapGetInfo_Impl */
 
