@@ -20,7 +20,7 @@
 
 /**
  * \file     os-impl-interrupts.c
- * \ingroup  posix
+ * \ingroup  FreeRTOS
  * \author   joseph.p.hickey@nasa.gov
  *
  */
@@ -29,7 +29,6 @@
                                     INCLUDE FILES
  ***************************************************************************************/
 
-#include "os-posix.h"
 #include "os-shared-interrupts.h"
 
 /****************************************************************************************
@@ -47,7 +46,7 @@
  *-----------------------------------------------------------------*/
 int32 OS_IntAttachHandler_Impl  (uint32 InterruptNumber, osal_task_entry InterruptHandler, int32 parameter)
 {
-    return(OS_ERR_NOT_IMPLEMENTED);
+    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_IntAttachHandler_Impl */
 
 
@@ -61,7 +60,7 @@ int32 OS_IntAttachHandler_Impl  (uint32 InterruptNumber, osal_task_entry Interru
  *-----------------------------------------------------------------*/
 int32 OS_IntUnlock_Impl (int32 IntLevel)
 {
-    return(OS_ERR_NOT_IMPLEMENTED);
+    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_IntUnlock_Impl */
 
 
@@ -75,7 +74,7 @@ int32 OS_IntUnlock_Impl (int32 IntLevel)
  *-----------------------------------------------------------------*/
 int32 OS_IntLock_Impl ( void )
 {
-    return(OS_ERR_NOT_IMPLEMENTED);
+    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_IntLock_Impl */
 
 /*----------------------------------------------------------------
@@ -88,7 +87,7 @@ int32 OS_IntLock_Impl ( void )
  *-----------------------------------------------------------------*/
 int32 OS_IntEnable_Impl(int32 Level)
 {
-    return(OS_ERR_NOT_IMPLEMENTED);
+    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_IntEnable_Impl */
 
 
@@ -116,7 +115,7 @@ int32 OS_IntDisable_Impl(int32 Level)
  *-----------------------------------------------------------------*/
 int32 OS_IntSetMask_Impl ( uint32 MaskSetting )
 {
-    return(OS_ERR_NOT_IMPLEMENTED);
+    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_IntSetMask_Impl */
 
 
@@ -130,6 +129,6 @@ int32 OS_IntSetMask_Impl ( uint32 MaskSetting )
  *-----------------------------------------------------------------*/
 int32 OS_IntGetMask_Impl ( uint32 * MaskSettingPtr )
 {
-    return(OS_ERR_NOT_IMPLEMENTED);
+    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_IntGetMask_Impl */
 
