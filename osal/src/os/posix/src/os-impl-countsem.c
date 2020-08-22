@@ -20,7 +20,7 @@
 
 /**
  * \file     os-impl-countsem.c
- * \ingroup  posix
+ * \ingroup  FreeRTOS
  * \author   joseph.p.hickey@nasa.gov
  *
  */
@@ -29,7 +29,6 @@
                                     INCLUDE FILES
  ***************************************************************************************/
 
-#include "os-posix.h"
 #include "os-impl-countsem.h"
 #include "os-shared-countsem.h"
 
@@ -63,8 +62,7 @@ OS_impl_countsem_internal_record_t  OS_impl_count_sem_table     [OS_MAX_COUNT_SE
 ---------------------------------------------------------------------------------------*/
 int32 OS_Posix_CountSemAPI_Impl_Init(void)
 {
-   memset(OS_impl_count_sem_table, 0, sizeof(OS_impl_count_sem_table));
-   return OS_SUCCESS;
+   return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_Posix_CountSemAPI_Impl_Init */
 
 
@@ -78,7 +76,7 @@ int32 OS_Posix_CountSemAPI_Impl_Init(void)
  *-----------------------------------------------------------------*/
 int32 OS_CountSemCreate_Impl (uint32 sem_id, uint32 sem_initial_value, uint32 options)
 {
-        return OS_SUCCESS;
+        return OS_ERR_NOT_IMPLEMENTED;
 
 } /* end OS_CountSemCreate_Impl */
 
@@ -94,7 +92,7 @@ int32 OS_CountSemCreate_Impl (uint32 sem_id, uint32 sem_initial_value, uint32 op
 int32 OS_CountSemDelete_Impl (uint32 sem_id)
 {
 
-    return OS_SUCCESS;
+    return OS_ERR_NOT_IMPLEMENTED;
 
 } /* end OS_CountSemDelete_Impl */
 
@@ -110,7 +108,7 @@ int32 OS_CountSemDelete_Impl (uint32 sem_id)
 int32 OS_CountSemGive_Impl ( uint32 sem_id )
 {
 
-    return OS_SUCCESS;
+    return OS_ERR_NOT_IMPLEMENTED;
 
 } /* end OS_CountSemGive_Impl */
 
@@ -125,8 +123,7 @@ int32 OS_CountSemGive_Impl ( uint32 sem_id )
  *-----------------------------------------------------------------*/
 int32 OS_CountSemTake_Impl ( uint32 sem_id )
 {
-
-    return OS_SUCCESS;
+    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_CountSemTake_Impl */
 
 
@@ -154,9 +151,6 @@ int32 OS_CountSemTimedWait_Impl ( uint32 sem_id, uint32 msecs )
  *-----------------------------------------------------------------*/
 int32 OS_CountSemGetInfo_Impl (uint32 sem_id, OS_count_sem_prop_t *count_prop)
 {
-
-
-    /* put the info into the stucture */
-    return OS_SUCCESS;
+    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_CountSemGetInfo_Impl */
 

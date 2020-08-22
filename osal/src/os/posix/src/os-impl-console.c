@@ -20,7 +20,7 @@
 
 /**
  * \file     os-impl-console.c
- * \ingroup  posix
+ * \ingroup  FreeRTOS
  * \author   joseph.p.hickey@nasa.gov
  *
  */
@@ -32,6 +32,21 @@
 #include "os-impl-console.h"
 
 #include "os-shared-printf.h"
+
+/*
+ * By default the console output is always asynchronous
+ * (equivalent to "OS_UTILITY_TASK_ON" being set)
+ *
+ * This option was removed from osconfig.h and now is
+ * assumed to always be on.
+ */
+#define OS_CONSOLE_ASYNC                true
+#define OS_CONSOLE_TASK_PRIORITY        OS_UTILITYTASK_PRIORITY
+
+
+/* Tables where the OS object information is stored */
+OS_impl_console_internal_record_t   OS_impl_console_table       [OS_MAX_CONSOLES];
+
 
 /********************************************************************/
 /*                 CONSOLE OUTPUT                                   */

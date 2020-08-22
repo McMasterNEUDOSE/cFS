@@ -20,7 +20,7 @@
 
 /**
  * \file     os-impl-binsem.c
- * \ingroup  posix
+ * \ingroup  FreeRTOS
  * \author   joseph.p.hickey@nasa.gov
  *
  * Purpose: This file contains some of the OS APIs abstraction layer
