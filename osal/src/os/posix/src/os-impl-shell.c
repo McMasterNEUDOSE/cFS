@@ -20,7 +20,7 @@
 
 /**
  * \file     os-impl-shell.c
- * \ingroup  posix
+ * \ingroup  FreeRTOS
  * \author   joseph.p.hickey@nasa.gov
  *
  */
@@ -29,16 +29,9 @@
                                     INCLUDE FILES
  ***************************************************************************************/
 
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-
-#include "os-posix.h"
 #include "os-impl-io.h"
 
 #include "os-shared-shell.h"
-#include "os-shared-idmap.h"
 
 /****************************************************************************************
                                      GLOBALS
@@ -62,7 +55,6 @@
  *-----------------------------------------------------------------*/
 int32 OS_ShellOutputToFile_Impl(uint32 file_id, const char* Cmd)
 {
-
-   return OS_SUCCESS;
+   return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_ShellOutputToFile_Impl */
 
