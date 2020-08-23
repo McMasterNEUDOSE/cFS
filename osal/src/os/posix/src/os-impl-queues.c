@@ -21,7 +21,6 @@
 /**
  * \file     os-impl-queues.c
  * \ingroup  FreeRTOS
- * \author   joseph.p.hickey@nasa.gov
  *
  */
 
@@ -29,9 +28,9 @@
                                     INCLUDE FILES
  ***************************************************************************************/
 
-#include "os-posix.h"
-
 #include "os-impl-queues.h"
+
+#include "os-freertos.h"
 #include "os-shared-queue.h"
 #include "os-shared-idmap.h"
 
@@ -48,7 +47,7 @@ OS_impl_queue_internal_record_t     OS_impl_queue_table         [OS_MAX_QUEUES];
    Purpose: Initialize the Queue data structures
 
  ----------------------------------------------------------------------------------------*/
-int32 OS_Posix_QueueAPI_Impl_Init(void)
+int32 OS_FreeRTOS_QueueAPI_Impl_Init(void)
 {
    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_Posix_QueueAPI_Impl_Init */

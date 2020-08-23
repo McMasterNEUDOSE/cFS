@@ -20,8 +20,7 @@
 
 /**
  * \file     os-impl-binsem.h
- * \ingroup  posix
- * \author   joseph.p.hickey@nasa.gov
+ * \ingroup  FreeRTOS
  *
  */
 
@@ -29,16 +28,11 @@
 #define INCLUDE_OS_IMPL_BINSEM_H_
 
 #include <osconfig.h>
-#include <pthread.h>
-#include <signal.h>
 
 /* Binary Semaphores */
 typedef struct
 {
-    pthread_mutex_t id;
-    pthread_cond_t  cv;
-    volatile sig_atomic_t    flush_request;
-    volatile sig_atomic_t    current_value;
+    int    reserve;
 } OS_impl_binsem_internal_record_t;
 
 /* Tables where the OS object information is stored */

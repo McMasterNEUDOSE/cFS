@@ -20,8 +20,7 @@
 
 /**
  * \file     os-impl-mutex.h
- * \ingroup  posix
- * \author   joseph.p.hickey@nasa.gov
+ * \ingroup  FreeRTOS
  *
  */
 
@@ -29,12 +28,11 @@
 #define INCLUDE_OS_IMPL_MUTEX_H_
 
 #include <osconfig.h>
-#include <pthread.h>
 
 /* Mutexes */
 typedef struct
 {
-    pthread_mutex_t id;
+    int reserve;
 } OS_impl_mutex_internal_record_t;
 
 /* Tables where the OS object information is stored */

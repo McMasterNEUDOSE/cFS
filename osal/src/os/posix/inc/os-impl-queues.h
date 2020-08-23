@@ -20,8 +20,7 @@
 
 /**
  * \file     os-impl-queues.h
- * \ingroup  posix
- * \author   joseph.p.hickey@nasa.gov
+ * \ingroup  FreeRTOS
  *
  */
 
@@ -29,12 +28,11 @@
 #define INCLUDE_OS_IMPL_QUEUES_H_
 
 #include <osconfig.h>
-#include <mqueue.h>
 
 /* queues */
 typedef struct
 {
-    mqd_t id;
+    int reserve;
 } OS_impl_queue_internal_record_t;
 
 /* Tables where the OS object information is stored */

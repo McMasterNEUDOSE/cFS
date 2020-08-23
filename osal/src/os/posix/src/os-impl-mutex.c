@@ -21,7 +21,6 @@
 /**
  * \file     os-impl-mutex.c
  * \ingroup  FreeRTOS
- * \author   joseph.p.hickey@nasa.gov
  *
  */
 
@@ -49,7 +48,7 @@ OS_impl_mutex_internal_record_t   OS_impl_mutex_table       [OS_MAX_MUTEXES];
  *  Purpose: Local helper routine, not part of OSAL API.
  *
  *-----------------------------------------------------------------*/
-int32 OS_Posix_MutexAPI_Impl_Init(void)
+int32 OS_FreeRTOS_MutexAPI_Impl_Init(void)
 {
       return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_Posix_MutexAPI_Impl_Init */

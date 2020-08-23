@@ -21,7 +21,6 @@
 /**
  * \file     os-impl-binsem.c
  * \ingroup  FreeRTOS
- * \author   joseph.p.hickey@nasa.gov
  *
  * Purpose: This file contains some of the OS APIs abstraction layer
  *    implementation for POSIX
@@ -67,7 +66,7 @@ void OS_Posix_BinSemReleaseMutex(void *mut)
    Purpose: Initialize the Binary Semaphore data structures
 
  ----------------------------------------------------------------------------------------*/
-int32 OS_Posix_BinSemAPI_Impl_Init(void)
+int32 OS_FreeRTOS_BinSemAPI_Impl_Init(void)
 {
    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_Posix_BinSemAPI_Impl_Init */

@@ -1,6 +1,6 @@
 ######################################################################
 #
-# CMAKE build recipe for POSIX OSAL implementation
+# CMAKE build recipe for FREERTOS OSAL implementation
 #
 ######################################################################
 

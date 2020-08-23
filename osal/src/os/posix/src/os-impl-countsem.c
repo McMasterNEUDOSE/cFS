@@ -21,7 +21,6 @@
 /**
  * \file     os-impl-countsem.c
  * \ingroup  FreeRTOS
- * \author   joseph.p.hickey@nasa.gov
  *
  */
 
@@ -60,7 +59,7 @@ OS_impl_countsem_internal_record_t  OS_impl_count_sem_table     [OS_MAX_COUNT_SE
    Purpose: Initialize the Counting Semaphore data structures
 
 ---------------------------------------------------------------------------------------*/
-int32 OS_Posix_CountSemAPI_Impl_Init(void)
+int32 OS_FreeRTOS_CountSemAPI_Impl_Init(void)
 {
    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_Posix_CountSemAPI_Impl_Init */

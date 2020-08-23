@@ -21,7 +21,6 @@
 /**
  * \file     os-impl-dirs.c
  * \ingroup  FreeRTOS
- * \author   joseph.p.hickey@nasa.gov
  *
  */
 
@@ -33,8 +32,9 @@
 #include <dirent.h>
 #include <sys/stat.h>
 
-#include "os-posix.h"
 #include "os-impl-dirs.h"
+
+#include "os-freertos.h"
 #include "os-shared-dir.h"
 
 /****************************************************************************************

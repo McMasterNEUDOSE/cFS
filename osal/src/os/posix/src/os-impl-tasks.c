@@ -21,7 +21,6 @@
 /**
  * \file     os-impl-tasks.c
  * \ingroup  FreeRTOS
- * \author   joseph.p.hickey@nasa.gov
  *
  */
 
@@ -29,10 +28,9 @@
                                     INCLUDE FILES
  ***************************************************************************************/
 
-#include "os-posix.h"
-
 #include "os-impl-tasks.h"
 
+#include "os-freertos.h"
 #include "os-shared-task.h"
 #include "os-shared-idmap.h"
 
@@ -52,23 +50,10 @@ OS_impl_task_internal_record_t      OS_impl_task_table          [OS_MAX_TASKS];
    Purpose: Initialize the Posix Task data structures
 
  ----------------------------------------------------------------------------------------*/
-int32 OS_Posix_TaskAPI_Impl_Init(void)
+int32 OS_FreeRTOS_TaskAPI_Impl_Init(void)
 {
    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_Posix_TaskAPI_Impl_Init */
-
-
-/*----------------------------------------------------------------
- *
- * Function: OS_Posix_InternalTaskCreate_Impl
- *
- *  Purpose: Local helper routine, not part of OSAL API.
- *
- *-----------------------------------------------------------------*/
-int32 OS_Posix_InternalTaskCreate_Impl(pthread_t *pthr, uint32 priority, size_t stacksz, PthreadFuncPtr_t entry, void *entry_arg)
-{
-    return OS_ERR_NOT_IMPLEMENTED;
-} /* end OS_Posix_InternalTaskCreate_Impl */
 
 
 /*----------------------------------------------------------------

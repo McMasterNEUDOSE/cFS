@@ -21,7 +21,6 @@
 /**
  * \file     os-impl-files.c
  * \ingroup  FreeRTOS
- * \author   joseph.p.hickey@nasa.gov
  *
  */
 
@@ -29,8 +28,9 @@
                                     INCLUDE FILES
  ***************************************************************************************/
 
-#include "os-posix.h"
 #include "os-impl-files.h"
+
+#include "os-freertos.h"
 #include "os-shared-file.h"
 
 /****************************************************************************************
@@ -42,7 +42,7 @@
  *
  * This is shared by all OSAL entities that perform low-level I/O.
  */
-OS_Posix_file_internal_record_t OS_impl_filehandle_table[OS_MAX_NUM_OPEN_FILES];
+OS_FreeRTOS_filehandle_entry_t OS_impl_filehandle_table[OS_MAX_NUM_OPEN_FILES];
 
 
 /*
@@ -79,7 +79,7 @@ const int OS_IMPL_REGULAR_FILE_FLAGS = O_NONBLOCK;
 
     Returns: OS_SUCCESS if success
  ---------------------------------------------------------------------------------------*/
-int32 OS_Posix_StreamAPI_Impl_Init(void)
+int32 OS_FreeRTOS_StreamAPI_Impl_Init(void)
 {
 
     return OS_ERR_NOT_IMPLEMENTED;

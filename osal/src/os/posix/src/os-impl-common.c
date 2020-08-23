@@ -21,7 +21,6 @@
 /**
  * \file     os-impl-common.c
  * \ingroup  FreeRTOS
- * \author   joseph.p.hickey@nasa.gov
  *
  */
 
@@ -80,21 +79,3 @@ void OS_ApplicationShutdown_Impl(void)
 {
 
 } /* end OS_ApplicationShutdown_Impl */
-
-/*----------------------------------------------------------------
- *
- * Function: OS_CompAbsDelayTime
- *
- * Purpose:  Local helper function
- *
- * This function accept time interval, msecs, as an input and
- * computes the absolute time at which this time interval will expire.
- * The absolute time is programmed into a struct.
- *
- *-----------------------------------------------------------------*/
-void  OS_Posix_CompAbsDelayTime( uint32 msecs, struct timespec * tm)
-{
-
-} /* end OS_CompAbsDelayTime */
-
-

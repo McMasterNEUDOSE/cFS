@@ -40,16 +40,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <limits.h>
 #include <signal.h>
 #include <time.h>
 #include <errno.h>
-#include <pthread.h>
-#include <mqueue.h>
-#include <fcntl.h>
-#include <semaphore.h>
 #include <sys/types.h>
-#include <sys/signal.h>
+#include <signal.h>
 
 /*
  * Use the global definitions from the shared layer
@@ -64,55 +59,35 @@
                                     TYPEDEFS
  ***************************************************************************************/
 
-typedef void * (*PthreadFuncPtr_t)(void *arg);
-
 typedef struct
 {
-    int           PriorityMax;
-    int           PriorityMin;
-} POSIX_PriorityLimits_t;
-
-typedef struct
-{
-   bool          EnableTaskPriorities;
-   uint32        TruncateQueueDepth;
-   uint32        ClockAccuracyNsec;
-   pthread_key_t ThreadKey;
-   sigset_t      MaximumSigMask;
-   sigset_t      NormalSigMask;
-   size_t        PageSize;
-   POSIX_PriorityLimits_t PriLimits;
-   int           SelectedRtScheduler;
-} POSIX_GlobalVars_t;
+   int reserve;
+} FREERTOS_GlobalVars_t;
 
 
 /****************************************************************************************
                                    GLOBAL DATA
  ***************************************************************************************/
 
-extern POSIX_GlobalVars_t POSIX_GlobalVars;
+extern FREERTOS_GlobalVars_t FREERTOS_GlobalVars;
 
 
 /****************************************************************************************
                        POSIX IMPLEMENTATION FUNCTION PROTOTYPES
  ***************************************************************************************/
 
-int32 OS_Posix_TaskAPI_Impl_Init(void);
-int32 OS_Posix_QueueAPI_Impl_Init(void);
-int32 OS_Posix_BinSemAPI_Impl_Init(void);
-int32 OS_Posix_CountSemAPI_Impl_Init(void);
-int32 OS_Posix_MutexAPI_Impl_Init(void);
-int32 OS_Posix_ModuleAPI_Impl_Init(void);
-int32 OS_Posix_TimeBaseAPI_Impl_Init(void);
-int32 OS_Posix_StreamAPI_Impl_Init(void);
-int32 OS_Posix_DirAPI_Impl_Init(void);
-int32 OS_Posix_FileSysAPI_Impl_Init(void);
+int32 OS_FreeRTOS_TaskAPI_Impl_Init(void);
+int32 OS_FreeRTOS_QueueAPI_Impl_Init(void);
+int32 OS_FreeRTOS_BinSemAPI_Impl_Init(void);
+int32 OS_FreeRTOS_CountSemAPI_Impl_Init(void);
+int32 OS_FreeRTOS_MutexAPI_Impl_Init(void);
+int32 OS_FreeRTOS_ModuleAPI_Impl_Init(void);
+int32 OS_FreeRTOS_TimeBaseAPI_Impl_Init(void);
+int32 OS_FreeRTOS_StreamAPI_Impl_Init(void);
+int32 OS_FreeRTOS_DirAPI_Impl_Init(void);
+int32 OS_FreeRTOS_FileSysAPI_Impl_Init(void);
 
-int32 OS_Posix_TableMutex_Init(uint32 idtype);
-
-int32 OS_Posix_InternalTaskCreate_Impl (pthread_t *pthr, uint32 priority, size_t stacksz, PthreadFuncPtr_t entry, void *entry_arg);
-void  OS_Posix_CompAbsDelayTime( uint32 msecs , struct timespec * tm);
-
+int32 OS_FreeRTOS_TableMutex_Init(uint32 idtype);
 
 #endif  /* INCLUDE_OS_POSIX_H_ */
 

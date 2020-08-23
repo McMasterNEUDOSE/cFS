@@ -21,7 +21,6 @@
 /**
  * \file     os-impl-filesys.c
  * \ingroup  FreeRTOS
- * \author   joseph.p.hickey@nasa.gov
  *
  */
 
@@ -57,7 +56,7 @@ const char OS_FREERTOS_DEVICEFILE_PREFIX[] = "/dev/";
 
     Returns: OS_SUCCESS if success
  ---------------------------------------------------------------------------------------*/
-int32 OS_Posix_FileSysAPI_Impl_Init(void)
+int32 OS_FreeRTOS_FileSysAPI_Impl_Init(void)
 {
     return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_Posix_FileSysAPI_Impl_Init */

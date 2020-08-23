@@ -21,7 +21,6 @@
 /**
  * \file     os-impl-no-module.c
  * \ingroup  FreeRTOS
- * \author   joseph.p.hickey@nasa.gov
  *
  */
 

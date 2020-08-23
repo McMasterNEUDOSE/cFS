@@ -21,7 +21,6 @@
 /**
  * \file     os-impl-loader.c
  * \ingroup  FreeRTOS
- * \author   joseph.p.hickey@nasa.gov
  *
  */
 
@@ -41,7 +40,7 @@ OS_impl_module_internal_record_t OS_impl_module_table[OS_MAX_MODULES];
  *  Purpose: Local helper routine, not part of OSAL API.
  *
  *-----------------------------------------------------------------*/
-int32 OS_Posix_ModuleAPI_Impl_Init(void)
+int32 OS_FreeRTOS_ModuleAPI_Impl_Init(void)
 {
    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_Posix_ModuleAPI_Impl_Init */

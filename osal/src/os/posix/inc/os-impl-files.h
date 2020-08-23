@@ -20,8 +20,7 @@
 
 /**
  * \file     os-impl-files.h
- * \ingroup  posix
- * \author   joseph.p.hickey@nasa.gov
+ * \ingroup  FreeRTOS
  *
  */
 

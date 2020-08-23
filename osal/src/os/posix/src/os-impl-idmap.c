@@ -21,7 +21,6 @@
 /**
  * \file     os-impl-idmap.c
  * \ingroup  FreeRTOS
- * \author   joseph.p.hickey@nasa.gov
  *
  */
 
@@ -68,7 +67,7 @@ int32 OS_Unlock_Global_Impl(uint32 idtype)
 
    returns: OS_SUCCESS or OS_ERROR
 ---------------------------------------------------------------------------------------*/
-int32 OS_Posix_TableMutex_Init(uint32 idtype)
+int32 OS_FreeRTOS_TableMutex_Init(uint32 idtype)
 {
    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_Posix_TableMutex_Init */

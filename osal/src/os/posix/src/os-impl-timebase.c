@@ -21,22 +21,15 @@
 /**
  * \file     os-impl-timebase.c
  * \ingroup  FreeRTOS
- * \author   joseph.p.hickey@nasa.gov
- *
- * This file contains the OSAL Timebase API for POSIX systems.
- *
- * This implementation depends on the POSIX Timer API which may not be available
- * in older versions of the Linux kernel. It was developed and tested on
- * RHEL 5 ./ CentOS 5 with Linux kernel 2.6.18
  */
 
 /****************************************************************************************
                                     INCLUDE FILES
  ***************************************************************************************/
 
-#include "os-posix.h"
 #include "os-impl-timebase.h"
 
+#include "os-freertos.h"
 #include "os-shared-timebase.h"
 #include "os-shared-idmap.h"
 #include "os-shared-common.h"
@@ -118,7 +111,7 @@ void OS_TimeBaseUnlock_Impl(uint32 local_id)
  *
  *  Return:
  */
-int32 OS_Posix_TimeBaseAPI_Impl_Init(void)
+int32 OS_FreeRTOS_TimeBaseAPI_Impl_Init(void)
 {
    return OS_ERR_NOT_IMPLEMENTED;
 } /* end OS_Posix_TimeBaseAPI_Impl_Init */

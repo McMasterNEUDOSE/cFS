@@ -1,9 +1,9 @@
 ##########################################################################
 #
-# Build options for "posix" implementation layer
+# Build options for "FreeRTOS" implementation layer
 #
 ##########################################################################
 
-# this file is a placeholder for POSIX-specific compile tuning
+# this file is a placeholder for FREERTOS-specific compile tuning
 # currently no extra flags/definitions needed
  

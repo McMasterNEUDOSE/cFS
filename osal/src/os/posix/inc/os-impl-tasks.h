@@ -21,7 +21,6 @@
 /**
  * \file     os-impl-tasks.h
  * \ingroup  posix
- * \author   joseph.p.hickey@nasa.gov
  *
  */
 
@@ -29,12 +28,11 @@
 #define INCLUDE_OS_IMPL_TASKS_H_
 
 #include <osconfig.h>
-#include <pthread.h>
 
 /*tasks */
 typedef struct
 {
-    pthread_t id;
+    int reserve;
 } OS_impl_task_internal_record_t;
 
 

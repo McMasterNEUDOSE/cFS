@@ -20,8 +20,7 @@
 
 /**
  * \file     os-impl-sockets.h
- * \ingroup  posix
- * \author   joseph.p.hickey@nasa.gov
+ * \ingroup  FreeRTOS
  *
  */
 
@@ -31,12 +30,9 @@
 #include "os-impl-io.h"
 
 #include <fcntl.h>
-#include <netinet/in.h>
 #include <arpa/inet.h>
-#include <sys/types.h>
 
 
-#define OS_NETWORK_SUPPORTS_IPV6
 
 /*
  * A full POSIX-compliant I/O layer should support using

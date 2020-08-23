@@ -20,16 +20,19 @@
 
 /**
  * \file     os-impl-network.h
- * \ingroup  posix
- * \author   joseph.p.hickey@nasa.gov
+ * \ingroup  FreeRTOS
  *
+ */
+
+/*
+ * TODO: remove this once we move these files into FreeRTOS directory.
+*  Currently the portable code calls this in os-impl-posix-network.c
  */
 
 #ifndef INCLUDE_OS_IMPL_NETWORK_H_
 #define INCLUDE_OS_IMPL_NETWORK_H_
 
 #include <unistd.h>
-
 
 #endif  /* INCLUDE_OS_IMPL_NETWORK_H_ */
 

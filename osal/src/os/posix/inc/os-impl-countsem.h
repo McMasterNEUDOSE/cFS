@@ -20,8 +20,7 @@
 
 /**
  * \file     os-impl-countsem.h
- * \ingroup  posix
- * \author   joseph.p.hickey@nasa.gov
+ * \ingroup  FreeRTOS
  *
  */
 
@@ -29,11 +28,10 @@
 #define INCLUDE_OS_IMPL_COUNTSEM_H_
 
 #include <osconfig.h>
-#include <semaphore.h>
 
 typedef struct
 {
-    sem_t           id;
+    int           reserve;
 } OS_impl_countsem_internal_record_t;
 
 /* Tables where the OS object information is stored */

@@ -20,8 +20,7 @@
 
 /**
  * \file     os-impl-timebase.h
- * \ingroup  posix
- * \author   joseph.p.hickey@nasa.gov
+ * \ingroup  FreeRTOS
  *
  */
 
