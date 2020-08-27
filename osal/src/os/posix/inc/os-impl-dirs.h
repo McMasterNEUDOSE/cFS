@@ -28,11 +28,9 @@
 #define INCLUDE_OS_IMPL_DIRS_H_
 
 #include <osconfig.h>
-#include <fcntl.h>
 #include <unistd.h>
 #include <dirent.h>
 #include <sys/stat.h>
-#include <sys/types.h>
 
 typedef struct
 {

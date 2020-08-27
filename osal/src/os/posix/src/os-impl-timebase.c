@@ -28,11 +28,7 @@
  ***************************************************************************************/
 
 #include "os-impl-timebase.h"
-
 #include "os-freertos.h"
-#include "os-shared-timebase.h"
-#include "os-shared-idmap.h"
-#include "os-shared-common.h"
 
 
 /****************************************************************************************

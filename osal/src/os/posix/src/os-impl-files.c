@@ -29,9 +29,7 @@
  ***************************************************************************************/
 
 #include "os-impl-files.h"
-
 #include "os-freertos.h"
-#include "os-shared-file.h"
 
 /****************************************************************************************
                                      GLOBALS
@@ -73,7 +71,7 @@ const int OS_IMPL_REGULAR_FILE_FLAGS = O_NONBLOCK;
  ****************************************************************************************/
 
 /* --------------------------------------------------------------------------------------
-    Name: OS_Posix_StreamAPI_Impl_Init
+    Name: OS_FreeRTOS_StreamAPI_Impl_Init
 
     Purpose: File/Stream subsystem global initialization
 

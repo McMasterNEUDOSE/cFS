@@ -28,16 +28,7 @@
                                     INCLUDE FILES
  ***************************************************************************************/
 
-#include "os-impl-tasks.h"
-#include "os-impl-queues.h"
-#include "os-impl-binsem.h"
-#include "os-impl-countsem.h"
-#include "os-impl-mutex.h"
-
 #include "os-shared-common.h"
-#include "os-shared-idmap.h"
-#include "os-shared-errors.h"
-
 
 /*---------------------------------------------------------------------------------------
    Name: OS_API_Impl_Init

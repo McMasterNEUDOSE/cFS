@@ -28,11 +28,6 @@
                                     INCLUDE FILES
  ***************************************************************************************/
 
-#include <fcntl.h>
-
-#include <dirent.h>
-#include <sys/statvfs.h>
-
 #include "os-shared-filesys.h"
 
 

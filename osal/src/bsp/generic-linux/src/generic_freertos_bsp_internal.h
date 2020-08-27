@@ -28,7 +28,6 @@
 #ifndef GENERIC_LINUX_BSP_INTERNAL_H_
 #define GENERIC_LINUX_BSP_INTERNAL_H_
 
-#include "osapi.h"
 #include "bsp-impl.h"
 
 /*

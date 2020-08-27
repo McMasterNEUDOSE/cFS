@@ -28,13 +28,7 @@
                                     INCLUDE FILES
  ***************************************************************************************/
 
-#include <fcntl.h>
-#include <dirent.h>
-#include <sys/stat.h>
-
 #include "os-impl-dirs.h"
-
-#include "os-freertos.h"
 #include "os-shared-dir.h"
 
 /****************************************************************************************

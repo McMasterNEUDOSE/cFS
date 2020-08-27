@@ -25,8 +25,6 @@
  *   OSAL BSP main entry point.
  */
 
-#include <string.h>
-
 #include "generic_freertos_bsp_internal.h"
 
 OS_BSP_GenericFreeRTOSGlobalData_t OS_BSP_GenericFreeRTOSGlobal;

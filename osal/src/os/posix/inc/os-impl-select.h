@@ -29,7 +29,6 @@
 
 #include "os-impl-io.h"
 
-#include <sys/select.h>
 #include <sys/time.h>
 
 

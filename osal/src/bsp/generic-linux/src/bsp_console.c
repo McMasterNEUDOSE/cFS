@@ -25,13 +25,7 @@
  *   OSAL BSP debug console abstraction
  */
 
-#include <string.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-
 #include "bsp-impl.h"
-#include "generic_freertos_bsp_internal.h"
 
 /****************************************************************************************
                     BSP CONSOLE IMPLEMENTATION FUNCTIONS

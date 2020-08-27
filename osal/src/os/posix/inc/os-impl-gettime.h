@@ -27,7 +27,6 @@
 #ifndef INCLUDE_OS_IMPL_GETTIME_H_
 #define INCLUDE_OS_IMPL_GETTIME_H_
 
-#include <osconfig.h>
 #include <time.h>
 
 

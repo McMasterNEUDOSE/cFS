@@ -29,10 +29,7 @@
  ***************************************************************************************/
 
 #include "os-impl-queues.h"
-
-#include "os-freertos.h"
 #include "os-shared-queue.h"
-#include "os-shared-idmap.h"
 
 /* Tables where the OS object information is stored */
 OS_impl_queue_internal_record_t     OS_impl_queue_table         [OS_MAX_QUEUES];

@@ -27,16 +27,12 @@
 #ifndef INCLUDE_OS_IMPL_CONSOLE_H_
 #define INCLUDE_OS_IMPL_CONSOLE_H_
 
-#include <stdbool.h>
 #include <osconfig.h>
-#include <unistd.h>
-#include <semaphore.h>
 
 /* Console device */
 typedef struct
 {
-    bool            is_async;
-    sem_t           data_sem;
+    int reserve;
 }OS_impl_console_internal_record_t;
 
 

@@ -36,16 +36,6 @@
                                     COMMON INCLUDE FILES
  ***************************************************************************************/
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <signal.h>
-#include <time.h>
-#include <errno.h>
-#include <sys/types.h>
-#include <signal.h>
-
 /*
  * Use the global definitions from the shared layer
  */
