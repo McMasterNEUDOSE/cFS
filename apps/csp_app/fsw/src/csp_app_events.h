@@ -6,7 +6,7 @@
 **  Define CSP App Events IDs
 **
 ** Author:
-**   Stephen Scott
+**  Stephen Scott
 **
 *************************************************************************/
 #ifndef _csp_app_events_h_
