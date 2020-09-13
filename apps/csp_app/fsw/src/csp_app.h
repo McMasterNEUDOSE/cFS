@@ -1,28 +1,12 @@
 /*******************************************************************************
 **
-**      GSC-18128-1, "Core Flight Executive Version 6.7"
-**
-**      Copyright (c) 2006-2019 United States Government as represented by
-**      the Administrator of the National Aeronautics and Space Administration.
-**      All Rights Reserved.
-**
-**      Licensed under the Apache License, Version 2.0 (the "License");
-**      you may not use this file except in compliance with the License.
-**      You may obtain a copy of the License at
-**
-**        http://www.apache.org/licenses/LICENSE-2.0
-**
-**      Unless required by applicable law or agreed to in writing, software
-**      distributed under the License is distributed on an "AS IS" BASIS,
-**      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-**      See the License for the specific language governing permissions and
-**      limitations under the License.
-**
 ** File: csp_app.h
 **
 ** Purpose:
-**   This file is main hdr file for the CSP application.
+**   This file is the main hdr file for the CSP application.
 **
+** Author:
+**   Stephen Scott
 **
 *******************************************************************************/
 
@@ -48,6 +32,15 @@
 #define CSP_PIPE_DEPTH  32
 
 /************************************************************************
+** LibCSP Nodes
+*************************************************************************/
+#define CSP_OBC_NODE    0
+#define CSP_PDM_NODE    1
+#define CSP_RAD_NODE    2
+#define CSP_DAM_NODE    3
+#define CSP_SOBC_NODE   4
+
+/************************************************************************
 ** Type Definitions
 *************************************************************************/
 
@@ -58,7 +51,7 @@
 typedef union
 {
     CFE_SB_Msg_t        MsgHdr;
-    CSP_HkTlm_t      HkTlm;
+    CSP_HkTlm_t         HkTlm;
 } CSP_HkBuffer_t;
 
 /*
@@ -69,13 +62,13 @@ typedef struct
     /*
     ** Command interface counters...
     */
-    uint8                 CmdCounter;
-    uint8                 ErrCounter;
+    uint8               CmdCounter;
+    uint8               ErrCounter;
 
     /*
     ** Housekeeping telemetry packet...
     */
-    CSP_HkBuffer_t     HkBuf;
+    CSP_HkBuffer_t      HkBuf;
 
     /*
     ** Run Status variable used in the main processing loop
@@ -85,14 +78,14 @@ typedef struct
     /*
     ** Operational data (not reported in housekeeping)...
     */
-    CFE_SB_PipeId_t    CommandPipe;
-    CFE_SB_MsgPtr_t    MsgPtr;
+    CFE_SB_PipeId_t     CommandPipe;
+    CFE_SB_MsgPtr_t     MsgPtr;
 
     /*
     ** Initialization data (not reported in housekeeping)...
     */
-    char     PipeName[16];
-    uint16   PipeDepth;
+    char                PipeName[16];
+    uint16              PipeDepth;
 
     CFE_EVS_BinFilter_t  EventFilters[CSP_EVENT_COUNTS];
 
