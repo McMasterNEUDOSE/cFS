@@ -4,6 +4,10 @@ project(CSP_APP C)
 include_directories(fsw/mission_inc)
 include_directories(fsw/platform_inc)
 
+#required for csp library
+include_directories(${MISSION_SOURCE_DIR}/apps/libcsp/include)
+include_directories(${MISSION_SOURCE_DIR}/apps/libcsp/build/include)
+
 include_directories(${to_lab_MISSION_DIR}/fsw/src)
 include_directories(${to_lab_MISSION_DIR}/fsw/mission_inc)
 include_directories(${to_lab_MISSION_DIR}/fsw/platform_inc)
