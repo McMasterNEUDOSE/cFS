@@ -7,7 +7,7 @@ CFE_APP, /cf/payload.so,     PAYLOAD_AppMain, PAYLOAD,      54,   16384, 0x0, 0;
 CFE_APP, /cf/sample_app.so,  SAMPLE_AppMain,  SAMPLE_APP,   60,   16384, 0x0, 0;
 CFE_APP, /cf/ci_lab.so,      CI_Lab_AppMain,  CI_LAB_APP,   62,   16384, 0x0, 0;
 CFE_APP, /cf/csp_app.so,     CSP_AppMain,     CSP_APP,      64,   16384, 0x0, 0;
-CFE_APP, /cf/sch_lab.so,     SCH_Lab_AppMain, SCH_LAB_APP,  66,   16384, 0x0, 0;
+!CFE_APP, /cf/sch_lab.so,     SCH_Lab_AppMain, SCH_LAB_APP,  66,   16384, 0x0, 0;
 
 ! CFE_LIB, /cf/io_lib.so,      IO_LibInit,      IO_LIB,        0,   0,     0x0, 0;
 ! CFE_LIB, /cf/cfs_lib.so,     CFS_LibInit,     CFS_LIB,       0,   0,     0x0, 0;
