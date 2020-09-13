@@ -1,27 +1,12 @@
 /*******************************************************************************
 **
-**      GSC-18128-1, "Core Flight Executive Version 6.7"
-**
-**      Copyright (c) 2006-2019 United States Government as represented by
-**      the Administrator of the National Aeronautics and Space Administration.
-**      All Rights Reserved.
-**
-**      Licensed under the Apache License, Version 2.0 (the "License");
-**      you may not use this file except in compliance with the License.
-**      You may obtain a copy of the License at
-**
-**        http://www.apache.org/licenses/LICENSE-2.0
-**
-**      Unless required by applicable law or agreed to in writing, software
-**      distributed under the License is distributed on an "AS IS" BASIS,
-**      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-**      See the License for the specific language governing permissions and
-**      limitations under the License.
-**
 ** File: csp_app.c
 **
 ** Purpose:
 **   This file contains the source code for the CSP App.
+**
+** Author:
+**   Stephen Scott
 **
 *******************************************************************************/
 
@@ -32,10 +17,7 @@
 #include "csp_app_events.h"
 #include "csp_app_version.h"
 #include "csp_app.h"
-
 #include <csp/csp.h>
-
-#include <to_lab_app.c>
 
 /*
 ** global data
@@ -43,7 +25,8 @@
 CSP_AppData_t CSP_AppData;
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  * *  * * * * **/
-/* CSP_AppMain() -- Application entry point and main process loop          */
+/*                                                                            */
+/* CSP_AppMain() -- Application entry point and main process loop             */
 /*                                                                            */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  * *  * * * * **/
 void CSP_AppMain( void )
@@ -53,7 +36,11 @@ void CSP_AppMain( void )
     /*
     ** Register the app with Executive services
     */
-    CFE_ES_RegisterApp();
+    status = CFE_ES_RegisterApp();
+    if (status != CFE_SUCCESS)
+    {
+        CSP_AppData.RunStatus = CFE_ES_RunStatus_APP_ERROR;
+    }
 
     /*
     ** Create the first Performance Log entry
@@ -99,7 +86,7 @@ void CSP_AppMain( void )
         {
             CFE_EVS_SendEvent(CSP_PIPE_ERR_EID,
                               CFE_EVS_EventType_ERROR,
-                              "CSP APP: SB Pipe Read Error, App Will Exit");
+                              "CSP: SB Pipe Read Error, App Will Exit");
 
             CSP_AppData.RunStatus = CFE_ES_RunStatus_APP_ERROR;
         }
@@ -115,13 +102,26 @@ void CSP_AppMain( void )
 
 } /* End of CSP_AppMain() */
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
 /*                                                                            */
 /* CSP_RouterTask() --  performs csp router work                              */
 /*                                                                            */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
 void CSP_RouterTask(void)
 {
+    int32 status;
+
+    status = CFE_ES_RegisterChildTask();
+    if (status != CFE_SUCCESS)
+    {
+        CFE_EVS_SendEvent(CFE_EVS_EventType_ERROR,
+                          CSP_REGISTERCHILD_ERR_EID,
+                          "CSP - Router Task: Failed to register CSP router task\n");
+        CFE_ES_ExitChildTask();
+    }
+
+    CFE_ES_WriteToSysLog("CSP - Router Task: Registered\n");
+
     /* Here there will be routing */
     while (1) {
         csp_route_work(CSP_MAX_TIMEOUT);
@@ -130,6 +130,11 @@ void CSP_RouterTask(void)
     CFE_ES_ExitChildTask();
 }
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
+/*                                                                            */
+/* CSP_ServerTask() --  Mock node for communication                           */
+/*                                                                            */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
 void CSP_ServerTask(void)
 {
     int32 status;
@@ -137,45 +142,148 @@ void CSP_ServerTask(void)
     status = CFE_ES_RegisterChildTask();
     if (status != CFE_SUCCESS)
     {
+        CFE_EVS_SendEvent(CFE_EVS_EventType_ERROR,
+                          CSP_REGISTERCHILD_ERR_EID,
+                          "CSP - Server Task: Failed to register CSP server task\n");
         CFE_ES_ExitChildTask();
     }
 
-    CFE_ES_WriteToSysLog("CSP App: Server task registered\n");
+    CFE_ES_WriteToSysLog("CSP - Server Task: Registered\n");
 
-    /* Set connectionless socket option */
+    /*
+    ** Set connectionless socket option
+    */
     uint32 opts = CSP_SO_CONN_LESS;
 
-    /* Create a socket */
+    /*
+    ** Create a socket
+    */
     csp_socket_t *socket = csp_socket(opts);
     if (socket == NULL)
     {
-        CFE_ES_WriteToSysLog("CSP App: CSP socket error\n");
+        CFE_EVS_SendEvent(CFE_EVS_EventType_ERROR,
+                          CSP_SOCKET_ERR_EID,
+                          "CSP - Server Task: Failed to create CSP socket\n");
         CFE_ES_ExitChildTask();
     }
 
     uint8 SERVER_PORT = 1;
 
-    /* Bind server port to socket */
+    /*
+    ** Bind server port to socket
+    */
     status = csp_bind(socket, SERVER_PORT);
     if (status != CSP_ERR_NONE)
     {
-        CFE_ES_WriteToSysLog("CSP App: CSP bind error\n");
+        CFE_EVS_SendEvent(CFE_EVS_EventType_ERROR,
+                          CSP_BIND_ERR_EID,
+                          "CSP - Server Task: Failed to bind CSP socket\n");
         CFE_ES_ExitChildTask();
     }
 
-    /* Create a packet */
+    /*
+    ** Create a packet
+    */
     csp_packet_t *packet = NULL;
 
-    uint32 timeout = 1000;
-
-    while (packet == NULL)
+    /*
+    ** Receive a packet with infinite timeout
+    */
+    uint32 timeout = CSP_MAX_TIMEOUT;
+    packet = csp_recvfrom(socket, timeout);
+    if (packet == NULL)
     {
-        packet = csp_recvfrom(socket, timeout);
+        CFE_EVS_SendEvent(CFE_EVS_EventType_ERROR,
+                          CSP_RECVFROM_ERR_EID,
+                          "CSP - Server Task: Failed to receive CSP packet\n");
+        CFE_ES_ExitChildTask();
     }
 
-    CFE_ES_WriteToSysLog("CSP App: Packet received: %u", packet->data[0]);
+    CFE_ES_WriteToSysLog("CSP - Server Task: Packet received, data: %u", packet->data[0]);
 
     csp_buffer_free(packet);
+
+    CFE_ES_ExitChildTask();
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
+/*                                                                            */
+/* CSP_ClientTask() --  Mock node for communication                           */
+/*                                                                            */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
+void CSP_ClientTask(void)
+{
+    int32 status;
+
+    status = CFE_ES_RegisterChildTask();
+    if (status != CFE_SUCCESS)
+    {
+        CFE_EVS_SendEvent(CFE_EVS_EventType_ERROR,
+                          CSP_REGISTERCHILD_ERR_EID,
+                          "CSP - Client Task: Failed to register CSP client task\n");
+        CFE_ES_ExitChildTask();
+    }
+
+    CFE_ES_WriteToSysLog("CSP - Client Task: Registered\n");
+
+    /*
+    ** Set connectionless socket option
+    */
+    uint32 opts = CSP_SO_CONN_LESS;
+
+    /*
+    ** Create a socket
+    */
+    csp_socket_t *socket = csp_socket(opts);
+    if (socket == NULL)
+    {
+        CFE_EVS_SendEvent(CFE_EVS_EventType_ERROR,
+                          CSP_SOCKET_ERR_EID,
+                          "CSP - Client Task: Failed to create CSP socket\n");
+        CFE_ES_ExitChildTask();
+    }
+
+    /*
+    ** Get a 100 byte packet from the CSP buffer
+    */
+    csp_packet_t *packet;
+    size_t data_size = 100;
+
+    packet = csp_buffer_get(data_size);
+    if (packet == NULL)
+    {
+        CFE_EVS_SendEvent(CFE_EVS_EventType_ERROR,
+                          CSP_BUFFERGET_ERR_EID,
+                          "CSP - Client Task: Failed to get CSP packet from buffer\n");
+        CFE_ES_ExitChildTask();
+    }
+
+    /*
+    ** Copy data to packet
+    */
+    uint8 MOCKDATA = 200;
+    packet->data[0] = MOCKDATA;
+
+    uint8 prio      = CSP_PRIO_NORM;
+    uint8 dst       = CSP_OBC_NODE;
+    uint8 dst_port  = 1;
+    uint8 src_port  = 2;
+    uint32 timeout  = CSP_MAX_TIMEOUT;
+
+    /*
+    ** Send the packet
+    */
+    status = csp_sendto(prio, dst, dst_port, src_port, opts, packet, timeout);
+    if (status != CSP_ERR_NONE)
+    {
+        CFE_EVS_SendEvent(CFE_EVS_EventType_ERROR,
+                          CSP_BUFFERGET_ERR_EID,
+                          "CSP - Client Task: Failed to send CSP packet\n");
+        csp_buffer_free(packet);
+        CFE_ES_ExitChildTask();
+    }
+
+    CFE_ES_WriteToSysLog("CSP - Client Task: Packet sent, data: %u\n", packet->data[0]);
 
     CFE_ES_ExitChildTask();
 }
@@ -207,20 +315,32 @@ int32 CSP_AppInit( void )
     /*
     ** Initialize event filter table...
     */
-    CSP_AppData.EventFilters[0].EventID = CSP_STARTUP_INF_EID;
-    CSP_AppData.EventFilters[0].Mask    = 0x0000;
-    CSP_AppData.EventFilters[1].EventID = CSP_COMMAND_ERR_EID;
-    CSP_AppData.EventFilters[1].Mask    = 0x0000;
-    CSP_AppData.EventFilters[2].EventID = CSP_COMMANDNOP_INF_EID;
-    CSP_AppData.EventFilters[2].Mask    = 0x0000;
-    CSP_AppData.EventFilters[3].EventID = CSP_COMMANDRST_INF_EID;
-    CSP_AppData.EventFilters[3].Mask    = 0x0000;
-    CSP_AppData.EventFilters[4].EventID = CSP_INVALID_MSGID_ERR_EID;
-    CSP_AppData.EventFilters[4].Mask    = 0x0000;
-    CSP_AppData.EventFilters[5].EventID = CSP_LEN_ERR_EID;
-    CSP_AppData.EventFilters[5].Mask    = 0x0000;
-    CSP_AppData.EventFilters[6].EventID = CSP_PIPE_ERR_EID;
-    CSP_AppData.EventFilters[6].Mask    = 0x0000;
+    CSP_AppData.EventFilters[0].EventID     = CSP_STARTUP_INF_EID;
+    CSP_AppData.EventFilters[0].Mask        = CFE_EVS_NO_FILTER;
+    CSP_AppData.EventFilters[1].EventID     = CSP_COMMAND_ERR_EID;
+    CSP_AppData.EventFilters[1].Mask        = CFE_EVS_NO_FILTER;
+    CSP_AppData.EventFilters[2].EventID     = CSP_COMMANDNOP_INF_EID;
+    CSP_AppData.EventFilters[2].Mask        = CFE_EVS_NO_FILTER;
+    CSP_AppData.EventFilters[3].EventID     = CSP_COMMANDRST_INF_EID;
+    CSP_AppData.EventFilters[3].Mask        = CFE_EVS_NO_FILTER;
+    CSP_AppData.EventFilters[4].EventID     = CSP_INVALID_MSGID_ERR_EID;
+    CSP_AppData.EventFilters[4].Mask        = CFE_EVS_NO_FILTER;
+    CSP_AppData.EventFilters[5].EventID     = CSP_LEN_ERR_EID;
+    CSP_AppData.EventFilters[5].Mask        = CFE_EVS_NO_FILTER;
+    CSP_AppData.EventFilters[6].EventID     = CSP_PIPE_ERR_EID;
+    CSP_AppData.EventFilters[6].Mask        = CFE_EVS_NO_FILTER;
+    CSP_AppData.EventFilters[7].EventID     = CSP_REGISTERCHILD_ERR_EID;
+    CSP_AppData.EventFilters[7].Mask        = CFE_EVS_NO_FILTER;
+    CSP_AppData.EventFilters[8].EventID     = CSP_SOCKET_ERR_EID;
+    CSP_AppData.EventFilters[8].Mask        = CFE_EVS_NO_FILTER;
+    CSP_AppData.EventFilters[9].EventID     = CSP_BIND_ERR_EID;
+    CSP_AppData.EventFilters[9].Mask        = CFE_EVS_NO_FILTER;
+    CSP_AppData.EventFilters[10].EventID    = CSP_BUFFERGET_ERR_EID;
+    CSP_AppData.EventFilters[10].Mask       = CFE_EVS_NO_FILTER;
+    CSP_AppData.EventFilters[11].EventID    = CSP_SENDTO_ERR_EID;
+    CSP_AppData.EventFilters[11].Mask       = CFE_EVS_NO_FILTER;
+    CSP_AppData.EventFilters[12].EventID    = CSP_RECVFROM_ERR_EID;
+    CSP_AppData.EventFilters[12].Mask       = CFE_EVS_NO_FILTER;
 
     /*
     ** Register the events
@@ -230,7 +350,7 @@ int32 CSP_AppInit( void )
                               CFE_EVS_EventFilter_BINARY);
     if (status != CFE_SUCCESS)
     {
-        CFE_ES_WriteToSysLog("CSP App: Error Registering Events, RC = 0x%08lX\n",
+        CFE_ES_WriteToSysLog("CSP: Error Registering Events, RC = 0x%08lX\n",
                              (unsigned long)status);
         return ( status );
     }
@@ -251,7 +371,7 @@ int32 CSP_AppInit( void )
                                CSP_AppData.PipeName);
     if (status != CFE_SUCCESS)
     {
-        CFE_ES_WriteToSysLog("CSP App: Error creating pipe, RC = 0x%08lX\n",
+        CFE_ES_WriteToSysLog("CSP: Error creating pipe, RC = 0x%08lX\n",
                              (unsigned long)status);
         return ( status );
     }
@@ -263,7 +383,7 @@ int32 CSP_AppInit( void )
                               CSP_AppData.CommandPipe);
     if (status != CFE_SUCCESS)
     {
-        CFE_ES_WriteToSysLog("CSP App: Error Subscribing to HK request, RC = 0x%08lX\n",
+        CFE_ES_WriteToSysLog("CSP: Error Subscribing to HK request, RC = 0x%08lX\n",
                              (unsigned long)status);
         return ( status );
     }
@@ -275,67 +395,68 @@ int32 CSP_AppInit( void )
                               CSP_AppData.CommandPipe);
     if (status != CFE_SUCCESS )
     {
-        CFE_ES_WriteToSysLog("CSP App: Error Subscribing to Command, RC = 0x%08lX\n",
+        CFE_ES_WriteToSysLog("CSP: Error Subscribing to Command, RC = 0x%08lX\n",
                              (unsigned long)status);
 
         return ( status );
     }
+
     /*
-    ** Initialize CSP
+    ** Configure CSP
     */
     csp_conf_t csp_conf;
     csp_conf_get_defaults(&csp_conf);
+    csp_conf.address = CSP_OBC_NODE;
+
+    /* 
+    ** Initialize CSP
+    */
     status = csp_init(&csp_conf);
     if (status != CSP_ERR_NONE)
     {
-        CFE_ES_WriteToSysLog("CSP App: Error initalizing CSP,  RC = 0x%08lX\n",
+        CFE_ES_WriteToSysLog("CSP: Error initalizing CSP,  RC = 0x%08lX\n",
                              (unsigned long)status);
         return ( status );
     }
-
-    CFE_ES_WriteToSysLog("CSP App: CSP Initialized successfully\n");
 
     /* 
     ** Start CSP router task
     */
-    uint32 csp_router_task_id_ptr;
-    status = CFE_ES_CreateChildTask(&csp_router_task_id_ptr, "CSP Router", CSP_RouterTask, NULL, 500, 64, 0);
+    uint32 csp_routertask_id_ptr;
+
+    status = CFE_ES_CreateChildTask(&csp_routertask_id_ptr, "CSP Router", CSP_RouterTask, NULL, 500, 64, 0);
     if (status != CFE_SUCCESS)
     {
-        CFE_ES_WriteToSysLog("CSP App: Error starting CSP router task,  RC = 0x%08lX\n",
+        CFE_ES_WriteToSysLog("CSP: Error starting CSP router task,  RC = 0x%08lX\n",
                              (unsigned long)status);
         return ( status );
     }
-
-    CFE_ES_WriteToSysLog("CSP App: CSP router task started\n");
 
     /* 
     ** Start CSP server task
     */
-    uint32 csp_server_task_id_ptr;
-    status = CFE_ES_CreateChildTask(&csp_server_task_id_ptr, "CSP server", CSP_ServerTask, NULL, 500, 64, 0);
+    uint32 csp_servertask_id_ptr;
+
+    status = CFE_ES_CreateChildTask(&csp_servertask_id_ptr, "CSP server", CSP_ServerTask, NULL, 500, 64, 0);
     if (status != CFE_SUCCESS)
     {
-        CFE_ES_WriteToSysLog("CSP App: Error starting CSP server task,  RC = 0x%08lX\n",
+        CFE_ES_WriteToSysLog("CSP: Error starting CSP server task,  RC = 0x%08lX\n",
                              (unsigned long)status);
         return ( status );
     }
-
-    CFE_ES_WriteToSysLog("CSP App: CSP server task started\n");
 
     /* 
-    ** Start TO Lab task
+    ** Start CSP client task
     */
-    uint32 to_lab_task_id_ptr;
-    status = CFE_ES_CreateChildTask(&to_lab_task_id_ptr, "TO Lab", TO_Lab_AppMain, NULL, 500, 64, 0);
+    uint32 csp_clienttask_id_ptr;
+
+    status = CFE_ES_CreateChildTask(&csp_clienttask_id_ptr, "CSP client", CSP_ClientTask, NULL, 500, 64, 0);
     if (status != CFE_SUCCESS)
     {
-        CFE_ES_WriteToSysLog("CSP App: Error starting TO Lab task,  RC = 0x%08lX\n",
+        CFE_ES_WriteToSysLog("CSP: Error starting CSP client task,  RC = 0x%08lX\n",
                              (unsigned long)status);
         return ( status );
     }
-
-    CFE_ES_WriteToSysLog("CSP App: TO Lab task started\n");
 
     CFE_EVS_SendEvent (CSP_STARTUP_INF_EID,
                        CFE_EVS_EventType_INFORMATION,
@@ -350,10 +471,10 @@ int32 CSP_AppInit( void )
 } /* End of CSP_AppInit() */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-/*  Name:  CSP_ProcessCommandPacket                                        */
+/*  Name:  CSP_ProcessCommandPacket                                           */
 /*                                                                            */
 /*  Purpose:                                                                  */
-/*     This routine will process any packet that is received on the CSP    */
+/*     This routine will process any packet that is received on the CSP       */
 /*     command pipe.                                                          */
 /*                                                                            */
 /* * * * * * * * * * * * * * * * * * * * * * * *  * * * * * * *  * *  * * * * */
@@ -421,7 +542,7 @@ void CSP_ProcessGroundCommand( CFE_SB_MsgPtr_t Msg )
         default:
             CFE_EVS_SendEvent(CSP_COMMAND_ERR_EID,
                               CFE_EVS_EventType_ERROR,
-                              "Invalid ground command code: CC = %d",
+                              "CSP: Invalid ground command code: CC = %d",
                               CommandCode);
             break;
     }
