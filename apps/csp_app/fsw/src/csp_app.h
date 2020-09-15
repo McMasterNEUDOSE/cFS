@@ -21,15 +21,18 @@
 #include "cfe_evs.h"
 #include "cfe_sb.h"
 #include "cfe_es.h"
+#include "cfe_tbl.h"
 
 #include "csp_app_perfids.h"
 #include "csp_app_msgids.h"
 #include "csp_app_msg.h"
+#include "csp_app_events.h"
 
 /************************************************************************
 ** Depth of the Command Pipe for Application
 *************************************************************************/
-#define CSP_PIPE_DEPTH  32
+#define CSP_CMD_PIPE_DEPTH  32
+#define CSP_TLM_PIPE_DEPTH 	32
 
 /************************************************************************
 ** LibCSP Nodes
@@ -76,27 +79,33 @@ typedef struct
     uint32 RunStatus;
 
     /*
-    ** Operational data (not reported in housekeeping)...
+    ** Command pipe...
     */
-    CFE_SB_PipeId_t     CommandPipe;
-    CFE_SB_MsgPtr_t     MsgPtr;
+    CFE_SB_PipeId_t     CmdPipe;
+    CFE_SB_MsgPtr_t     CmdPtr;
+
+    /*
+    ** Telemetry pipe...
+    */
+    CFE_SB_PipeId_t     TlmPipe;
+    CFE_SB_MsgPtr_t     TlmPtr;
 
     /*
     ** Initialization data (not reported in housekeeping)...
     */
-    char                PipeName[16];
-    uint16              PipeDepth;
+    char                CmdPipeName[16];
+    uint16              CmdPipeDepth;
+    char                TlmPipeName[16];
+    uint16              TlmPipeDepth;
 
     CFE_EVS_BinFilter_t  EventFilters[CSP_EVENT_COUNTS];
 
 } CSP_AppData_t;
 
 /****************************************************************************/
+
 /*
 ** Local function prototypes.
-**
-** Note: Except for the entry point (CSP_AppMain), these
-**       functions are not called from any other source module.
 */
 void  CSP_AppMain(void);
 int32 CSP_AppInit(void);
