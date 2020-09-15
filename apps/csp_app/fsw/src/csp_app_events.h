@@ -27,7 +27,8 @@
 #define CSP_BUFFERGET_ERR_EID         	11
 #define CSP_SENDTO_ERR_EID            	12
 #define CSP_RECVFROM_ERR_EID          	13
-#define CSP_EVENT_COUNTS              	14
+#define CSP_TBL_ERR_EID 				14
+#define CSP_EVENT_COUNTS              	15
 
 
 #endif /* _csp_app_events_h_ */
