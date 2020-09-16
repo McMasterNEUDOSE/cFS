@@ -9,8 +9,8 @@
 **   Stephen Scott
 **
 ** Revision History:
-**   12/09/2020: 	1.0.0: 	Creation of base CSP app
-**   14/09/2020: 	1.0.1:	Added subscription table
+**   12/09/2020: 	1.0.0.0: 	Creation of base CSP app
+**   14/09/2020: 	1.0.1.0:	Added subscription table
 **
 *************************************************************************/
 #ifndef _csp_app_version_h_
