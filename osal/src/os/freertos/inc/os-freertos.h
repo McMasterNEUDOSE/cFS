@@ -28,8 +28,8 @@
  *          may contain POSIX-specific definitions.
  */
 
-#ifndef INCLUDE_OS_POSIX_H_
-#define INCLUDE_OS_POSIX_H_
+#ifndef INCLUDE_OS_FREERTOS_H_
+#define INCLUDE_OS_FREERTOS_H_
 
 
 /****************************************************************************************
