@@ -14,15 +14,19 @@
 ** Include Files:
 */
 #include <string.h>
+
+#include "csp_app.h"
 #include "csp_app_events.h"
 #include "csp_app_version.h"
-#include "csp_app.h"
-#include <csp/csp.h>
+#include "csp_app_tbldefs.h"
+#include "csp/csp.h"
 
 /*
 ** global data
 */
-CSP_AppData_t CSP_AppData;
+CSP_AppData_t 		CSP_AppData;
+CSP_App_SubTable_t 	*CSP_App_SubTbl;
+CFE_TBL_Handle_t 	CSP_App_SubTblHandle;
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  * *  * * * * **/
 /*                                                                            */
@@ -69,8 +73,8 @@ void CSP_AppMain( void )
         CFE_ES_PerfLogExit(CSP_APP_PERF_ID);
 
         /* Pend on receipt of command packet */
-        status = CFE_SB_RcvMsg(&CSP_AppData.MsgPtr,
-                               CSP_AppData.CommandPipe,
+        status = CFE_SB_RcvMsg(&CSP_AppData.CmdPtr,
+                               CSP_AppData.CmdPipe,
                                CFE_SB_PEND_FOREVER);
 
         /*
@@ -80,7 +84,7 @@ void CSP_AppMain( void )
 
         if (status == CFE_SUCCESS)
         {
-            CSP_ProcessCommandPacket(CSP_AppData.MsgPtr);
+            CSP_ProcessCommandPacket(CSP_AppData.CmdPtr);
         }
         else
         {
@@ -295,7 +299,8 @@ void CSP_ClientTask(void)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
 int32 CSP_AppInit( void )
 {
-    int32    status;
+    int32 	status;
+    uint16 	i;
 
     CSP_AppData.RunStatus = CFE_ES_RunStatus_APP_RUN;
 
@@ -308,9 +313,11 @@ int32 CSP_AppInit( void )
     /*
     ** Initialize app configuration data
     */
-    CSP_AppData.PipeDepth = CSP_PIPE_DEPTH;
+    CSP_AppData.CmdPipeDepth = CSP_CMD_PIPE_DEPTH;
+	strcpy(CSP_AppData.CmdPipeName, "CSP_CMD_PIPE");
 
-    strcpy(CSP_AppData.PipeName, "CSP_CMD_PIPE");
+	CSP_AppData.TlmPipeDepth = CSP_TLM_PIPE_DEPTH;
+	strcpy(CSP_AppData.TlmPipeName, "CSP_TLM_PIPE");
 
     /*
     ** Initialize event filter table...
@@ -341,6 +348,8 @@ int32 CSP_AppInit( void )
     CSP_AppData.EventFilters[11].Mask       = CFE_EVS_NO_FILTER;
     CSP_AppData.EventFilters[12].EventID    = CSP_RECVFROM_ERR_EID;
     CSP_AppData.EventFilters[12].Mask       = CFE_EVS_NO_FILTER;
+    CSP_AppData.EventFilters[13].EventID    = CSP_TBL_ERR_EID;
+    CSP_AppData.EventFilters[13].Mask       = CFE_EVS_NO_FILTER;
 
     /*
     ** Register the events
@@ -364,14 +373,48 @@ int32 CSP_AppInit( void )
                    true);
 
     /*
-    ** Create Software Bus message pipe.
+    ** Register the subscription table
     */
-    status = CFE_SB_CreatePipe(&CSP_AppData.CommandPipe,
-                               CSP_AppData.PipeDepth,
-                               CSP_AppData.PipeName);
+    status = CFE_TBL_Register(&CSP_App_SubTblHandle, "CSP_App_SubTbl",
+    						  sizeof(*CSP_App_SubTbl), CFE_TBL_OPT_DEFAULT, NULL);
     if (status != CFE_SUCCESS)
     {
-        CFE_ES_WriteToSysLog("CSP: Error creating pipe, RC = 0x%08lX\n",
+    	CFE_ES_WriteToSysLog("CSP: Error registering subscription table, RC = 0x%08lX\n",
+                             (unsigned long)status);
+        return ( status );
+    }
+
+    /*
+    ** Load the subscription table
+    */
+    status = CFE_TBL_Load(CSP_App_SubTblHandle, CFE_TBL_SRC_FILE, "/cf/csp_app_subtbl.tbl");
+    if (status != CFE_SUCCESS)
+    {
+    	CFE_ES_WriteToSysLog("CSP: Error loading subscription table, RC = 0x%08lX\n",
+                             (unsigned long)status);
+        return ( status );
+    }
+
+    /*
+    ** Get the subscription table address
+    */
+    status = CFE_TBL_GetAddress((void *)(&CSP_App_SubTbl), CSP_App_SubTblHandle);
+    if (status != (CFE_SUCCESS | CFE_TBL_INFO_UPDATED) )
+    {
+    	CFE_ES_WriteToSysLog("CSP: Error getting subscription table address RC = 0x%08lX\n",
+                             (unsigned long)status);
+        return ( status );
+    }
+
+    /*
+    ** Create command pipe
+    */
+    status = CFE_SB_CreatePipe(&CSP_AppData.CmdPipe,
+                               CSP_AppData.CmdPipeDepth,
+                               CSP_AppData.CmdPipeName);
+    if (status != CFE_SUCCESS)
+    {
+        CFE_ES_WriteToSysLog("CSP: Error creating command pipe, RC = 0x%08lX\n",
                              (unsigned long)status);
         return ( status );
     }
@@ -380,7 +423,7 @@ int32 CSP_AppInit( void )
     ** Subscribe to Housekeeping request commands
     */
     status = CFE_SB_Subscribe(CSP_APP_SEND_HK_MID,
-                              CSP_AppData.CommandPipe);
+                              CSP_AppData.CmdPipe);
     if (status != CFE_SUCCESS)
     {
         CFE_ES_WriteToSysLog("CSP: Error Subscribing to HK request, RC = 0x%08lX\n",
@@ -392,13 +435,49 @@ int32 CSP_AppInit( void )
     ** Subscribe to ground command packets
     */
     status = CFE_SB_Subscribe(CSP_APP_CMD_MID,
-                              CSP_AppData.CommandPipe);
+                              CSP_AppData.CmdPipe);
     if (status != CFE_SUCCESS )
     {
         CFE_ES_WriteToSysLog("CSP: Error Subscribing to Command, RC = 0x%08lX\n",
                              (unsigned long)status);
 
         return ( status );
+    }
+
+    /*
+    ** Create telemetry pipe
+    */
+    status = CFE_SB_CreatePipe(&CSP_AppData.TlmPipe,
+                               CSP_AppData.TlmPipeDepth,
+                               CSP_AppData.TlmPipeName);
+    if (status != CFE_SUCCESS)
+    {
+        CFE_ES_WriteToSysLog("CSP: Error creating telemetry pipe, RC = 0x%08lX\n",
+                             (unsigned long)status);
+        return ( status );
+    }
+
+    /*
+    ** Subscribe to telemetry packets
+    */
+    for (i = 0; (i < (sizeof(CSP_App_SubTbl->Subs) / sizeof(CSP_App_SubTbl->Subs[0]))); i++)
+    {
+    	if (CFE_SB_IsValidMsgId(CSP_App_SubTbl->Subs[i].Stream) && (CSP_App_SubTbl->Subs[i].Stream != 0) ) 
+    	{
+    		status = CFE_SB_Subscribe(CSP_App_SubTbl->Subs[i].Stream, CSP_AppData.TlmPipe);
+    	}
+    	else /* Reached the end of the subscriptions */
+    	{
+    		break;
+    	}
+
+    	if (status != CFE_SUCCESS)
+    	{
+    		CFE_ES_WriteToSysLog("CSP: Can't subscribe to stream 0x%x, RC = 0x%08lX\n",
+    						 (unsigned int)CFE_SB_MsgIdToValue(CSP_App_SubTbl->Subs[i].Stream),
+                             (unsigned long)status);
+        	return ( status );
+    	}
     }
 
     /*
