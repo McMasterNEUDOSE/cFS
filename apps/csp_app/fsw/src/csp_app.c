@@ -1,68 +1,45 @@
-/*******************************************************************************
-**
-** File: csp_app.c
-**
-** Purpose:
-**   This file contains the source code for the CSP App.
-**
-** Author:
-**   Stephen Scott
-**
-*******************************************************************************/
+/**
+  * @file   csp_app.c
+  * @brief  Main code for the CSP App.
+  * @author Stephen Scott
+  */
 
-/*
-** Include Files:
-*/
 #include <string.h>
-
 #include "csp_app.h"
 #include "csp_app_version.h"
 #include "csp_app_to_task.h"
 #include "csp_app_fwdgrnd.h"
 #include "csp/csp.h"
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  * *  * * * * **/
-/*                                                                            */
-/* CSP_AppMain() -- Application entry point and main process loop             */
-/*                                                                            */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  * *  * * * * **/
+/**
+  * @brief  Application entry point and main process loop 
+  * @retval None
+  */
 void CSP_AppMain( void )
 {
     int32  status;
 
-    /*
-    ** Register the app with Executive services
-    */
+    /* Register the app with Executive services */
     status = CFE_ES_RegisterApp();
     if (status != CFE_SUCCESS)
     {
         CSP_AppData.RunStatus = CFE_ES_RunStatus_APP_ERROR;
     }
 
-    /*
-    ** Create the first Performance Log entry
-    */
+    /* Create the first Performance Log entry */
     CFE_ES_PerfLogEntry(CSP_APP_PERF_ID);
 
-    /*
-    ** Perform application specific initialization
-    ** If the Initialization fails, set the RunStatus to
-    ** CFE_ES_RunStatus_APP_ERROR and the App will not enter the RunLoop
-    */
+    /* Perform application specific initialization */
     status = CSP_AppInit();
     if (status != CFE_SUCCESS)
     {
         CSP_AppData.RunStatus = CFE_ES_RunStatus_APP_ERROR;
     }
 
-    /*
-    ** CSP Runloop
-    */
+    /* CSP main loop */
     while (CFE_ES_RunLoop(&CSP_AppData.RunStatus) == true)
     {
-        /*
-        ** Performance Log Exit Stamp
-        */
+        /* Performance Log Exit Stamp */
         CFE_ES_PerfLogExit(CSP_APP_PERF_ID);
 
         /* Pend on receipt of command packet */
@@ -70,11 +47,10 @@ void CSP_AppMain( void )
                                CSP_AppData.CmdPipe,
                                CFE_SB_PEND_FOREVER);
 
-        /*
-        ** Performance Log Entry Stamp
-        */
+        /* Performance Log Entry Stamp */
         CFE_ES_PerfLogEntry(CSP_APP_PERF_ID);
 
+        /* Process command packet */
         if (status == CFE_SUCCESS)
         {
             CSP_ProcessCommandPacket(CSP_AppData.CmdPtr);
@@ -90,24 +66,23 @@ void CSP_AppMain( void )
 
     }
 
-    /*
-    ** Performance Log Exit Stamp
-    */
+    /* Performance Log Exit Stamp */
     CFE_ES_PerfLogExit(CSP_APP_PERF_ID);
 
+    /* Exit the application */
     CFE_ES_ExitApp(CSP_AppData.RunStatus);
 
 } /* End of CSP_AppMain() */
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-/*                                                                            */
-/* CSP_RouterTask() --  performs csp router work                              */
-/*                                                                            */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
+/**
+  * @brief  Performs csp router work
+  * @retval None
+  */
 void CSP_RouterTask(void)
 {
     int32 status;
 
+    /* Register the task with executive services */
     status = CFE_ES_RegisterChildTask();
     if (status != CFE_SUCCESS)
     {
@@ -119,23 +94,23 @@ void CSP_RouterTask(void)
 
     CFE_ES_WriteToSysLog("CSP - Router Task: Registered\n");
 
-    /* Here there will be routing */
+    /* Continually perform CSP routing work */
     while (1) {
         csp_route_work(CSP_MAX_TIMEOUT);
     }
 
+    /* Exit the task */
     CFE_ES_ExitChildTask();
 }
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-/*                                                                            */
-/* CSP_ServerTask() --  Mock node for communication                           */
-/*                                                                            */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
+/**
+  * @brief  Mock server node for communication testing
+  * @retval None
+  */
 void CSP_ServerTask(void)
 {
     int32 status;
-
+    /* Register the task with executive services */
     status = CFE_ES_RegisterChildTask();
     if (status != CFE_SUCCESS)
     {
@@ -147,14 +122,10 @@ void CSP_ServerTask(void)
 
     CFE_ES_WriteToSysLog("CSP - Server Task: Registered\n");
 
-    /*
-    ** Set connectionless socket option
-    */
+    /* Set connectionless socket option */
     uint32 opts = CSP_SO_CONN_LESS;
 
-    /*
-    ** Create a socket
-    */
+    /* Create a CSP socket */
     csp_socket_t *socket = csp_socket(opts);
     if (socket == NULL)
     {
@@ -164,11 +135,10 @@ void CSP_ServerTask(void)
         CFE_ES_ExitChildTask();
     }
 
+    /* Assign CSP server port */
     uint8 SERVER_PORT = 1;
 
-    /*
-    ** Bind server port to socket
-    */
+    /* Bind CSP server port to socket */
     status = csp_bind(socket, SERVER_PORT);
     if (status != CSP_ERR_NONE)
     {
@@ -178,14 +148,10 @@ void CSP_ServerTask(void)
         CFE_ES_ExitChildTask();
     }
 
-    /*
-    ** Create a packet
-    */
+    /* Create a packet */
     csp_packet_t *packet = NULL;
 
-    /*
-    ** Receive a packet with infinite timeout
-    */
+    /* Receive a packet pending infinite timeout */
     uint32 timeout = CSP_MAX_TIMEOUT;
     packet = csp_recvfrom(socket, timeout);
     if (packet == NULL)
@@ -198,20 +164,21 @@ void CSP_ServerTask(void)
 
     CFE_ES_WriteToSysLog("CSP - Server Task: Packet received, data: %u", packet->data[0]);
 
+    /* Free the CSP buffer of the occupied packet */
     csp_buffer_free(packet);
 
+    /* Exit the task */
     CFE_ES_ExitChildTask();
 }
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-/*                                                                            */
-/* CSP_ClientTask() --  Mock node for communication                           */
-/*                                                                            */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
+/**
+  * @brief  Mock client node for communication testing
+  * @retval None
+  */
 void CSP_ClientTask(void)
 {
     int32 status;
-
+    /* Register the task with executive services */
     status = CFE_ES_RegisterChildTask();
     if (status != CFE_SUCCESS)
     {
@@ -223,14 +190,10 @@ void CSP_ClientTask(void)
 
     CFE_ES_WriteToSysLog("CSP - Client Task: Registered\n");
 
-    /*
-    ** Set connectionless socket option
-    */
+    /* Set connectionless socket option */
     uint32 opts = CSP_SO_CONN_LESS;
 
-    /*
-    ** Create a socket
-    */
+    /* Create a socket */
     csp_socket_t *socket = csp_socket(opts);
     if (socket == NULL)
     {
@@ -240,12 +203,9 @@ void CSP_ClientTask(void)
         CFE_ES_ExitChildTask();
     }
 
-    /*
-    ** Get a 100 byte packet from the CSP buffer
-    */
+    /* Get a 100 byte packet from the CSP buffer */
     csp_packet_t *packet;
     size_t data_size = 100;
-
     packet = csp_buffer_get(data_size);
     if (packet == NULL)
     {
@@ -255,21 +215,18 @@ void CSP_ClientTask(void)
         CFE_ES_ExitChildTask();
     }
 
-    /*
-    ** Copy data to packet
-    */
+    /* Add data to packet */
     uint8 MOCKDATA = 200;
     packet->data[0] = MOCKDATA;
 
+    /* Add header info to packet */
     uint8 prio      = CSP_PRIO_NORM;
     uint8 dst       = CSP_OBC_NODE;
     uint8 dst_port  = 1;
     uint8 src_port  = 2;
     uint32 timeout  = CSP_MAX_TIMEOUT;
 
-    /*
-    ** Send the packet
-    */
+    /* Send the packet to the server node */
     status = csp_sendto(prio, dst, dst_port, src_port, opts, packet, timeout);
     if (status != CSP_ERR_NONE)
     {
@@ -282,39 +239,34 @@ void CSP_ClientTask(void)
 
     CFE_ES_WriteToSysLog("CSP - Client Task: Packet sent, data: %u\n", packet->data[0]);
 
+    /* Exit the task */
     CFE_ES_ExitChildTask();
 }
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  */
-/*                                                                            */
-/* CSP_AppInit() --  initialization                                           */
-/*                                                                            */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
+/**
+  * @brief              CSP app initialization
+  * @retval CFE_SUCCESS App initialization succeeded
+  * @retval status      App initialization failed
+  */
 int32 CSP_AppInit( void )
 {
     int32 	status;
     uint16 	i;
 
+    /* Set app status to running */
     CSP_AppData.RunStatus = CFE_ES_RunStatus_APP_RUN;
 
-    /*
-    ** Initialize app command execution counters
-    */
+    /* Initialize app command execution counters */
     CSP_AppData.CmdCounter = 0;
     CSP_AppData.ErrCounter = 0;
 
-    /*
-    ** Initialize app configuration data
-    */
+    /* Initialize app pipe configuration data */
     CSP_AppData.CmdPipeDepth = CSP_CMD_PIPE_DEPTH;
 	strcpy(CSP_AppData.CmdPipeName, "CSP_CMD_PIPE");
-
 	CSP_AppData.TlmPipeDepth = CSP_TLM_PIPE_DEPTH;
 	strcpy(CSP_AppData.TlmPipeName, "CSP_TLM_PIPE");
 
-    /*
-    ** Initialize event filter table...
-    */
+    /* Initialize event filter table */
     CSP_AppData.EventFilters[0].EventID     = CSP_STARTUP_INF_EID;
     CSP_AppData.EventFilters[0].Mask        = CFE_EVS_NO_FILTER;
     CSP_AppData.EventFilters[1].EventID     = CSP_COMMAND_ERR_EID;
@@ -344,9 +296,7 @@ int32 CSP_AppInit( void )
     CSP_AppData.EventFilters[13].EventID    = CSP_TBL_ERR_EID;
     CSP_AppData.EventFilters[13].Mask       = CFE_EVS_NO_FILTER;
 
-    /*
-    ** Register the events
-    */
+    /* Register the events */
     status = CFE_EVS_Register(CSP_AppData.EventFilters,
                               CSP_EVENT_COUNTS,
                               CFE_EVS_EventFilter_BINARY);
@@ -357,17 +307,13 @@ int32 CSP_AppInit( void )
         return ( status );
     }
 
-    /*
-    ** Initialize housekeeping packet (clear user data area).
-    */
+    /* Initialize housekeeping packet (clear user data area) */
     CFE_SB_InitMsg(&CSP_AppData.HkBuf.MsgHdr,
                    CSP_APP_HK_TLM_MID,
                    sizeof(CSP_AppData.HkBuf),
                    true);
 
-    /*
-    ** Register the subscription table
-    */
+    /* Register the subscription table */
     status = CFE_TBL_Register(&CSP_App_SubTblHandle, "CSP_App_SubTbl",
     						  sizeof(*CSP_App_SubTbl), CFE_TBL_OPT_DEFAULT, NULL);
     if (status != CFE_SUCCESS)
@@ -377,9 +323,7 @@ int32 CSP_AppInit( void )
         return ( status );
     }
 
-    /*
-    ** Load the subscription table
-    */
+    /* Load the subscription table */
     status = CFE_TBL_Load(CSP_App_SubTblHandle, CFE_TBL_SRC_FILE, "/cf/csp_app_subtbl.tbl");
     if (status != CFE_SUCCESS)
     {
@@ -388,9 +332,7 @@ int32 CSP_AppInit( void )
         return ( status );
     }
 
-    /*
-    ** Get the subscription table address
-    */
+    /* Get the subscription table address */
     status = CFE_TBL_GetAddress((void *)(&CSP_App_SubTbl), CSP_App_SubTblHandle);
     if (status != (CFE_SUCCESS | CFE_TBL_INFO_UPDATED) )
     {
@@ -399,9 +341,7 @@ int32 CSP_AppInit( void )
         return ( status );
     }
 
-    /*
-    ** Create command pipe
-    */
+    /* Create command pipe */
     status = CFE_SB_CreatePipe(&CSP_AppData.CmdPipe,
                                CSP_AppData.CmdPipeDepth,
                                CSP_AppData.CmdPipeName);
@@ -412,9 +352,7 @@ int32 CSP_AppInit( void )
         return ( status );
     }
 
-    /*
-    ** Subscribe to Housekeeping request commands
-    */
+    /* Subscribe to Housekeeping request commands */
     status = CFE_SB_Subscribe(CSP_APP_SEND_HK_MID,
                               CSP_AppData.CmdPipe);
     if (status != CFE_SUCCESS)
@@ -424,9 +362,7 @@ int32 CSP_AppInit( void )
         return ( status );
     }
 
-    /*
-    ** Subscribe to ground command packets
-    */
+    /* Subscribe to command packets */
     status = CFE_SB_Subscribe(CSP_APP_CMD_MID,
                               CSP_AppData.CmdPipe);
     if (status != CFE_SUCCESS )
@@ -437,9 +373,7 @@ int32 CSP_AppInit( void )
         return ( status );
     }
 
-    /*
-    ** Create telemetry pipe
-    */
+    /* Create telemetry pipe */
     status = CFE_SB_CreatePipe(&CSP_AppData.TlmPipe,
                                CSP_AppData.TlmPipeDepth,
                                CSP_AppData.TlmPipeName);
@@ -450,9 +384,7 @@ int32 CSP_AppInit( void )
         return ( status );
     }
 
-    /*
-    ** Subscribe to telemetry packets
-    */
+    /* Subscribe to telemetry packets */
     for (i = 0; (i < (sizeof(CSP_App_SubTbl->Subs) / sizeof(CSP_App_SubTbl->Subs[0]))); i++)
     {
     	if (CFE_SB_IsValidMsgId(CSP_App_SubTbl->Subs[i].Stream) && (CSP_App_SubTbl->Subs[i].Stream != 0) ) 
@@ -473,16 +405,12 @@ int32 CSP_AppInit( void )
     	}
     }
 
-    /*
-    ** Configure CSP
-    */
+    /* Configure CSP */
     csp_conf_t csp_conf;
     csp_conf_get_defaults(&csp_conf);
     csp_conf.address = CSP_OBC_NODE;
 
-    /* 
-    ** Initialize CSP
-    */
+    /* Initialize CSP */
     status = csp_init(&csp_conf);
     if (status != CSP_ERR_NONE)
     {
@@ -491,11 +419,8 @@ int32 CSP_AppInit( void )
         return ( status );
     }
 
-    /* 
-    ** Start CSP router task
-    */
+    /* Start CSP router task */
     uint32 csp_routertask_id_ptr;
-
     status = CFE_ES_CreateChildTask(&csp_routertask_id_ptr, "CSP Router", CSP_RouterTask, NULL, 500, 64, 0);
     if (status != CFE_SUCCESS)
     {
@@ -504,11 +429,8 @@ int32 CSP_AppInit( void )
         return ( status );
     }
 
-    /* 
-    ** Start CSP server task
-    */
+    /* Start CSP server task */
     /*uint32 csp_servertask_id_ptr;
-
     status = CFE_ES_CreateChildTask(&csp_servertask_id_ptr, "CSP server", CSP_ServerTask, NULL, 500, 64, 0);
     if (status != CFE_SUCCESS)
     {
@@ -517,11 +439,8 @@ int32 CSP_AppInit( void )
         return ( status );
     }*/
 
-    /* 
-    ** Start CSP client task
-    */
+    /* Start CSP client task */
     /*uint32 csp_clienttask_id_ptr;
-
     status = CFE_ES_CreateChildTask(&csp_clienttask_id_ptr, "CSP client", CSP_ClientTask, NULL, 500, 64, 0);
     if (status != CFE_SUCCESS)
     {
@@ -530,11 +449,8 @@ int32 CSP_AppInit( void )
         return ( status );
     }*/
 
-    /*
-    ** Start TO task
-    */
+    /* Start TO task */
     uint32 csp_to_id_ptr;
-
     status = CFE_ES_CreateChildTask(&csp_to_id_ptr, "TO Task", CSP_TO_Task, NULL, 500, 64, 0);
     if (status != CFE_SUCCESS)
     {
@@ -543,11 +459,8 @@ int32 CSP_AppInit( void )
         return ( status );
     }
 
-    /*
-    ** Start CSP_fwdto_ground task
-    */
+    /* Start CSP_fwdto_ground task */
     uint32 csp_fwdtogrnd_id_ptr;
-
     status = CFE_ES_CreateChildTask(&csp_fwdtogrnd_id_ptr, "fwdto-Ground", CSP_fwdto_ground, NULL, 500, 64, 0);
     if (status != CFE_SUCCESS)
     {
@@ -556,6 +469,7 @@ int32 CSP_AppInit( void )
         return ( status );
     }
 
+    /* Startup complete event */
     CFE_EVS_SendEvent (CSP_STARTUP_INF_EID,
                        CFE_EVS_EventType_INFORMATION,
                        "CSP App Initialized. Version %d.%d.%d.%d",
@@ -568,20 +482,19 @@ int32 CSP_AppInit( void )
 
 } /* End of CSP_AppInit() */
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-/*  Name:  CSP_ProcessCommandPacket                                           */
-/*                                                                            */
-/*  Purpose:                                                                  */
-/*     This routine will process any packet that is received on the CSP       */
-/*     command pipe.                                                          */
-/*                                                                            */
-/* * * * * * * * * * * * * * * * * * * * * * * *  * * * * * * *  * *  * * * * */
+/**
+  * @brief      Process command packets received on the command pipe
+  * @param [in] Msg A command message from the SB command pipe
+  * @retval     None
+  */
 void CSP_ProcessCommandPacket( CFE_SB_MsgPtr_t Msg )
 {
     CFE_SB_MsgId_t  MsgId;
 
+    /* Get message ID of command packet */
     MsgId = CFE_SB_GetMsgId(Msg);
 
+    /* Process command corresponding to message ID */
     switch (MsgId)
     {
         case CSP_APP_CMD_MID:
@@ -604,20 +517,19 @@ void CSP_ProcessCommandPacket( CFE_SB_MsgPtr_t Msg )
 
 } /* End CSP_ProcessCommandPacket */
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-/*                                                                            */
-/* CSP_ProcessGroundCommand() -- CSP ground commands                    */
-/*                                                                            */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
+/**
+  * @brief          Process a command from ground
+  * @param [in] Msg A command message from ground
+  * @retval         None
+  */
 void CSP_ProcessGroundCommand( CFE_SB_MsgPtr_t Msg )
 {
     uint16 CommandCode;
 
+    /* Get the command code from the message */
     CommandCode = CFE_SB_GetCmdCode(Msg);
 
-    /*
-    ** Process "known" CSP app ground commands
-    */
+    /* Process "known" CSP app ground commands */
     switch (CommandCode)
     {
         case CSP_APP_NOOP_CC:
@@ -649,26 +561,18 @@ void CSP_ProcessGroundCommand( CFE_SB_MsgPtr_t Msg )
 
 } /* End of CSP_ProcessGroundCommand() */
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-/*  Name:  CSP_ReportHousekeeping                                          */
-/*                                                                            */
-/*  Purpose:                                                                  */
-/*         This function is triggered in response to a task telemetry request */
-/*         from the housekeeping task. This function will gather the Apps     */
-/*         telemetry, packetize it and send it to the housekeeping task via   */
-/*         the software bus                                                   */
-/* * * * * * * * * * * * * * * * * * * * * * * *  * * * * * * *  * *  * * * * */
+/**
+  * @brief              Gather CSP app telemetry data and send it to housekeeping via SB
+  * @param [in] Msg     A command message from the command pipe
+  * @retval CFE_SUCCESS Housekeeping successfully reported
+  */
 int32 CSP_ReportHousekeeping( const CFE_SB_CmdHdr_t *Msg )
 {
-    /*
-    ** Get command execution counters...
-    */
+    /* Get command execution counters */
     CSP_AppData.HkBuf.HkTlm.Payload.CommandErrorCounter = CSP_AppData.ErrCounter;
     CSP_AppData.HkBuf.HkTlm.Payload.CommandCounter = CSP_AppData.CmdCounter;
 
-    /*
-    ** Send housekeeping telemetry packet...
-    */
+    /* Send housekeeping telemetry packet */
     CFE_SB_TimeStampMsg(&CSP_AppData.HkBuf.MsgHdr);
     CFE_SB_SendMsg(&CSP_AppData.HkBuf.MsgHdr);
 
@@ -676,14 +580,14 @@ int32 CSP_ReportHousekeeping( const CFE_SB_CmdHdr_t *Msg )
 
 } /* End of CSP_ReportHousekeeping() */
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-/*                                                                            */
-/* CSP_Noop -- CSP NOOP commands                                        */
-/*                                                                            */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
+/**
+  * @brief              Process CSP "No Operation" commands
+  * @param [in] Msg     A NOOP command from the command pipe
+  * @retval CFE_SUCCESS Successfully processed NOOP
+  */
 int32 CSP_Noop( const CSP_Noop_t *Msg )
 {
-
+    /* Increment command counter */
     CSP_AppData.CmdCounter++;
 
     CFE_EVS_SendEvent(CSP_COMMANDNOP_INF_EID,
@@ -698,17 +602,14 @@ int32 CSP_Noop( const CSP_Noop_t *Msg )
 
 } /* End of CSP_Noop */
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-/*  Name:  CSP_ResetCounters                                               */
-/*                                                                            */
-/*  Purpose:                                                                  */
-/*         This function resets all the global counter variables that are     */
-/*         part of the task telemetry.                                        */
-/*                                                                            */
-/* * * * * * * * * * * * * * * * * * * * * * * *  * * * * * * *  * *  * * * * */
+/**
+  * @brief Resets all global counter variables
+  * @param [in] Msg Reset counters command from the command pipe
+  * @retval CFE_SUCCESS Successfully processed reset counters command
+  */
 int32 CSP_ResetCounters( const CSP_ResetCounters_t *Msg )
 {
-
+    /* Reset counters */
     CSP_AppData.CmdCounter = 0;
     CSP_AppData.ErrCounter = 0;
 
@@ -720,20 +621,20 @@ int32 CSP_ResetCounters( const CSP_ResetCounters_t *Msg )
 
 } /* End of CSP_ResetCounters() */
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-/*                                                                            */
-/* CSP_VerifyCmdLength() -- Verify command packet length                   */
-/*                                                                            */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
+/**
+  * @brief                      Verifiy command packet length
+  * @param [in] Msg             A software bus message pointer
+  * @param [in] ExpectedLength  The expected length of the message
+  * @retval true                The command length is the expected length
+  * @retval false               The command length is NOT the expected length
+  */
 bool CSP_VerifyCmdLength( CFE_SB_MsgPtr_t Msg, uint16 ExpectedLength )
 {
     bool result = true;
 
     uint16 ActualLength = CFE_SB_GetTotalMsgLength(Msg);
 
-    /*
-    ** Verify the command packet length.
-    */
+    /* Verify the command packet length */
     if (ExpectedLength != ActualLength)
     {
         CFE_SB_MsgId_t MessageID   = CFE_SB_GetMsgId(Msg);

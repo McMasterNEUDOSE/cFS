@@ -1,0 +1,76 @@
+\hypertarget{csp__app__subtbl_8c}{}\section{/home/stephen/cfs/apps/csp\+\_\+app/fsw/tables/csp\+\_\+app\+\_\+subtbl.c File Reference}
+\label{csp__app__subtbl_8c}\index{/home/stephen/cfs/apps/csp\+\_\+app/fsw/tables/csp\+\_\+app\+\_\+subtbl.\+c@{/home/stephen/cfs/apps/csp\+\_\+app/fsw/tables/csp\+\_\+app\+\_\+subtbl.\+c}}
+
+
+C\+SP app subscription table.  
+
+
+{\ttfamily \#include \char`\"{}csp\+\_\+app\+\_\+tbldefs.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}cfe\+\_\+tbl\+\_\+filedef.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}csp\+\_\+app\+\_\+msgids.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}comms\+\_\+msgids.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}eps\+\_\+msgids.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}payload\+\_\+msgids.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}cfe\+\_\+msgids.\+h\char`\"{}}\newline
+Include dependency graph for csp\+\_\+app\+\_\+subtbl.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{csp__app__subtbl_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structCSP__App__SubTable__t}{C\+S\+P\+\_\+\+App\+\_\+\+Sub\+Table\+\_\+t} \hyperlink{csp__app__subtbl_8c_a9f241258f14df68e997aeceb619c1549}{C\+S\+P\+\_\+\+App\+\_\+\+Sub\+Tbl}
+\begin{DoxyCompactList}\small\item\em Definition of the C\+SP app subscription table. Assoicates message I\+Ds with a C\+SP packet priority. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+C\+SP app subscription table. 
+
+\begin{DoxyAuthor}{Author}
+Stephen Scott 
+\end{DoxyAuthor}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{csp__app__subtbl_8c_a9f241258f14df68e997aeceb619c1549}\label{csp__app__subtbl_8c_a9f241258f14df68e997aeceb619c1549}} 
+\index{csp\+\_\+app\+\_\+subtbl.\+c@{csp\+\_\+app\+\_\+subtbl.\+c}!C\+S\+P\+\_\+\+App\+\_\+\+Sub\+Tbl@{C\+S\+P\+\_\+\+App\+\_\+\+Sub\+Tbl}}
+\index{C\+S\+P\+\_\+\+App\+\_\+\+Sub\+Tbl@{C\+S\+P\+\_\+\+App\+\_\+\+Sub\+Tbl}!csp\+\_\+app\+\_\+subtbl.\+c@{csp\+\_\+app\+\_\+subtbl.\+c}}
+\subsubsection{\texorpdfstring{C\+S\+P\+\_\+\+App\+\_\+\+Sub\+Tbl}{CSP\_App\_SubTbl}}
+{\footnotesize\ttfamily \hyperlink{structCSP__App__SubTable__t}{C\+S\+P\+\_\+\+App\+\_\+\+Sub\+Table\+\_\+t} C\+S\+P\+\_\+\+App\+\_\+\+Sub\+Tbl}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= 
+\{
+    \{
+        
+        \{\hyperlink{csp__app__msgids_8h_a76ed7c89195cd0ff84957142ac83c918}{CSP\_APP\_HK\_TLM\_MID},          CSP\_PRIO\_NORM\},
+
+        
+        \{COMMS\_HK\_TLM\_MID,              CSP\_PRIO\_HIGH\},
+        \{EPS\_HK\_TLM\_MID,                CSP\_PRIO\_HIGH\},
+        \{PAYLOAD\_HK\_TLM\_MID,            CSP\_PRIO\_HIGH\},
+
+        
+        \{CFE\_ES\_HK\_TLM\_MID,             CSP\_PRIO\_NORM\},
+        \{CFE\_EVS\_HK\_TLM\_MID,            CSP\_PRIO\_NORM\},
+        \{CFE\_SB\_HK\_TLM\_MID,             CSP\_PRIO\_NORM\},
+        \{CFE\_TBL\_HK\_TLM\_MID,            CSP\_PRIO\_NORM\},
+        \{CFE\_TIME\_HK\_TLM\_MID,           CSP\_PRIO\_NORM\},
+        \{CFE\_TIME\_DIAG\_TLM\_MID,         CSP\_PRIO\_NORM\},
+        \{CFE\_SB\_STATS\_TLM\_MID,          CSP\_PRIO\_NORM\},
+        \{CFE\_TBL\_REG\_TLM\_MID,           CSP\_PRIO\_NORM\},
+        \{CFE\_EVS\_LONG\_EVENT\_MSG\_MID,    CSP\_PRIO\_NORM\},
+        \{CFE\_ES\_APP\_TLM\_MID,            CSP\_PRIO\_NORM\},
+        \{CFE\_ES\_MEMSTATS\_TLM\_MID,       CSP\_PRIO\_NORM\}
+    \}
+\}
+\end{DoxyCode}
+
+
+Definition of the C\+SP app subscription table. Assoicates message I\+Ds with a C\+SP packet priority. 
+

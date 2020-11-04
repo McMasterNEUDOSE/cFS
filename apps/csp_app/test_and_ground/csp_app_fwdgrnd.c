@@ -1,61 +1,32 @@
-/*******************************************************************************
-**
-** File: csp_app_fwdgrnd.c
-**
-** Purpose:
-**   Acts in place of COMMS subsystem to forward/receive CSP messages
-**   from the CSP loopback interface to/from the ground system.
-**
-** Author:
-**   Stephen Scott
-**
-*******************************************************************************/
+/**
+  * @file 	csp_app_fwdgrnd.c
+  * @brief 	Acts in place of COMMS subsystem to forward/receive CSP messages
+  *			from the CSP loopback interface to/from the ground system
+  * @author Stephen Scott
+  */
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-/*                                                                            */
-/* Includes                                                                   */
-/*                                                                            */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-
-/*
-** Implements
-*/
+/* Implements */
 #include "csp_app_fwdgrnd.h"
-
-/*
-** CSP app required
-*/
+/* CSP app required */
 #include <string.h>
 #include "csp_app.h"
 #include "csp_app_events.h"
-
-/*
-** LibCSP required
-*/
+/* LibCSP required */
 #include "csp/csp.h"
-
-/*
-** UDP required
-*/
+/* UDP required */
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netinet/udp.h>
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-/*                                                                            */
-/* CSP_fwdto_ground() --  Forwards packets from CSP loopback to UDP socket    */
-/*                                                                            */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
+/**
+  * @brief 	Forwards packets from CSP loopback to UDP socket
+  * @retval None
+  */
 void CSP_fwdto_ground(void)
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-    /*                                                                        */
-    /* Child task Initialization                                              */
-    /*                                                                        */
-    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-
 	int32 status;
 
+	/* Register task with executive services */
 	status = CFE_ES_RegisterChildTask();
 	if (status != CFE_SUCCESS)
     {
@@ -67,20 +38,10 @@ void CSP_fwdto_ground(void)
 
     CFE_ES_WriteToSysLog("CSP - fwdto-Ground Task: Registered\n");
 
-    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-    /*                                                                        */
-    /* CSP Initialization                                                     */
-    /*                                                                        */
-    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-
-    /*
-    ** Set connectionless socket option
-    */
+    /* Set connectionless socket option */
     uint32 opts = CSP_SO_CONN_LESS;
 
-    /*
-    ** Create a CSP socket
-    */
+    /* Create a CSP socket */
     csp_socket_t *csp_sockid = csp_socket(opts);
     if (csp_sockid == NULL)
     {
@@ -90,9 +51,7 @@ void CSP_fwdto_ground(void)
         CFE_ES_ExitChildTask();
     }
 
-    /*
-    ** Bind CSP socket to OBC TLM port
-    */
+    /* Bind CSP socket to OBC TLM port */
     uint8 OBC_TLM_PORT = 1;
     status = csp_bind(csp_sockid, OBC_TLM_PORT);
     if (status != CSP_ERR_NONE)
@@ -103,15 +62,7 @@ void CSP_fwdto_ground(void)
         CFE_ES_ExitChildTask();
     }
 
-    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-    /*                                                                        */
-    /* UDP Initialization                                                     */
-    /*                                                                        */
-    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-
-    /*
-    ** Create a UDP socket
-    */
+    /* Create a UDP socket */
     int32 udp_sockid = socket(AF_INET, SOCK_DGRAM, 0);
     if (udp_sockid == -1)
     {
@@ -121,9 +72,7 @@ void CSP_fwdto_ground(void)
         CFE_ES_ExitChildTask();
     }
 
-    /*
-    ** Initialize Ground address
-    */
+    /* Initialize Ground address */
     struct sockaddr_in grnd_addr;
     size_t addrlen = sizeof(struct sockaddr_in);
 	memset(&grnd_addr, 0, addrlen);
@@ -131,33 +80,16 @@ void CSP_fwdto_ground(void)
 	uint16 TLM_PORT = 1235;
 	grnd_addr.sin_port = htons(TLM_PORT);
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-    /*                                                                        */
-    /* Initialize loop variables                                              */
-    /*                                                                        */
-    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-
-    /*
-	** Create a CSP packet
-	*/
+    /* Create a CSP packet */
     csp_packet_t *packet;
 
-    /*
-    ** Set CSP timeout on recvfrom
-    */
+    /* Set CSP timeout on recvfrom */
     uint32 timeout = CSP_MAX_TIMEOUT;
 
-    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-    /*                                                                        */
-    /* Main loop                                                              */
-    /*                                                                        */
-    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-
+    /* Main process loop */
 	while(1)
 	{
-	    /*
-	    ** Receive a packet from CSP loopback with infinite timeout
-	    */
+	    /* Receive a packet from CSP loopback with infinite timeout */
 	    packet = csp_recvfrom(csp_sockid, timeout);
 	    if (packet == NULL)
 	    {
@@ -168,9 +100,7 @@ void CSP_fwdto_ground(void)
 	        
 	    }
 
-	    /*
-	    ** Forward the packet data to the UDP socket
-	    */
+	    /* Forward the packet data to the UDP socket */
 	    status = sendto(udp_sockid, (const CFE_SB_Msg_t *) packet->data, sizeof(CFE_SB_Msg_t),
 	    	            0, (const struct sockaddr *) &grnd_addr, addrlen);
 	    if (status == -1)
@@ -181,27 +111,19 @@ void CSP_fwdto_ground(void)
 	    }
 	}
 
-	/*
-	** Cleanup and exit
-	*/
+	/* Exit the task */
 	CFE_ES_ExitChildTask();
 }
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-/*                                                                            */
-/* CSP_fwdfrom_ground() --  Forwards packets from UDP socket to CSP loopback  */
-/*                                                                            */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
+/**
+  * @brief 	Forwards packets from UDP socket to CSP loopback
+  * @retval None
+  */
 void CSP_fwdfrom_ground(void)
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-    /*                                                                        */
-    /* Child task Initialization                                              */
-    /*                                                                        */
-    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-
 	int32 status;
 
+	/* Register task with executive services */
 	status = CFE_ES_RegisterChildTask();
 	if (status != CFE_SUCCESS)
     {
@@ -213,20 +135,10 @@ void CSP_fwdfrom_ground(void)
 
     CFE_ES_WriteToSysLog("CSP - fwdfrom-Ground Task: Registered\n");
 
-    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-    /*                                                                        */
-    /* CSP Initialization                                                     */
-    /*                                                                        */
-    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-
-    /*
-    ** Set connectionless socket option
-    */
+    /* Set connectionless socket option */
     uint32 opts = CSP_SO_CONN_LESS;
 
-    /*
-    ** Create a CSP socket
-    */
+    /* Create a CSP socket */
     csp_socket_t *csp_sockid = csp_socket(opts);
     if (csp_sockid == NULL)
     {
@@ -236,15 +148,7 @@ void CSP_fwdfrom_ground(void)
         CFE_ES_ExitChildTask();
     }
 
-    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-    /*                                                                        */
-    /* UDP Initialization                                                     */
-    /*                                                                        */
-    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-
-    /*
-    ** Create a UDP socket
-    */
+    /* Create a UDP socket */
     int32 udp_sockid = socket(AF_INET, SOCK_DGRAM, 0);
     if (udp_sockid == -1)
     {
@@ -254,9 +158,7 @@ void CSP_fwdfrom_ground(void)
         CFE_ES_ExitChildTask();
     }
 
-    /*
-    ** Initialize Ground and OBC address
-    */
+    /* Initialize Ground and OBC address */
     struct sockaddr_in grnd_addr, obc_addr;
     uint32 obc_addr_len = sizeof(struct sockaddr_in);
     uint32 grnd_addr_len = sizeof(struct sockaddr_in);
@@ -266,9 +168,7 @@ void CSP_fwdfrom_ground(void)
 	uint16 CMD_PORT = 1234;
 	obc_addr.sin_port = htons(CMD_PORT);
 
-	/*
-    ** Bind UDP socket to CMD port
-    */
+	/* Bind UDP socket to CMD port */
     status = bind(udp_sockid, (const struct sockaddr *) &obc_addr, obc_addr_len);
     if (status == -1)
     {
@@ -278,38 +178,19 @@ void CSP_fwdfrom_ground(void)
         CFE_ES_ExitChildTask();
     }
 
-    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-    /*                                                                        */
-    /* Initialize loop variables                                              */
-    /*                                                                        */
-    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-
-    /*
-    ** Buffer for recvfrom
-    */
+    /* Buffer for recvfrom */
 	CFE_SB_Msg_t *PktPtr = malloc(sizeof(CFE_SB_Msg_t));
 
-	/*
-	** Bytes received from recvfrom
-	*/
+	/* Bytes received from recvfrom */
 	uint32 bytes_recvd;
 
-	/*
-	** Create CSP packet
-	*/
+	/* Create CSP packet */
 	csp_packet_t *packet;
 
-    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-    /*                                                                        */
-    /* Main loop                                                              */
-    /*                                                                        */
-    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
-
+	/* Main process loop */
     while(1)
     {
-		/*
-    	** Receive a packet from the UDP socket
-    	*/
+		/* Receive a packet from the UDP socket */
     	bytes_recvd = recvfrom(udp_sockid, PktPtr, sizeof(CFE_SB_Msg_t),
     						   0, (struct sockaddr *) &grnd_addr, &grnd_addr_len);
     	if (bytes_recvd == -1)
@@ -320,9 +201,7 @@ void CSP_fwdfrom_ground(void)
 	        continue;
     	}
 
-    	/*
-    	** Get packet from CSP buffer
-    	*/
+    	/* Get packet from CSP buffer */
     	packet = csp_buffer_get(sizeof(CFE_SB_Msg_t));
     	if (packet == NULL)
     	{
@@ -332,23 +211,17 @@ void CSP_fwdfrom_ground(void)
 	        continue;
     	}
 
-    	/*
-    	** Assign data to CSP packet
-    	*/
+    	/* Assign data to CSP packet */
     	memcpy(packet->data, PktPtr, sizeof(CFE_SB_Msg_t));
 
-    	/*
-    	** Assign header to CSP packet
-    	*/
+    	/* Assign header to CSP packet */
 	    uint8 prio      = CSP_PRIO_NORM;
 	    uint8 dst       = CSP_OBC_NODE;
 	    uint8 dst_port  = 3;
 	    uint8 src_port  = 4;
 	    uint32 timeout  = CSP_MAX_TIMEOUT;
 
-	    /*
-	    ** Send the packet to the CSP loopback interface
-	    */
+	    /* Send the packet to the CSP loopback interface*/
 	    status = csp_sendto(prio, dst, dst_port, src_port, opts, packet, timeout);
 	    if (status != CSP_ERR_NONE)
 	    {
@@ -359,8 +232,6 @@ void CSP_fwdfrom_ground(void)
 	    }
     }
 
-    /*
-	** Cleanup and exit
-	*/
+    /* Exit the task*/
 	CFE_ES_ExitChildTask();
 }

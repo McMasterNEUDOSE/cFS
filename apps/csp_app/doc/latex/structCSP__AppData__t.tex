@@ -1,0 +1,139 @@
+\hypertarget{structCSP__AppData__t}{}\section{C\+S\+P\+\_\+\+App\+Data\+\_\+t Struct Reference}
+\label{structCSP__AppData__t}\index{C\+S\+P\+\_\+\+App\+Data\+\_\+t@{C\+S\+P\+\_\+\+App\+Data\+\_\+t}}
+
+
+Contains the global data for the C\+SP app.  
+
+
+
+
+{\ttfamily \#include $<$csp\+\_\+app.\+h$>$}
+
+
+
+Collaboration diagram for C\+S\+P\+\_\+\+App\+Data\+\_\+t\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=170pt]{structCSP__AppData__t__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint8 \hyperlink{structCSP__AppData__t_a8986c09296a75a5262d2f2c26977b02f}{Cmd\+Counter}
+\item 
+uint8 \hyperlink{structCSP__AppData__t_a45286022f8a689f1a394a88655b922a8}{Err\+Counter}
+\item 
+\hyperlink{unionCSP__HkBuffer__t}{C\+S\+P\+\_\+\+Hk\+Buffer\+\_\+t} \hyperlink{structCSP__AppData__t_aab121280945e376f25d7f97682155cac}{Hk\+Buf}
+\item 
+uint32 \hyperlink{structCSP__AppData__t_a845022a44aa2aa404760c0b01df1525d}{Run\+Status}
+\item 
+C\+F\+E\+\_\+\+S\+B\+\_\+\+Pipe\+Id\+\_\+t \hyperlink{structCSP__AppData__t_a9f410d09f39c64e00b3fe9a2008307b0}{Cmd\+Pipe}
+\item 
+C\+F\+E\+\_\+\+S\+B\+\_\+\+Msg\+Ptr\+\_\+t \hyperlink{structCSP__AppData__t_abecef0fcabdc74f40bd53d3578790035}{Cmd\+Ptr}
+\item 
+C\+F\+E\+\_\+\+S\+B\+\_\+\+Pipe\+Id\+\_\+t \hyperlink{structCSP__AppData__t_a4c13b791693039d3b068abbf8f223e9f}{Tlm\+Pipe}
+\item 
+C\+F\+E\+\_\+\+S\+B\+\_\+\+Msg\+Ptr\+\_\+t \hyperlink{structCSP__AppData__t_a313b719459ef034ee895674f0062697f}{Tlm\+Ptr}
+\item 
+char \hyperlink{structCSP__AppData__t_ac369b80b6af7827b80dfad97867a3a9e}{Cmd\+Pipe\+Name} \mbox{[}16\mbox{]}
+\item 
+uint16 \hyperlink{structCSP__AppData__t_a54d4f4e91cf45390ae52ede8b2fa521c}{Cmd\+Pipe\+Depth}
+\item 
+char \hyperlink{structCSP__AppData__t_a32b2129a2ffc12c7defdfef952592c66}{Tlm\+Pipe\+Name} \mbox{[}16\mbox{]}
+\item 
+uint16 \hyperlink{structCSP__AppData__t_a8260ef75246793bea80d58e1001cb225}{Tlm\+Pipe\+Depth}
+\item 
+C\+F\+E\+\_\+\+E\+V\+S\+\_\+\+Bin\+Filter\+\_\+t \hyperlink{structCSP__AppData__t_a268c8aab3acc1435ffe275127ad10602}{Event\+Filters} \mbox{[}\hyperlink{csp__app__events_8h_a944268ecbb1a1b497a4bdc0e638f5bf6}{C\+S\+P\+\_\+\+E\+V\+E\+N\+T\+\_\+\+C\+O\+U\+N\+TS}\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Contains the global data for the C\+SP app. 
+
+\subsection{Field Documentation}
+\mbox{\Hypertarget{structCSP__AppData__t_a8986c09296a75a5262d2f2c26977b02f}\label{structCSP__AppData__t_a8986c09296a75a5262d2f2c26977b02f}} 
+\index{C\+S\+P\+\_\+\+App\+Data\+\_\+t@{C\+S\+P\+\_\+\+App\+Data\+\_\+t}!Cmd\+Counter@{Cmd\+Counter}}
+\index{Cmd\+Counter@{Cmd\+Counter}!C\+S\+P\+\_\+\+App\+Data\+\_\+t@{C\+S\+P\+\_\+\+App\+Data\+\_\+t}}
+\subsubsection{\texorpdfstring{Cmd\+Counter}{CmdCounter}}
+{\footnotesize\ttfamily uint8 C\+S\+P\+\_\+\+App\+Data\+\_\+t\+::\+Cmd\+Counter}
+
+Command counter \mbox{\Hypertarget{structCSP__AppData__t_a9f410d09f39c64e00b3fe9a2008307b0}\label{structCSP__AppData__t_a9f410d09f39c64e00b3fe9a2008307b0}} 
+\index{C\+S\+P\+\_\+\+App\+Data\+\_\+t@{C\+S\+P\+\_\+\+App\+Data\+\_\+t}!Cmd\+Pipe@{Cmd\+Pipe}}
+\index{Cmd\+Pipe@{Cmd\+Pipe}!C\+S\+P\+\_\+\+App\+Data\+\_\+t@{C\+S\+P\+\_\+\+App\+Data\+\_\+t}}
+\subsubsection{\texorpdfstring{Cmd\+Pipe}{CmdPipe}}
+{\footnotesize\ttfamily C\+F\+E\+\_\+\+S\+B\+\_\+\+Pipe\+Id\+\_\+t C\+S\+P\+\_\+\+App\+Data\+\_\+t\+::\+Cmd\+Pipe}
+
+Command pipe ID \mbox{\Hypertarget{structCSP__AppData__t_a54d4f4e91cf45390ae52ede8b2fa521c}\label{structCSP__AppData__t_a54d4f4e91cf45390ae52ede8b2fa521c}} 
+\index{C\+S\+P\+\_\+\+App\+Data\+\_\+t@{C\+S\+P\+\_\+\+App\+Data\+\_\+t}!Cmd\+Pipe\+Depth@{Cmd\+Pipe\+Depth}}
+\index{Cmd\+Pipe\+Depth@{Cmd\+Pipe\+Depth}!C\+S\+P\+\_\+\+App\+Data\+\_\+t@{C\+S\+P\+\_\+\+App\+Data\+\_\+t}}
+\subsubsection{\texorpdfstring{Cmd\+Pipe\+Depth}{CmdPipeDepth}}
+{\footnotesize\ttfamily uint16 C\+S\+P\+\_\+\+App\+Data\+\_\+t\+::\+Cmd\+Pipe\+Depth}
+
+Command pipe depth \mbox{\Hypertarget{structCSP__AppData__t_ac369b80b6af7827b80dfad97867a3a9e}\label{structCSP__AppData__t_ac369b80b6af7827b80dfad97867a3a9e}} 
+\index{C\+S\+P\+\_\+\+App\+Data\+\_\+t@{C\+S\+P\+\_\+\+App\+Data\+\_\+t}!Cmd\+Pipe\+Name@{Cmd\+Pipe\+Name}}
+\index{Cmd\+Pipe\+Name@{Cmd\+Pipe\+Name}!C\+S\+P\+\_\+\+App\+Data\+\_\+t@{C\+S\+P\+\_\+\+App\+Data\+\_\+t}}
+\subsubsection{\texorpdfstring{Cmd\+Pipe\+Name}{CmdPipeName}}
+{\footnotesize\ttfamily char C\+S\+P\+\_\+\+App\+Data\+\_\+t\+::\+Cmd\+Pipe\+Name\mbox{[}16\mbox{]}}
+
+Command pipe name \mbox{\Hypertarget{structCSP__AppData__t_abecef0fcabdc74f40bd53d3578790035}\label{structCSP__AppData__t_abecef0fcabdc74f40bd53d3578790035}} 
+\index{C\+S\+P\+\_\+\+App\+Data\+\_\+t@{C\+S\+P\+\_\+\+App\+Data\+\_\+t}!Cmd\+Ptr@{Cmd\+Ptr}}
+\index{Cmd\+Ptr@{Cmd\+Ptr}!C\+S\+P\+\_\+\+App\+Data\+\_\+t@{C\+S\+P\+\_\+\+App\+Data\+\_\+t}}
+\subsubsection{\texorpdfstring{Cmd\+Ptr}{CmdPtr}}
+{\footnotesize\ttfamily C\+F\+E\+\_\+\+S\+B\+\_\+\+Msg\+Ptr\+\_\+t C\+S\+P\+\_\+\+App\+Data\+\_\+t\+::\+Cmd\+Ptr}
+
+Command message pointer \mbox{\Hypertarget{structCSP__AppData__t_a45286022f8a689f1a394a88655b922a8}\label{structCSP__AppData__t_a45286022f8a689f1a394a88655b922a8}} 
+\index{C\+S\+P\+\_\+\+App\+Data\+\_\+t@{C\+S\+P\+\_\+\+App\+Data\+\_\+t}!Err\+Counter@{Err\+Counter}}
+\index{Err\+Counter@{Err\+Counter}!C\+S\+P\+\_\+\+App\+Data\+\_\+t@{C\+S\+P\+\_\+\+App\+Data\+\_\+t}}
+\subsubsection{\texorpdfstring{Err\+Counter}{ErrCounter}}
+{\footnotesize\ttfamily uint8 C\+S\+P\+\_\+\+App\+Data\+\_\+t\+::\+Err\+Counter}
+
+Error counter \mbox{\Hypertarget{structCSP__AppData__t_a268c8aab3acc1435ffe275127ad10602}\label{structCSP__AppData__t_a268c8aab3acc1435ffe275127ad10602}} 
+\index{C\+S\+P\+\_\+\+App\+Data\+\_\+t@{C\+S\+P\+\_\+\+App\+Data\+\_\+t}!Event\+Filters@{Event\+Filters}}
+\index{Event\+Filters@{Event\+Filters}!C\+S\+P\+\_\+\+App\+Data\+\_\+t@{C\+S\+P\+\_\+\+App\+Data\+\_\+t}}
+\subsubsection{\texorpdfstring{Event\+Filters}{EventFilters}}
+{\footnotesize\ttfamily C\+F\+E\+\_\+\+E\+V\+S\+\_\+\+Bin\+Filter\+\_\+t C\+S\+P\+\_\+\+App\+Data\+\_\+t\+::\+Event\+Filters\mbox{[}\hyperlink{csp__app__events_8h_a944268ecbb1a1b497a4bdc0e638f5bf6}{C\+S\+P\+\_\+\+E\+V\+E\+N\+T\+\_\+\+C\+O\+U\+N\+TS}\mbox{]}}
+
+Application events \mbox{\Hypertarget{structCSP__AppData__t_aab121280945e376f25d7f97682155cac}\label{structCSP__AppData__t_aab121280945e376f25d7f97682155cac}} 
+\index{C\+S\+P\+\_\+\+App\+Data\+\_\+t@{C\+S\+P\+\_\+\+App\+Data\+\_\+t}!Hk\+Buf@{Hk\+Buf}}
+\index{Hk\+Buf@{Hk\+Buf}!C\+S\+P\+\_\+\+App\+Data\+\_\+t@{C\+S\+P\+\_\+\+App\+Data\+\_\+t}}
+\subsubsection{\texorpdfstring{Hk\+Buf}{HkBuf}}
+{\footnotesize\ttfamily \hyperlink{unionCSP__HkBuffer__t}{C\+S\+P\+\_\+\+Hk\+Buffer\+\_\+t} C\+S\+P\+\_\+\+App\+Data\+\_\+t\+::\+Hk\+Buf}
+
+Housekeeping telemetry buffer \mbox{\Hypertarget{structCSP__AppData__t_a845022a44aa2aa404760c0b01df1525d}\label{structCSP__AppData__t_a845022a44aa2aa404760c0b01df1525d}} 
+\index{C\+S\+P\+\_\+\+App\+Data\+\_\+t@{C\+S\+P\+\_\+\+App\+Data\+\_\+t}!Run\+Status@{Run\+Status}}
+\index{Run\+Status@{Run\+Status}!C\+S\+P\+\_\+\+App\+Data\+\_\+t@{C\+S\+P\+\_\+\+App\+Data\+\_\+t}}
+\subsubsection{\texorpdfstring{Run\+Status}{RunStatus}}
+{\footnotesize\ttfamily uint32 C\+S\+P\+\_\+\+App\+Data\+\_\+t\+::\+Run\+Status}
+
+Application run status \mbox{\Hypertarget{structCSP__AppData__t_a4c13b791693039d3b068abbf8f223e9f}\label{structCSP__AppData__t_a4c13b791693039d3b068abbf8f223e9f}} 
+\index{C\+S\+P\+\_\+\+App\+Data\+\_\+t@{C\+S\+P\+\_\+\+App\+Data\+\_\+t}!Tlm\+Pipe@{Tlm\+Pipe}}
+\index{Tlm\+Pipe@{Tlm\+Pipe}!C\+S\+P\+\_\+\+App\+Data\+\_\+t@{C\+S\+P\+\_\+\+App\+Data\+\_\+t}}
+\subsubsection{\texorpdfstring{Tlm\+Pipe}{TlmPipe}}
+{\footnotesize\ttfamily C\+F\+E\+\_\+\+S\+B\+\_\+\+Pipe\+Id\+\_\+t C\+S\+P\+\_\+\+App\+Data\+\_\+t\+::\+Tlm\+Pipe}
+
+Telemetry pipe ID \mbox{\Hypertarget{structCSP__AppData__t_a8260ef75246793bea80d58e1001cb225}\label{structCSP__AppData__t_a8260ef75246793bea80d58e1001cb225}} 
+\index{C\+S\+P\+\_\+\+App\+Data\+\_\+t@{C\+S\+P\+\_\+\+App\+Data\+\_\+t}!Tlm\+Pipe\+Depth@{Tlm\+Pipe\+Depth}}
+\index{Tlm\+Pipe\+Depth@{Tlm\+Pipe\+Depth}!C\+S\+P\+\_\+\+App\+Data\+\_\+t@{C\+S\+P\+\_\+\+App\+Data\+\_\+t}}
+\subsubsection{\texorpdfstring{Tlm\+Pipe\+Depth}{TlmPipeDepth}}
+{\footnotesize\ttfamily uint16 C\+S\+P\+\_\+\+App\+Data\+\_\+t\+::\+Tlm\+Pipe\+Depth}
+
+Telemetry pipe depth \mbox{\Hypertarget{structCSP__AppData__t_a32b2129a2ffc12c7defdfef952592c66}\label{structCSP__AppData__t_a32b2129a2ffc12c7defdfef952592c66}} 
+\index{C\+S\+P\+\_\+\+App\+Data\+\_\+t@{C\+S\+P\+\_\+\+App\+Data\+\_\+t}!Tlm\+Pipe\+Name@{Tlm\+Pipe\+Name}}
+\index{Tlm\+Pipe\+Name@{Tlm\+Pipe\+Name}!C\+S\+P\+\_\+\+App\+Data\+\_\+t@{C\+S\+P\+\_\+\+App\+Data\+\_\+t}}
+\subsubsection{\texorpdfstring{Tlm\+Pipe\+Name}{TlmPipeName}}
+{\footnotesize\ttfamily char C\+S\+P\+\_\+\+App\+Data\+\_\+t\+::\+Tlm\+Pipe\+Name\mbox{[}16\mbox{]}}
+
+Telemetry pipe name \mbox{\Hypertarget{structCSP__AppData__t_a313b719459ef034ee895674f0062697f}\label{structCSP__AppData__t_a313b719459ef034ee895674f0062697f}} 
+\index{C\+S\+P\+\_\+\+App\+Data\+\_\+t@{C\+S\+P\+\_\+\+App\+Data\+\_\+t}!Tlm\+Ptr@{Tlm\+Ptr}}
+\index{Tlm\+Ptr@{Tlm\+Ptr}!C\+S\+P\+\_\+\+App\+Data\+\_\+t@{C\+S\+P\+\_\+\+App\+Data\+\_\+t}}
+\subsubsection{\texorpdfstring{Tlm\+Ptr}{TlmPtr}}
+{\footnotesize\ttfamily C\+F\+E\+\_\+\+S\+B\+\_\+\+Msg\+Ptr\+\_\+t C\+S\+P\+\_\+\+App\+Data\+\_\+t\+::\+Tlm\+Ptr}
+
+Telemetry message pointer 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/stephen/cfs/apps/csp\+\_\+app/fsw/src/\hyperlink{csp__app_8h}{csp\+\_\+app.\+h}\end{DoxyCompactItemize}

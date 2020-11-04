@@ -1,14 +1,8 @@
-/************************************************************************
-**
-** File: csp_app_events.h
-**
-** Purpose:
-**  Define CSP App Events IDs
-**
-** Author:
-**  Stephen Scott
-**
-*************************************************************************/
+/**
+  * @file 	csp_app_events.h
+  * @brief 	Define CSP App Events IDs
+  * @author Stephen Scott
+  */
 #ifndef _csp_app_events_h_
 #define _csp_app_events_h_
 

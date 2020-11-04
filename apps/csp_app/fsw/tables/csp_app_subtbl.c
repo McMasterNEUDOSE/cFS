@@ -1,50 +1,25 @@
-/*******************************************************************************
-**
-** File: csp_app_subtbl.c
-**
-** Purpose:
-**   This file defines the CSP app subscription table.
-**
-** Author:
-**   Stephen Scott
-**
-*******************************************************************************/
+/**
+  * @file 	csp_app_subtbl.c
+  * @brief 	CSP app subscription table
+  * @author Stephen Scott
+  */
 
-/*
-** Table includes
-*/
+/* Table includes*/
 #include "csp_app_tbldefs.h"
 #include "cfe_tbl_filedef.h"
-
-/*******************************************************************************
-**
-** MSGID includes
-**
-*******************************************************************************/
-
-/*
-** CFS App Subscriptions
-*/
+/* CFS App Subscriptions */
 #include "csp_app_msgids.h"
-
-/*
-** Mission Specific App Subscriptions
-*/
+/* Mission Specific App Subscriptions */
 #include "comms_msgids.h"
 #include "eps_msgids.h"
 #include "payload_msgids.h"
-
-/*
-** cFE Core Subscriptions
-*/
+/* cFE Core Subscriptions */
 #include "cfe_msgids.h"
 
-/*******************************************************************************
-**
-** Creation of subscription table
-**
-*******************************************************************************/
-
+/**
+  * @brief 	Definition of the CSP app subscription table.
+  * 		Assoicates message IDs with a CSP packet priority
+  */
 CSP_App_SubTable_t CSP_App_SubTbl = 
 {
 	{
@@ -71,4 +46,5 @@ CSP_App_SubTable_t CSP_App_SubTbl =
 	}
 };
 
+/* Definition of table file that is built */
 CFE_TBL_FILEDEF(CSP_App_SubTbl, CSP_APP.CSP_App_SubTbl, CSP App Sub Tbl, csp_app_subtbl.tbl)

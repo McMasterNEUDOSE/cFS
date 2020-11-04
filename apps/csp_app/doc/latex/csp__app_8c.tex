@@ -1,0 +1,258 @@
+\hypertarget{csp__app_8c}{}\section{/home/stephen/cfs/apps/csp\+\_\+app/fsw/src/csp\+\_\+app.c File Reference}
+\label{csp__app_8c}\index{/home/stephen/cfs/apps/csp\+\_\+app/fsw/src/csp\+\_\+app.\+c@{/home/stephen/cfs/apps/csp\+\_\+app/fsw/src/csp\+\_\+app.\+c}}
+
+
+Main code for the C\+SP App.  
+
+
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}csp\+\_\+app.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}csp\+\_\+app\+\_\+version.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}csp\+\_\+app\+\_\+to\+\_\+task.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}csp\+\_\+app\+\_\+fwdgrnd.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}csp/csp.\+h\char`\"{}}\newline
+Include dependency graph for csp\+\_\+app.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{csp__app_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{csp__app_8c_a66f427d5dc6e173e2d58120694b814ec}{C\+S\+P\+\_\+\+App\+Main} (void)
+\begin{DoxyCompactList}\small\item\em Application entry point and main process loop. \end{DoxyCompactList}\item 
+void \hyperlink{csp__app_8c_a9527599ee44f8a5d853ec596392ad6ef}{C\+S\+P\+\_\+\+Router\+Task} (void)
+\begin{DoxyCompactList}\small\item\em Performs csp router work. \end{DoxyCompactList}\item 
+void \hyperlink{csp__app_8c_ac8a5f736dd35dff57994cf3ef8a26ba2}{C\+S\+P\+\_\+\+Server\+Task} (void)
+\begin{DoxyCompactList}\small\item\em Mock server node for communication testing. \end{DoxyCompactList}\item 
+void \hyperlink{csp__app_8c_a7d8888d854e829eb19e450ccc6954753}{C\+S\+P\+\_\+\+Client\+Task} (void)
+\begin{DoxyCompactList}\small\item\em Mock client node for communication testing. \end{DoxyCompactList}\item 
+int32 \hyperlink{csp__app_8c_a3c89b356640320c2c510df41391fd679}{C\+S\+P\+\_\+\+App\+Init} (void)
+\begin{DoxyCompactList}\small\item\em C\+SP app initialization. \end{DoxyCompactList}\item 
+void \hyperlink{csp__app_8c_a32f1cc7924c5f488ff0ca81323f7d544}{C\+S\+P\+\_\+\+Process\+Command\+Packet} (C\+F\+E\+\_\+\+S\+B\+\_\+\+Msg\+Ptr\+\_\+t Msg)
+\begin{DoxyCompactList}\small\item\em Process command packets received on the command pipe. \end{DoxyCompactList}\item 
+void \hyperlink{csp__app_8c_aee151d39ac25e8d4676f1cc2d46683a9}{C\+S\+P\+\_\+\+Process\+Ground\+Command} (C\+F\+E\+\_\+\+S\+B\+\_\+\+Msg\+Ptr\+\_\+t Msg)
+\begin{DoxyCompactList}\small\item\em Process a command from ground. \end{DoxyCompactList}\item 
+int32 \hyperlink{csp__app_8c_a32793e448ae2f644f0d6d7da0257d225}{C\+S\+P\+\_\+\+Report\+Housekeeping} (const C\+F\+E\+\_\+\+S\+B\+\_\+\+Cmd\+Hdr\+\_\+t $\ast$Msg)
+\begin{DoxyCompactList}\small\item\em Gather C\+SP app telemetry data and send it to housekeeping via SB. \end{DoxyCompactList}\item 
+int32 \hyperlink{csp__app_8c_a8d17eed397bb2ae61e11d9a9dd357e1a}{C\+S\+P\+\_\+\+Noop} (const \hyperlink{csp__app__msg_8h_a7022c7f894f22064a83474f67e1b9191}{C\+S\+P\+\_\+\+Noop\+\_\+t} $\ast$Msg)
+\begin{DoxyCompactList}\small\item\em Process C\+SP \char`\"{}\+No Operation\char`\"{} commands. \end{DoxyCompactList}\item 
+int32 \hyperlink{csp__app_8c_a413ba1cf427adf070998935ae71fb484}{C\+S\+P\+\_\+\+Reset\+Counters} (const \hyperlink{csp__app__msg_8h_a4db110096688e35a449572492057d0e0}{C\+S\+P\+\_\+\+Reset\+Counters\+\_\+t} $\ast$Msg)
+\begin{DoxyCompactList}\small\item\em Resets all global counter variables. \end{DoxyCompactList}\item 
+bool \hyperlink{csp__app_8c_ac0cdec0f02795d084b035d1b47dde5bd}{C\+S\+P\+\_\+\+Verify\+Cmd\+Length} (C\+F\+E\+\_\+\+S\+B\+\_\+\+Msg\+Ptr\+\_\+t Msg, uint16 Expected\+Length)
+\begin{DoxyCompactList}\small\item\em Verifiy command packet length. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Main code for the C\+SP App. 
+
+\begin{DoxyAuthor}{Author}
+Stephen Scott 
+\end{DoxyAuthor}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{csp__app_8c_a3c89b356640320c2c510df41391fd679}\label{csp__app_8c_a3c89b356640320c2c510df41391fd679}} 
+\index{csp\+\_\+app.\+c@{csp\+\_\+app.\+c}!C\+S\+P\+\_\+\+App\+Init@{C\+S\+P\+\_\+\+App\+Init}}
+\index{C\+S\+P\+\_\+\+App\+Init@{C\+S\+P\+\_\+\+App\+Init}!csp\+\_\+app.\+c@{csp\+\_\+app.\+c}}
+\subsubsection{\texorpdfstring{C\+S\+P\+\_\+\+App\+Init()}{CSP\_AppInit()}}
+{\footnotesize\ttfamily int32 C\+S\+P\+\_\+\+App\+Init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+C\+SP app initialization. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em C\+F\+E\+\_\+\+S\+U\+C\+C\+E\+SS} & App initialization succeeded \\
+\hline
+{\em status} & App initialization failed \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{csp__app_8c_a66f427d5dc6e173e2d58120694b814ec}\label{csp__app_8c_a66f427d5dc6e173e2d58120694b814ec}} 
+\index{csp\+\_\+app.\+c@{csp\+\_\+app.\+c}!C\+S\+P\+\_\+\+App\+Main@{C\+S\+P\+\_\+\+App\+Main}}
+\index{C\+S\+P\+\_\+\+App\+Main@{C\+S\+P\+\_\+\+App\+Main}!csp\+\_\+app.\+c@{csp\+\_\+app.\+c}}
+\subsubsection{\texorpdfstring{C\+S\+P\+\_\+\+App\+Main()}{CSP\_AppMain()}}
+{\footnotesize\ttfamily void C\+S\+P\+\_\+\+App\+Main (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Application entry point and main process loop. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{csp__app_8c_a7d8888d854e829eb19e450ccc6954753}\label{csp__app_8c_a7d8888d854e829eb19e450ccc6954753}} 
+\index{csp\+\_\+app.\+c@{csp\+\_\+app.\+c}!C\+S\+P\+\_\+\+Client\+Task@{C\+S\+P\+\_\+\+Client\+Task}}
+\index{C\+S\+P\+\_\+\+Client\+Task@{C\+S\+P\+\_\+\+Client\+Task}!csp\+\_\+app.\+c@{csp\+\_\+app.\+c}}
+\subsubsection{\texorpdfstring{C\+S\+P\+\_\+\+Client\+Task()}{CSP\_ClientTask()}}
+{\footnotesize\ttfamily void C\+S\+P\+\_\+\+Client\+Task (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Mock client node for communication testing. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{csp__app_8c_a8d17eed397bb2ae61e11d9a9dd357e1a}\label{csp__app_8c_a8d17eed397bb2ae61e11d9a9dd357e1a}} 
+\index{csp\+\_\+app.\+c@{csp\+\_\+app.\+c}!C\+S\+P\+\_\+\+Noop@{C\+S\+P\+\_\+\+Noop}}
+\index{C\+S\+P\+\_\+\+Noop@{C\+S\+P\+\_\+\+Noop}!csp\+\_\+app.\+c@{csp\+\_\+app.\+c}}
+\subsubsection{\texorpdfstring{C\+S\+P\+\_\+\+Noop()}{CSP\_Noop()}}
+{\footnotesize\ttfamily int32 C\+S\+P\+\_\+\+Noop (\begin{DoxyParamCaption}\item[{const \hyperlink{csp__app__msg_8h_a7022c7f894f22064a83474f67e1b9191}{C\+S\+P\+\_\+\+Noop\+\_\+t} $\ast$}]{Msg }\end{DoxyParamCaption})}
+
+
+
+Process C\+SP \char`\"{}\+No Operation\char`\"{} commands. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em Msg} & A N\+O\+OP command from the command pipe \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em C\+F\+E\+\_\+\+S\+U\+C\+C\+E\+SS} & Successfully processed N\+O\+OP \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{csp__app_8c_a32f1cc7924c5f488ff0ca81323f7d544}\label{csp__app_8c_a32f1cc7924c5f488ff0ca81323f7d544}} 
+\index{csp\+\_\+app.\+c@{csp\+\_\+app.\+c}!C\+S\+P\+\_\+\+Process\+Command\+Packet@{C\+S\+P\+\_\+\+Process\+Command\+Packet}}
+\index{C\+S\+P\+\_\+\+Process\+Command\+Packet@{C\+S\+P\+\_\+\+Process\+Command\+Packet}!csp\+\_\+app.\+c@{csp\+\_\+app.\+c}}
+\subsubsection{\texorpdfstring{C\+S\+P\+\_\+\+Process\+Command\+Packet()}{CSP\_ProcessCommandPacket()}}
+{\footnotesize\ttfamily void C\+S\+P\+\_\+\+Process\+Command\+Packet (\begin{DoxyParamCaption}\item[{C\+F\+E\+\_\+\+S\+B\+\_\+\+Msg\+Ptr\+\_\+t}]{Msg }\end{DoxyParamCaption})}
+
+
+
+Process command packets received on the command pipe. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em Msg} & A command message from the SB command pipe \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{csp__app_8c_aee151d39ac25e8d4676f1cc2d46683a9}\label{csp__app_8c_aee151d39ac25e8d4676f1cc2d46683a9}} 
+\index{csp\+\_\+app.\+c@{csp\+\_\+app.\+c}!C\+S\+P\+\_\+\+Process\+Ground\+Command@{C\+S\+P\+\_\+\+Process\+Ground\+Command}}
+\index{C\+S\+P\+\_\+\+Process\+Ground\+Command@{C\+S\+P\+\_\+\+Process\+Ground\+Command}!csp\+\_\+app.\+c@{csp\+\_\+app.\+c}}
+\subsubsection{\texorpdfstring{C\+S\+P\+\_\+\+Process\+Ground\+Command()}{CSP\_ProcessGroundCommand()}}
+{\footnotesize\ttfamily void C\+S\+P\+\_\+\+Process\+Ground\+Command (\begin{DoxyParamCaption}\item[{C\+F\+E\+\_\+\+S\+B\+\_\+\+Msg\+Ptr\+\_\+t}]{Msg }\end{DoxyParamCaption})}
+
+
+
+Process a command from ground. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em Msg} & A command message from ground \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{csp__app_8c_a32793e448ae2f644f0d6d7da0257d225}\label{csp__app_8c_a32793e448ae2f644f0d6d7da0257d225}} 
+\index{csp\+\_\+app.\+c@{csp\+\_\+app.\+c}!C\+S\+P\+\_\+\+Report\+Housekeeping@{C\+S\+P\+\_\+\+Report\+Housekeeping}}
+\index{C\+S\+P\+\_\+\+Report\+Housekeeping@{C\+S\+P\+\_\+\+Report\+Housekeeping}!csp\+\_\+app.\+c@{csp\+\_\+app.\+c}}
+\subsubsection{\texorpdfstring{C\+S\+P\+\_\+\+Report\+Housekeeping()}{CSP\_ReportHousekeeping()}}
+{\footnotesize\ttfamily int32 C\+S\+P\+\_\+\+Report\+Housekeeping (\begin{DoxyParamCaption}\item[{const C\+F\+E\+\_\+\+S\+B\+\_\+\+Cmd\+Hdr\+\_\+t $\ast$}]{Msg }\end{DoxyParamCaption})}
+
+
+
+Gather C\+SP app telemetry data and send it to housekeeping via SB. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em Msg} & A command message from the command pipe \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em C\+F\+E\+\_\+\+S\+U\+C\+C\+E\+SS} & Housekeeping successfully reported \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{csp__app_8c_a413ba1cf427adf070998935ae71fb484}\label{csp__app_8c_a413ba1cf427adf070998935ae71fb484}} 
+\index{csp\+\_\+app.\+c@{csp\+\_\+app.\+c}!C\+S\+P\+\_\+\+Reset\+Counters@{C\+S\+P\+\_\+\+Reset\+Counters}}
+\index{C\+S\+P\+\_\+\+Reset\+Counters@{C\+S\+P\+\_\+\+Reset\+Counters}!csp\+\_\+app.\+c@{csp\+\_\+app.\+c}}
+\subsubsection{\texorpdfstring{C\+S\+P\+\_\+\+Reset\+Counters()}{CSP\_ResetCounters()}}
+{\footnotesize\ttfamily int32 C\+S\+P\+\_\+\+Reset\+Counters (\begin{DoxyParamCaption}\item[{const \hyperlink{csp__app__msg_8h_a4db110096688e35a449572492057d0e0}{C\+S\+P\+\_\+\+Reset\+Counters\+\_\+t} $\ast$}]{Msg }\end{DoxyParamCaption})}
+
+
+
+Resets all global counter variables. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em Msg} & Reset counters command from the command pipe \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em C\+F\+E\+\_\+\+S\+U\+C\+C\+E\+SS} & Successfully processed reset counters command \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{csp__app_8c_a9527599ee44f8a5d853ec596392ad6ef}\label{csp__app_8c_a9527599ee44f8a5d853ec596392ad6ef}} 
+\index{csp\+\_\+app.\+c@{csp\+\_\+app.\+c}!C\+S\+P\+\_\+\+Router\+Task@{C\+S\+P\+\_\+\+Router\+Task}}
+\index{C\+S\+P\+\_\+\+Router\+Task@{C\+S\+P\+\_\+\+Router\+Task}!csp\+\_\+app.\+c@{csp\+\_\+app.\+c}}
+\subsubsection{\texorpdfstring{C\+S\+P\+\_\+\+Router\+Task()}{CSP\_RouterTask()}}
+{\footnotesize\ttfamily void C\+S\+P\+\_\+\+Router\+Task (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Performs csp router work. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{csp__app_8c_ac8a5f736dd35dff57994cf3ef8a26ba2}\label{csp__app_8c_ac8a5f736dd35dff57994cf3ef8a26ba2}} 
+\index{csp\+\_\+app.\+c@{csp\+\_\+app.\+c}!C\+S\+P\+\_\+\+Server\+Task@{C\+S\+P\+\_\+\+Server\+Task}}
+\index{C\+S\+P\+\_\+\+Server\+Task@{C\+S\+P\+\_\+\+Server\+Task}!csp\+\_\+app.\+c@{csp\+\_\+app.\+c}}
+\subsubsection{\texorpdfstring{C\+S\+P\+\_\+\+Server\+Task()}{CSP\_ServerTask()}}
+{\footnotesize\ttfamily void C\+S\+P\+\_\+\+Server\+Task (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Mock server node for communication testing. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{csp__app_8c_ac0cdec0f02795d084b035d1b47dde5bd}\label{csp__app_8c_ac0cdec0f02795d084b035d1b47dde5bd}} 
+\index{csp\+\_\+app.\+c@{csp\+\_\+app.\+c}!C\+S\+P\+\_\+\+Verify\+Cmd\+Length@{C\+S\+P\+\_\+\+Verify\+Cmd\+Length}}
+\index{C\+S\+P\+\_\+\+Verify\+Cmd\+Length@{C\+S\+P\+\_\+\+Verify\+Cmd\+Length}!csp\+\_\+app.\+c@{csp\+\_\+app.\+c}}
+\subsubsection{\texorpdfstring{C\+S\+P\+\_\+\+Verify\+Cmd\+Length()}{CSP\_VerifyCmdLength()}}
+{\footnotesize\ttfamily bool C\+S\+P\+\_\+\+Verify\+Cmd\+Length (\begin{DoxyParamCaption}\item[{C\+F\+E\+\_\+\+S\+B\+\_\+\+Msg\+Ptr\+\_\+t}]{Msg,  }\item[{uint16}]{Expected\+Length }\end{DoxyParamCaption})}
+
+
+
+Verifiy command packet length. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em Msg} & A software bus message pointer \\
+\hline
+\mbox{\tt in}  & {\em Expected\+Length} & The expected length of the message \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em true} & The command length is the expected length \\
+\hline
+{\em false} & The command length is N\+OT the expected length \\
+\hline
+\end{DoxyRetVals}

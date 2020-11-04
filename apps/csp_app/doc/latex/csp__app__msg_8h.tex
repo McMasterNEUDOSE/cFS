@@ -1,0 +1,76 @@
+\hypertarget{csp__app__msg_8h}{}\section{/home/stephen/cfs/apps/csp\+\_\+app/fsw/src/csp\+\_\+app\+\_\+msg.h File Reference}
+\label{csp__app__msg_8h}\index{/home/stephen/cfs/apps/csp\+\_\+app/fsw/src/csp\+\_\+app\+\_\+msg.\+h@{/home/stephen/cfs/apps/csp\+\_\+app/fsw/src/csp\+\_\+app\+\_\+msg.\+h}}
+
+
+Define C\+SP App Messages and info.  
+
+
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{csp__app__msg_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structCSP__NoArgsCmd__t}{C\+S\+P\+\_\+\+No\+Args\+Cmd\+\_\+t}
+\begin{DoxyCompactList}\small\item\em Command type with no arguments. \end{DoxyCompactList}\item 
+struct \hyperlink{structCSP__HkTlm__Payload__t}{C\+S\+P\+\_\+\+Hk\+Tlm\+\_\+\+Payload\+\_\+t}
+\begin{DoxyCompactList}\small\item\em C\+SP app housekeeping telemetry payload. \end{DoxyCompactList}\item 
+struct \hyperlink{structOS__PACK}{O\+S\+\_\+\+P\+A\+CK}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{csp__app__msg_8h_ae8ab30ab0817ed0610d72cbf8973f67a}{C\+S\+P\+\_\+\+A\+P\+P\+\_\+\+N\+O\+O\+P\+\_\+\+CC}~0
+\item 
+\#define \hyperlink{csp__app__msg_8h_a37bd671ca43d4da72e5de8cfe22ef9e8}{C\+S\+P\+\_\+\+A\+P\+P\+\_\+\+R\+E\+S\+E\+T\+\_\+\+C\+O\+U\+N\+T\+E\+R\+S\+\_\+\+CC}~1
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{structCSP__NoArgsCmd__t}{C\+S\+P\+\_\+\+No\+Args\+Cmd\+\_\+t} \hyperlink{csp__app__msg_8h_a7022c7f894f22064a83474f67e1b9191}{C\+S\+P\+\_\+\+Noop\+\_\+t}
+\item 
+typedef \hyperlink{structCSP__NoArgsCmd__t}{C\+S\+P\+\_\+\+No\+Args\+Cmd\+\_\+t} \hyperlink{csp__app__msg_8h_a4db110096688e35a449572492057d0e0}{C\+S\+P\+\_\+\+Reset\+Counters\+\_\+t}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Define C\+SP App Messages and info. 
+
+\begin{DoxyAuthor}{Author}
+Stephen Scott 
+\end{DoxyAuthor}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{csp__app__msg_8h_ae8ab30ab0817ed0610d72cbf8973f67a}\label{csp__app__msg_8h_ae8ab30ab0817ed0610d72cbf8973f67a}} 
+\index{csp\+\_\+app\+\_\+msg.\+h@{csp\+\_\+app\+\_\+msg.\+h}!C\+S\+P\+\_\+\+A\+P\+P\+\_\+\+N\+O\+O\+P\+\_\+\+CC@{C\+S\+P\+\_\+\+A\+P\+P\+\_\+\+N\+O\+O\+P\+\_\+\+CC}}
+\index{C\+S\+P\+\_\+\+A\+P\+P\+\_\+\+N\+O\+O\+P\+\_\+\+CC@{C\+S\+P\+\_\+\+A\+P\+P\+\_\+\+N\+O\+O\+P\+\_\+\+CC}!csp\+\_\+app\+\_\+msg.\+h@{csp\+\_\+app\+\_\+msg.\+h}}
+\subsubsection{\texorpdfstring{C\+S\+P\+\_\+\+A\+P\+P\+\_\+\+N\+O\+O\+P\+\_\+\+CC}{CSP\_APP\_NOOP\_CC}}
+{\footnotesize\ttfamily \#define C\+S\+P\+\_\+\+A\+P\+P\+\_\+\+N\+O\+O\+P\+\_\+\+CC~0}
+
+\mbox{\Hypertarget{csp__app__msg_8h_a37bd671ca43d4da72e5de8cfe22ef9e8}\label{csp__app__msg_8h_a37bd671ca43d4da72e5de8cfe22ef9e8}} 
+\index{csp\+\_\+app\+\_\+msg.\+h@{csp\+\_\+app\+\_\+msg.\+h}!C\+S\+P\+\_\+\+A\+P\+P\+\_\+\+R\+E\+S\+E\+T\+\_\+\+C\+O\+U\+N\+T\+E\+R\+S\+\_\+\+CC@{C\+S\+P\+\_\+\+A\+P\+P\+\_\+\+R\+E\+S\+E\+T\+\_\+\+C\+O\+U\+N\+T\+E\+R\+S\+\_\+\+CC}}
+\index{C\+S\+P\+\_\+\+A\+P\+P\+\_\+\+R\+E\+S\+E\+T\+\_\+\+C\+O\+U\+N\+T\+E\+R\+S\+\_\+\+CC@{C\+S\+P\+\_\+\+A\+P\+P\+\_\+\+R\+E\+S\+E\+T\+\_\+\+C\+O\+U\+N\+T\+E\+R\+S\+\_\+\+CC}!csp\+\_\+app\+\_\+msg.\+h@{csp\+\_\+app\+\_\+msg.\+h}}
+\subsubsection{\texorpdfstring{C\+S\+P\+\_\+\+A\+P\+P\+\_\+\+R\+E\+S\+E\+T\+\_\+\+C\+O\+U\+N\+T\+E\+R\+S\+\_\+\+CC}{CSP\_APP\_RESET\_COUNTERS\_CC}}
+{\footnotesize\ttfamily \#define C\+S\+P\+\_\+\+A\+P\+P\+\_\+\+R\+E\+S\+E\+T\+\_\+\+C\+O\+U\+N\+T\+E\+R\+S\+\_\+\+CC~1}
+
+
+
+\subsection{Typedef Documentation}
+\mbox{\Hypertarget{csp__app__msg_8h_a7022c7f894f22064a83474f67e1b9191}\label{csp__app__msg_8h_a7022c7f894f22064a83474f67e1b9191}} 
+\index{csp\+\_\+app\+\_\+msg.\+h@{csp\+\_\+app\+\_\+msg.\+h}!C\+S\+P\+\_\+\+Noop\+\_\+t@{C\+S\+P\+\_\+\+Noop\+\_\+t}}
+\index{C\+S\+P\+\_\+\+Noop\+\_\+t@{C\+S\+P\+\_\+\+Noop\+\_\+t}!csp\+\_\+app\+\_\+msg.\+h@{csp\+\_\+app\+\_\+msg.\+h}}
+\subsubsection{\texorpdfstring{C\+S\+P\+\_\+\+Noop\+\_\+t}{CSP\_Noop\_t}}
+{\footnotesize\ttfamily typedef \hyperlink{structCSP__NoArgsCmd__t}{C\+S\+P\+\_\+\+No\+Args\+Cmd\+\_\+t} \hyperlink{csp__app__msg_8h_a7022c7f894f22064a83474f67e1b9191}{C\+S\+P\+\_\+\+Noop\+\_\+t}}
+
+\mbox{\Hypertarget{csp__app__msg_8h_a4db110096688e35a449572492057d0e0}\label{csp__app__msg_8h_a4db110096688e35a449572492057d0e0}} 
+\index{csp\+\_\+app\+\_\+msg.\+h@{csp\+\_\+app\+\_\+msg.\+h}!C\+S\+P\+\_\+\+Reset\+Counters\+\_\+t@{C\+S\+P\+\_\+\+Reset\+Counters\+\_\+t}}
+\index{C\+S\+P\+\_\+\+Reset\+Counters\+\_\+t@{C\+S\+P\+\_\+\+Reset\+Counters\+\_\+t}!csp\+\_\+app\+\_\+msg.\+h@{csp\+\_\+app\+\_\+msg.\+h}}
+\subsubsection{\texorpdfstring{C\+S\+P\+\_\+\+Reset\+Counters\+\_\+t}{CSP\_ResetCounters\_t}}
+{\footnotesize\ttfamily typedef \hyperlink{structCSP__NoArgsCmd__t}{C\+S\+P\+\_\+\+No\+Args\+Cmd\+\_\+t} \hyperlink{csp__app__msg_8h_a4db110096688e35a449572492057d0e0}{C\+S\+P\+\_\+\+Reset\+Counters\+\_\+t}}
+

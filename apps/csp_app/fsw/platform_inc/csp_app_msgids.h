@@ -1,14 +1,8 @@
-/************************************************************************
-**
-** File: csp_app_msgids.h
-**
-** Purpose: 
-**  Define CSP App Message IDs
-**
-** Author:
-**  Stephen Scott
-**
-*************************************************************************/
+/**
+  * @file 	csp_app_msgids.h
+  * @brief 	Define CSP App Message IDs
+  * @author Stephen Scott
+  */
 #ifndef _csp_app_msgids_h_
 #define _csp_app_msgids_h_
 
