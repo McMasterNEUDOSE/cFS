@@ -27,6 +27,7 @@
 #include "csp_app_msgids.h"
 #include "csp_app_msg.h"
 #include "csp_app_events.h"
+#include "csp_app_tbldefs.h"
 
 /************************************************************************
 ** Depth of the Command Pipe for Application
@@ -103,6 +104,13 @@ typedef struct
 } CSP_AppData_t;
 
 /****************************************************************************/
+
+/*
+** Global data
+*/
+CSP_AppData_t       CSP_AppData;
+CSP_App_SubTable_t  *CSP_App_SubTbl;
+CFE_TBL_Handle_t    CSP_App_SubTblHandle;
 
 /*
 ** Local function prototypes.
