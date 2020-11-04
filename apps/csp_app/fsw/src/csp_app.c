@@ -16,17 +16,10 @@
 #include <string.h>
 
 #include "csp_app.h"
-#include "csp_app_events.h"
 #include "csp_app_version.h"
-#include "csp_app_tbldefs.h"
+#include "csp_app_to_task.h"
+#include "csp_app_fwdgrnd.h"
 #include "csp/csp.h"
-
-/*
-** global data
-*/
-CSP_AppData_t 		CSP_AppData;
-CSP_App_SubTable_t 	*CSP_App_SubTbl;
-CFE_TBL_Handle_t 	CSP_App_SubTblHandle;
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  * *  * * * * **/
 /*                                                                            */
@@ -514,7 +507,7 @@ int32 CSP_AppInit( void )
     /* 
     ** Start CSP server task
     */
-    uint32 csp_servertask_id_ptr;
+    /*uint32 csp_servertask_id_ptr;
 
     status = CFE_ES_CreateChildTask(&csp_servertask_id_ptr, "CSP server", CSP_ServerTask, NULL, 500, 64, 0);
     if (status != CFE_SUCCESS)
@@ -522,17 +515,43 @@ int32 CSP_AppInit( void )
         CFE_ES_WriteToSysLog("CSP: Error starting CSP server task,  RC = 0x%08lX\n",
                              (unsigned long)status);
         return ( status );
-    }
+    }*/
 
     /* 
     ** Start CSP client task
     */
-    uint32 csp_clienttask_id_ptr;
+    /*uint32 csp_clienttask_id_ptr;
 
     status = CFE_ES_CreateChildTask(&csp_clienttask_id_ptr, "CSP client", CSP_ClientTask, NULL, 500, 64, 0);
     if (status != CFE_SUCCESS)
     {
         CFE_ES_WriteToSysLog("CSP: Error starting CSP client task,  RC = 0x%08lX\n",
+                             (unsigned long)status);
+        return ( status );
+    }*/
+
+    /*
+    ** Start TO task
+    */
+    uint32 csp_to_id_ptr;
+
+    status = CFE_ES_CreateChildTask(&csp_to_id_ptr, "TO Task", CSP_TO_Task, NULL, 500, 64, 0);
+    if (status != CFE_SUCCESS)
+    {
+        CFE_ES_WriteToSysLog("CSP: Error starting TO Task,  RC = 0x%08lX\n",
+                             (unsigned long)status);
+        return ( status );
+    }
+
+    /*
+    ** Start CSP_fwdto_ground task
+    */
+    uint32 csp_fwdtogrnd_id_ptr;
+
+    status = CFE_ES_CreateChildTask(&csp_fwdtogrnd_id_ptr, "fwdto-Ground", CSP_fwdto_ground, NULL, 500, 64, 0);
+    if (status != CFE_SUCCESS)
+    {
+        CFE_ES_WriteToSysLog("CSP: Error starting fwdto-Ground task,  RC = 0x%08lX\n",
                              (unsigned long)status);
         return ( status );
     }
