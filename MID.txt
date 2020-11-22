@@ -1,135 +1,167 @@
-/************************************************************
-* Telemetry Message Ids
-************************************************************/
-/***Reg TO***/
-#define TO_HK_TLM_MID                 0x0870 //Previously 0x0880
-#define TO_OUT_DATA_MID               0x0871 //Previously 0x0881
-#define TO_DATA_TYPE_MID              0x0872 //Previously 0x0882
-
-/***TO_LAB***/
-#define TO_LAB_HK_TLM_MID             0x0880
-#define TO_LAB_DATA_TYPES_MID         0x0881
-
-/***SAMPLE_APP***/
-#define SAMPLE_APP_HK_TLM_MID	        0x0883
-
-/***CI_LAB***/
-#define CI_LAB_HK_TLM_MID             0x0884
-
-/**
-**Space reserved for MIDs of apps we might want to include later
-**w/ MIDS b/w current MIDS listeed
-**potential apps include mm, file storage
-***/
-
-/***SCH***/
-#define SCH_HK_TLM_MID                0x0897 /**< \brief SCH Housekeeping Telemetry Message ID */
-#define SCH_DIAG_TLM_MID              0x0898 /**< \brief SCH Diagnostic Telemetry Message ID */
-#define SCH_TLM_SPARE1                0x0899
-#define SCH_TLM_SPARE2                0x089A
-
-/***HK***/
-#define HK_HK_TLM_MID                 0x089B /**< \brief HK Housekeeping Telemetry Message ID */
-#define HK_COMBINED_PKT1_MID          0x089C /**< \brief HK Combined Packet 1 Message ID */
-#define HK_COMBINED_PKT2_MID          0x089D /**< \brief HK Combined Packet 2 Message ID */
-#define HK_COMBINED_PKT3_MID          0x089E /**< \brief HK Combined Packet 3 Message ID */
-#define HK_COMBINED_PKT4_MID          0x089F /**< \brief HK Combined Packet 4 Message ID */
-
-
-/**************************************
-**Space reserved for MIDs of apps we might want
-**to include later w/ MIDS b/w like
-**08aa used by stored command app sc
-**08a4 used by cs
-**08A7 to 08A9 used by limit checker
-**08AD used by health and safety
-**08B0, 08B7 used by cf
-**08BB used by sca
-****************************************//
-
-/***DS***/
-#define DS_HK_TLM_MID      0x08B8 /**< \brief DS Hk Telemetry Message ID ****/
-#define DS_DIAG_TLM_MID    0x08B9 /**< \brief DS File Info Telemetry Message ID ****/
-
-/***EPS***/
-#define EPS_HK_TLM_MID		0x0900 /**< \brief EPS Hk Telemetry Message ID **/
-
-/***COMMS***/
-#define COMMS_HK_TLM_MID		0x0910 /**< \brief COMMS hk Telemetry Message ID **/
-
-/***PAYLOAD***/
-#define PAYLOAD_HK_TLM_MID		0x0920 /**< \brief EPS Hk Telemetry Message ID **/
-
-
-/************************************************************
-* Command Message Ids
-************************************************************/
-/***Reg TO***/
-#define TO_APP_CMD_MID                0x1870 //Previously 0x1880
-#define TO_SEND_HK_MID                0x1871 //Previously 0x1881
-#define TO_WAKEUP_MID                 0x1872 //Previously 0x1882
-
-
-/***TO_LAB***/
-#define TO_LAB_CMD_MID                0x1880
-#define TO_LAB_SEND_HK_MID            0x1881
-
-/***SAMPLE_APP***/
-#define SAMPLE_APP_CMD_MID            0x1882
-#define SAMPLE_APP_SEND_HK_MID        0x1883
-
-/***CI_LAB***/
-#deifne CI_LAB_CMD_MID                0x1884
-#define CI_LAB_SEND_HK_MID            0x1885
-
-/**
-**Space reserved for MIDs of apps we might want to include later
-**w/ MIDS b/w current MIDS listeed
-**potential apps include mm, file storage
-***/
-
-/***SCH***/
-#define SCH_CMD_MID                   0x1895 /**< \brief SCH Ground Commands Message ID */
-#define SCH_SEND_HK_MID               0x1896 /**< \brief SCH Send Housekeeping Message ID */
-#define SCH_UNUSED_MID                0x1897 /**< \brief SCH MDT Unused Message Message ID */
-#define SCH_SPARE1                    0x1898
-#define SCH_SPARE2                    0x1899
-
-/***HK***/
-#define HK_CMD_MID                    0x189A /**< \brief HK Ground Commands Message ID */
-#define HK_SEND_HK_MID                0x189B /**< \brief HK Send Housekeeping Data Cmd Message ID */
-#define HK_SEND_COMBINED_PKT_MID      0x189C /**< \brief HK Send Combined Pkt Cmd Message ID */
-
-/***DS***/
-#define DS_CMD_MID         0x18BB /**< \brief DS Ground Commands Message ID */
-#define DS_SEND_HK_MID     0x18BC /**< \brief DS Send Hk Data Cmd Message ID*/
-
-
-/************************************
-**Space reserved for MIDs of apps we might want to include later w/ MIDS b/w like
-**0x189F, 18A1 used by CS
-**0x18A4, 18A8 used by limit checker
-**0x18A9 to 0x18AB is used by md
-**0x18AE to 18B0 used by hs
-**0x18B3 to 18BA USED BY cf
-**0x18C0, 18C1 used by stored command absolute
-**0x1FFD also used by cf
-****************************************//
-
-/***EPS***/
-#define EPS_CMD_MID            	0x1900 /**< \brief EPS Ground Command Message ID **/
-#define EPS_SEND_HK_MID        	0x1901 /**< \brief EPS Send HK Data cmd Message ID **/
-#define EPS_WAKEUP_MID        	0x1902 /**< \brief EPS Wakeup cmd Message ID **/
-#define EPS_OUT_DATA_MID        0x1903 /**< \brief EPS Output data cmd Message ID **/
-
-/***COMMS***/
-#define COMMS_CMD_MID            	0x1910 /**< \brief COMMS Ground Command Message ID **/
-#define COMMS_SEND_HK_MID        	0x1911 /**< \brief COMMS Send HK Data cmd Message ID **/
-#define COMMS_WAKEUP_MID        	0x1912 /**< \brief COMMS Wakeup cmd Message ID **/
-#define COMMS_OUT_DATA_MID        0x1913 /**< \brief COMMS Output data cmd Message ID **/
-
-/***PAYLOAD***/
-#define PAYLOAD_CMD_MID            	0x1920 /**< \brief Payload Ground Command Message ID **/
-#define PAYLOAD_SEND_HK_MID        	0x1921 /**< \brief Payload Send HK Data cmd Message ID **/
-#define PAYLOAD_WAKEUP_MID        	0x1922 /**< \brief Payload Wakeup cmd Message ID **/
-#define PAYLOAD_OUT_DATA_MID        0x1923 /**< \brief Payload Output data cmd Message ID **/
+//Define	Name			ID							//	Description			
+//***CFE***								
+//TLM								
+#define	CFE_ES_HK_TLM_MID		CFE_MISSION_TLM_MID_BASE1+CFE_MISSION_ES_HK_TLM_MSG	//	* 0x0800 *			
+#define	CFE_EVS_HK_TLM_MID		CFE_MISSION_TLM_MID_BASE1+CFE_MISSION_EVS_HK_TLM_MSG	//	* 0x0801 *			
+								
+#define	CFE_SB_HK_TLM_MID		CFE_MISSION_TLM_MID_BASE1+CFE_MISSION_SB_HK_TLM_MSG	//	* 0x0803 *			
+#define	CFE_TBL_HK_TLM_MID		CFE_MISSION_TLM_MID_BASE1+CFE_MISSION_TBL_HK_TLM_MSG	//	* 0x0804 *			
+#define	CFE_TIME_HK_TLM_MID		CFE_MISSION_TLM_MID_BASE1+CFE_MISSION_TIME_HK_TLM_MSG	//	* 0x0805 *			
+#define	CFE_TIME_DIAG_TLM_MID		CFE_MISSION_TLM_MID_BASE1+CFE_MISSION_TIME_DIAG_TLM_MSG	//	* 0x0806 *			
+#define	CFE_EVS_LONG_EVENT_MSG_MID	CFE_MISSION_TLM_MID_BASE1+CFE_MISSION_EVS_LONG_EVENT_MSG_MSG	//	* 0x0808 *			
+#define	CFE_EVS_SHORT_EVENT_MSG_MID	CFE_MISSION_TLM_MID_BASE1+CFE_MISSION_EVS_SHORT_EVENT_MSG_MSG	//	* 0x0809 *			
+#define	CFE_SB_STATS_TLM_MID		CFE_MISSION_TLM_MID_BASE1+CFE_MISSION_SB_STATS_TLM_MSG	//	* 0x080A *			
+#define	CFE_ES_APP_TLM_MID		CFE_MISSION_TLM_MID_BASE1+CFE_MISSION_ES_APP_TLM_MSG	//	* 0x080B *			
+#define	CFE_TBL_REG_TLM_MID		CFE_MISSION_TLM_MID_BASE1+CFE_MISSION_TBL_REG_TLM_MSG	//	* 0x080C *			
+#define	CFE_SB_ALLSUBS_TLM_MID		CFE_MISSION_TLM_MID_BASE1+CFE_MISSION_SB_ALLSUBS_TLM_MSG	//	* 0x080D *			
+#define	CFE_SB_ONESUB_TLM_MID		CFE_MISSION_TLM_MID_BASE1+CFE_MISSION_SB_ONESUB_TLM_MSG	//	* 0x080E *			
+//CMD								
+#define	CFE_EVS_CMD_MID			CFE_MISSION_CMD_MID_BASE1+CFE_MISSION_EVS_CMD_MSG	//	* 0x1801 *			
+								
+#define	CFE_SB_CMD_MID			CFE_MISSION_CMD_MID_BASE1+CFE_MISSION_SB_CMD_MSG	//	* 0x1803 *			
+#define	CFE_TBL_CMD_MID			CFE_MISSION_CMD_MID_BASE1+CFE_MISSION_TBL_CMD_MSG	//	* 0x1804 *			
+#define	CFE_TIME_CMD_MID		CFE_MISSION_CMD_MID_BASE1+CFE_MISSION_TIME_CMD_MSG	//	* 0x1805 *			
+#define	CFE_ES_CMD_MID			CFE_MISSION_CMD_MID_BASE1+CFE_MISSION_ES_CMD_MSG	//	* 0x1806 *			
+								
+#define	CFE_ES_SEND_HK_MID		CFE_MISSION_CMD_MID_BASE1+CFE_MISSION_ES_SEND_HK_MSG	//	* 0x1808 *			
+#define	CFE_EVS_SEND_HK_MID		CFE_MISSION_CMD_MID_BASE1+CFE_MISSION_EVS_SEND_HK_MSG	//	* 0x1809 *			
+								
+#define	CFE_SB_SEND_HK_MID		CFE_MISSION_CMD_MID_BASE1+CFE_MISSION_SB_SEND_HK_MSG	//	* 0x180B *			
+#define	CFE_TBL_SEND_HK_MID		CFE_MISSION_CMD_MID_BASE1+CFE_MISSION_TBL_SEND_HK_MSG	//	* 0x180C *			
+#define	CFE_TIME_SEND_HK_MID		CFE_MISSION_CMD_MID_BASE1+CFE_MISSION_TIME_SEND_HK_MSG	//	* 0x180D *			
+								
+#define	CFE_SB_SUB_RPT_CTRL_MID		CFE_MISSION_CMD_MID_BASE1+CFE_MISSION_SB_SUB_RPT_CTRL_MSG	//	* 0x180E *			
+								
+#define	CFE_TIME_TONE_CMD_MID		CFE_MISSION_CMD_MID_BASE1+CFE_MISSION_TIME_TONE_CMD_MSG	//	* 0x1810 *			
+#define	CFE_TIME_1HZ_CMD_MID		CFE_MISSION_CMD_MID_BASE1+CFE_MISSION_TIME_1HZ_CMD_MSG	//	* 0x1811 *			
+								
+#define	CFE_TIME_DATA_CMD_MID		CFE_MISSION_CMD_MID_BASE_GLOB+CFE_MISSION_TIME_DATA_CMD_MSG	//	* 0x1860 *			
+#define	CFE_TIME_SEND_CMD_MID		CFE_MISSION_CMD_MID_BASE_GLOB+CFE_MISSION_TIME_SEND_CMD_MSG	//	* 0x1862 *			
+								
+#ifndef	CFE_OMIT_DEPRECATED_6_7							
+#define	CFE_ES_SHELL_TLM_MID		CFE_MISSION_TLM_MID_BASE1+CFE_MISSION_ES_SHELL_TLM_MSG	//	* 0x080F *			
+#endif								
+								
+#define	CFE_ES_MEMSTATS_TLM_MID		CFE_MISSION_TLM_MID_BASE1+CFE_MISSION_ES_MEMSTATS_TLM_MSG	//	* 0x0810 *			
+								
+#ifndef	CFE_OMIT_DEPRECATED_6_6							
+#define	CFE_EVS_EVENT_MSG_MID		CFE_EVS_LONG_EVENT_MSG_MID					
+#endif								
+								
+//***HK***								
+#define	HK_HK_TLM_MID			0x082B	//	**< \brief HK Housekeeping Telemetry Message ID *			
+#define	HK_COMBINED_PKT1_MID		0x082C	//	**< \brief HK Combined Packet 1 Message ID *			
+#define	HK_COMBINED_PKT2_MID		0x082D	//	**< \brief HK Combined Packet 2 Message ID *			
+#define	HK_COMBINED_PKT3_MID		0x082E	//	**< \brief HK Combined Packet 3 Message ID *			
+#define	HK_COMBINED_PKT4_MID		0x082F	//	**< \brief HK Combined Packet 4 Message ID *			
+#define	HK_CMD_MID			0x182A	//	**< \brief HK Ground Commands Message ID *			
+#define	HK_SEND_HK_MID			0x182B	//	**< \brief HK Send Housekeeping Data Cmd Message ID *			
+#define	HK_SEND_COMBINED_PKT_MID	0x182C	//	**< \brief HK Send Combined Pkt Cmd Message ID *			
+								
+//***CI***								
+#define	CI_HK_TLM_MID			0x0834					
+#define	CI_OUT_DATA_MID			0x0835					
+#define	CI_APP_CMD_MID			0x1834					
+#define	CI_SEND_HK_MID			0x1835					
+#define	CI_WAKEUP_MID			0x1836					
+#define	CI_GATE_CMD_MID			0x1837					
+								
+//***CI_LAB***								
+#define	CI_LAB_HK_TLM_MID		0x0844					
+#deifne	CI_LAB_CMD_MID			0x1844					
+#define	CI_LAB_SEND_HK_MID		0x1845					
+								
+//***TO***								
+#define	TO_HK_TLM_MID			0x0850					
+#define	TO_OUT_DATA_MID			0x0851					
+#define	TO_DATA_TYPE_MID		0x0852					
+#define	TO_APP_CMD_MID			0x1850					
+#define	TO_SEND_HK_MID			0x1851					
+#define	TO_WAKEUP_MID			0x1852					
+								
+//***TO_LAB***								
+#define	TO_LAB_HK_TLM_MID		0x0860					
+#define	TO_LAB_DATA_TYPES_MID		0x0861					
+#define	TO_LAB_CMD_MID			0x1860					
+#define	TO_LAB_SEND_HK_MID		0x1861					
+								
+//***CFDP***								
+#define	CF_HK_TLM_MID			0x0870					
+#define	CF_TRANS_TLM_MID		0x0871					
+#define	CF_CONFIG_TLM_MID		0x0872					
+#define	CF_SPARE0_TLM_MID		0x0873					
+#define	CF_SPARE1_TLM_MID		0x0874					
+#define	CF_SPARE2_TLM_MID		0x0875					
+#define	CF_SPARE3_TLM_MID		0x0876					
+#define	CF_SPARE4_TLM_MID		0x0877					
+#define	CF_CMD_MID			0x1873					
+#define	CF_SEND_HK_MID			0x1874					
+#define	CF_WAKE_UP_REQ_CMD_MID		0x1875					
+#define	CF_SPARE1_CMD_MID		0x1876					
+#define	CF_SPARE2_CMD_MID		0x1877					
+#define	CF_SPARE3_CMD_MID		0x1878					
+#define	CF_SPARE4_CMD_MID		0x1879					
+#define	CF_SPARE5_CMD_MID		0x187A					
+#define	CF_INCOMING_PDU_MID		0x1FFD					
+#define CF_SPACE_TO_GND_PDU_MID		0x0FFD	//	Note: not used by code. For purpose of keeping all CF related message IDs defined in this file, the CF table should reference this macro definition			
+								
+//***SCH***								
+#define	SCH_HK_TLM_MID			0x0887	//	**< \brief SCH Housekeeping Telemetry Message ID *			
+#define	SCH_DIAG_TLM_MID		0x0888	//	**< \brief SCH Diagnostic Telemetry Message ID *			
+#define	SCH_TLM_SPARE1			0x0889					
+#define	SCH_TLM_SPARE2			0x088A					
+#define	SCH_CMD_MID				0x1885	//	**< \brief SCH Ground Commands Message ID *			
+#define	SCH_SEND_HK_MID			0x1886	//	**< \brief SCH Send Housekeeping Message ID *			
+#define	SCH_UNUSED_MID			0x1887	//	**< \brief SCH MDT Unused Message Message ID *			
+#define	SCH_SPARE1				0x1888					
+#define	SCH_SPARE2				0x1889					
+								
+//***DS***								
+#define	DS_HK_TLM_MID			0x0898	//	**< \brief DS Hk Telemetry Message ID ****			
+#define	DS_DIAG_TLM_MID			0x0899	//	**< \brief DS File Info Telemetry Message ID ****			
+#define	DS_CMD_MID				0x189B	//	**< \brief DS Ground Commands Message ID *			
+#define	DS_SEND_HK_MID			0x189C	//	**< \brief DS Send Hk Data Cmd Message ID*			
+								
+//***EPS***								
+#define	EPS_HK_TLM_MID		0x08A0	//	**< \brief EPS APP HK Telemetry Message ID **		For app telemetry packets	
+#define	EPS_HW_TLM_MID		0x08A1	//	**< \brief EPS Hardware Telemetry Message ID **		For hardware telemetry packets	
+#define	EPS_HW_CFRM_MID		0x08A2	//	**< \brief EPS Hardware Confrimation Message ID **		For receiving confirmation of commands to hw	
+#define	EPS_CFG_PKT_MID		0x08A3	//	**< \brief EPS Configuration packet Message ID **		Configuration packet (in or out)	
+#define	EPS_CMD_MID			0x18A0	//	**< \brief EPS Ground Command Message ID **		For commands from anywhere to EPS app	
+#define	EPS_HK_REQ_MID		0x18A1	//	**< \brief EPS APP HK Data Request cmd Message ID **		Request app hk	
+#define	EPS_HW_REQ_MID		0x18A2	//	**< \brief EPS Hardware HK Data Request cmd Message ID **		Request hardware hk	
+#define	EPS_HW_CMD_MID		0x18A3	//	**< \brief EPS Hardware cmd Message ID **		Any command to hardware (except request hk)	
+#define	EPS_WAKEUP_MID		0x18A4	//	**< \brief EPS Wakeup cmd Message ID **			
+								
+//***CMS***								
+#define	CMS_HK_TLM_MID		0x08B0	//	**< \brief CMS hk Telemetry Message ID **			
+#define	CMS_HW_TLM_MID		0x08B1	//	**< \brief CMS Hardware Telemetry Message ID **			
+#define	CMS_HW_CFRM_MID		0x08B2	//	**< \brief CMS Hardware Confirmation Message ID **			
+#define	CNS_CFG_PKT_MID		0x08B3	//	**< \brief CMS Configuration packet Message ID **		Configuration packet (in or out)	
+#define	CMS_CMD_MID			0x18B0	//	**< \brief CMS Ground Command Message ID **		command from anywhere	
+#define	CMS_HK_REQ_MID		0X18B1	//	**< \brief CMS APP HK Data Request cmd Message ID **		app hk request	
+#define	CMS_HW_REQ_MID		0x18B2	//	**< \brief CMS Hardware HK Data Request cmd Message ID **		hw hk request	
+#define	CMS_HW_CMD_MID		0x18B3	//	**< \brief CMS Hardware cmd Message ID **		command to CMS hardware (antenna deployment and stuff)	
+#define	CMS_WAKEUP_MID		0x18B4	//	**< \brief CMS Wakeup cmd Message ID **			
+								
+//***PLD***								
+#define	PLD_HK_TLM_MID		0x08C0	//	**< \brief PLD hk Telemetry Message ID **			
+#define	PLD_HW_TLM_MID		0x08C1	//	**< \brief PLD Hardware Telemetry Message ID **			
+#define	PLD_HW_CFRM_MID		0x08C2	//	**< \brief PLD Hardware Confirmation Message ID **			
+#define	PLD_SCI_DATA_MID	0x08C3	//	**< \brief PLD Science Data Packet Message ID **			
+#define	PLD_CFG_PKT_MID		0x08C3	//	**< \brief PLD Configuration packet Message ID **		Configuration packet (in or out)	
+#define	PLD_CMD_MID			0x18C0	//	**< \brief PLD Ground Command Message ID **			
+#define	PLD_HK_REQ_MID		0X18C1	//	**< \brief PLD APP HK Data Request cmd Message ID **			
+#define	PLD_HW_REQ_MID		0x18C2	//	**< \brief PLD Hardware HK Data Request cmd Message ID **			
+#define	PLD_HW_CMD_MID		0x18C3	//	**< \brief PLD Hardware cmd Message ID **			
+#define	PLD_WAKEUP_MID		0x18C4	//	**< \brief PLD Wakeup cmd Message ID **			
+								
+//***SOBC***								
+#define	SOBC_HK_TLM_MID		0x08D0	//	**< \brief SOBC hk Telemetry Message ID **			
+#define	SOBC_HW_TLM_MID		0x08D1	//	**< \brief SOBC Hardware Telemetry Message ID **			
+#define	SOBC_HW_CFRM_MID	0x08D2	//	**< \brief SOBC Hardware Confirmation Message ID **			
+#define	SOBC_CMD_MID		0x18D0	//	**< \brief SOBC Ground Command Message ID **			
+#define	SOBC_HK_REQ_MID		0X18D1	//	**< \brief SOBC APP HK Data Request cmd Message ID **			
+#define	SOBC_HW_REQ_MID		0x18D2	//	**< \brief SOBC Hardware HK Data Request cmd Message ID **			
+#define	SOBC_HW_CMD_MID		0x18D3	//	**< \brief SOBC Hardware cmd Message ID **			
+#define	SOBC_WAKEUP_MID		0x18D4	//	**< \brief SOBC Wakeup cmd Message ID **			
