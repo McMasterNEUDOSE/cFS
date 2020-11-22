@@ -46,6 +46,7 @@ void CSP_TO_Task(void)
 
     /* CSP packet for main loop */
     csp_packet_t *packet;
+    CFE_SB_MsgId_t MsgId;
 
     /* Main process loop */
     while(1)
@@ -59,6 +60,9 @@ void CSP_TO_Task(void)
                           "CSP - TO Task: Failed to receive from TLM pipe\n");
             continue;
         }
+
+        MsgId = CFE_SB_GetMsgId(CSP_AppData.TlmPtr);
+        CFE_ES_WriteToSysLog("TLM recvd: 0x%x\n", CFE_SB_MsgIdToValue(MsgId));
 
         /* Get packet from CSP buffer - size of SB message */
         packet = csp_buffer_get(sizeof(CFE_SB_Msg_t));
