@@ -13,6 +13,7 @@ CFE_APP, /cf/sample_app.so,  SAMPLE_AppMain,  SAMPLE_APP,   60,   16384, 0x0, 0;
 CFE_APP, /cf/ci_lab.so,      CI_Lab_AppMain,  CI_LAB_APP,   62,   16384, 0x0, 0;
 CFE_APP, /cf/to_lab.so,      TO_Lab_AppMain,  TO_LAB_APP,   64,   16384, 0x0, 0;
 CFE_APP, /cf/sch_lab.so,     SCH_Lab_AppMain, SCH_LAB_APP,  66,   16384, 0x0, 0;
+CFE_APP, /cf/cf.so,		CF_AppMain,	CF,	67	16384, 0x0,	0;
 !
 ! Startup script fields:
 ! 1. Object Type      -- CFE_APP for an Application, or CFE_LIB for a library.
