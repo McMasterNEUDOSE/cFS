@@ -61,6 +61,7 @@ extern "C" {
 */
 #include "hk_msgids.h"
 #include "sch_msgids.h"
+#include "cf_msgids.h"
 
 
 
