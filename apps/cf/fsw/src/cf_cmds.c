@@ -538,14 +538,14 @@ void CF_SetMibCmd(CFE_SB_MsgPtr_t MessagePtr)
 
         if(CF_ChkTermination(CmdPtr->Param,CF_MAX_CFG_PARAM_CHARS)==CF_ERROR)
         {           
-            CF_SendEventNoTerm("SetMib Cmd, Param parameter");
+            CF_SendEventNoTerm((char*)"SetMib Cmd, Param parameter");
             CF_AppData.Hk.ErrCounter++;
             return;
         }
         
         if(CF_ChkTermination(CmdPtr->Value,CF_MAX_CFG_VALUE_CHARS)==CF_ERROR)
         {           
-            CF_SendEventNoTerm("SetMib Cmd, Value parameter");
+            CF_SendEventNoTerm((char*)"SetMib Cmd, Value parameter");
             CF_AppData.Hk.ErrCounter++;
             return;
         }                 
@@ -678,7 +678,7 @@ void CF_GetMibCmd(CFE_SB_MsgPtr_t MessagePtr)
         
         if(CF_ChkTermination(CmdPtr->Param,CF_MAX_CFG_PARAM_CHARS)==CF_ERROR)
         {           
-            CF_SendEventNoTerm("GetMib Cmd, Param parameter");
+            CF_SendEventNoTerm((char*)"GetMib Cmd, Param parameter");
             CF_AppData.Hk.ErrCounter++;
             return;
         }
@@ -748,7 +748,7 @@ void CF_WriteQueueCmd(CFE_SB_MsgPtr_t MessagePtr)
                 
             if((CmdPtr->Filename[0])=='\0')
             {               
-                Stat = CF_WriteQueueInfo(CF_DEFAULT_QUEUE_INFO_FILENAME,
+                Stat = CF_WriteQueueInfo((char*)CF_DEFAULT_QUEUE_INFO_FILENAME,
                             CF_AppData.UpQ[QIndex].TailPtr);
             }else{
           
@@ -785,7 +785,7 @@ void CF_WriteQueueCmd(CFE_SB_MsgPtr_t MessagePtr)
 
             if((CmdPtr->Filename[0])=='\0')
             {
-                Stat = CF_WriteQueueInfo(CF_DEFAULT_QUEUE_INFO_FILENAME,
+                Stat = CF_WriteQueueInfo((char*)CF_DEFAULT_QUEUE_INFO_FILENAME,
                           CF_AppData.Chan[CmdPtr->Chan].PbQ[CmdPtr->Queue].TailPtr);
             }else{
           
@@ -833,7 +833,7 @@ int32 CF_WriteQueueInfo(char *Filename,CF_QueueEntry_t *QueueEntryPtr){
     CFE_FS_Header_t             FileHdr;
 
     /* check for string termination and no spaces in filename */
-    if(CF_ValidateFilenameReportErr(Filename,"WriteQueueCmd")==CF_ERROR)
+    if(CF_ValidateFilenameReportErr(Filename,(char*)"WriteQueueCmd")==CF_ERROR)
     {                                
         return CF_ERROR;
     }/* end if */    
@@ -934,7 +934,7 @@ void CF_WriteActiveTransCmd(CFE_SB_MsgPtr_t MessagePtr)
     
         if((CmdPtr->Filename[0])=='\0')
         {
-            Stat = CF_WriteActiveTransInfo(CF_DEFAULT_QUEUE_INFO_FILENAME,CmdPtr->Type);
+            Stat = CF_WriteActiveTransInfo((char*)CF_DEFAULT_QUEUE_INFO_FILENAME,CmdPtr->Type);
     
         }else{
       
@@ -959,7 +959,7 @@ int32 CF_WriteActiveTransInfo(char *Filename, uint32 WhichQueues){
     uint32                      i;
 
     /* check for string termination and no spaces in filename */
-    if(CF_ValidateFilenameReportErr(Filename,"WriteActiveTransCmd")==CF_ERROR)
+    if(CF_ValidateFilenameReportErr(Filename,(char*)"WriteActiveTransCmd")==CF_ERROR)
     {                                
         return CF_ERROR;
     }/* end if */
@@ -1081,7 +1081,7 @@ void CF_SendTransDataCmd(CFE_SB_MsgPtr_t MessagePtr)
         
         if(CF_ChkTermination(CmdPtr->Trans,OS_MAX_PATH_LEN)==CF_ERROR)
         {           
-            CF_SendEventNoTerm("SendTransData Cmd, Trans parameter");
+            CF_SendEventNoTerm((char*)"SendTransData Cmd, Trans parameter");
             CF_AppData.Hk.ErrCounter++;
             return;
         }
@@ -1090,7 +1090,7 @@ void CF_SendTransDataCmd(CFE_SB_MsgPtr_t MessagePtr)
         if(CmdPtr->Trans[0] == '/')
         {
             /* check for spaces in filename */
-            if(CF_ValidateFilenameReportErr(CmdPtr->Trans,"SendTransDataCmd")==CF_ERROR)
+            if(CF_ValidateFilenameReportErr(CmdPtr->Trans,(char*)"SendTransDataCmd")==CF_ERROR)
             {                                
                 CF_AppData.Hk.ErrCounter++;
                 return;
@@ -1411,7 +1411,7 @@ void CF_DequeueNodeCmd(CFE_SB_MsgPtr_t MessagePtr)
 
         if(CF_ChkTermination(CmdPtr->Trans,OS_MAX_PATH_LEN)==CF_ERROR)
         {           
-            CF_SendEventNoTerm("DequeueNode Cmd, Trans parameter");
+            CF_SendEventNoTerm((char*)"DequeueNode Cmd, Trans parameter");
             CF_AppData.Hk.ErrCounter++;
             return;
         }
@@ -1421,7 +1421,7 @@ void CF_DequeueNodeCmd(CFE_SB_MsgPtr_t MessagePtr)
         if(CmdPtr->Trans[0] == '/')
         {
             /* check for spaces in filename */
-            if(CF_ValidateFilenameReportErr(CmdPtr->Trans,"DequeueNodeCmd")==CF_ERROR)
+            if(CF_ValidateFilenameReportErr(CmdPtr->Trans,(char*)"DequeueNodeCmd")==CF_ERROR)
             {                                
                 CF_AppData.Hk.ErrCounter++;
                 return;
@@ -1946,7 +1946,7 @@ void CF_QuickStatusCmd(CFE_SB_MsgPtr_t MessagePtr)
         
         if(CF_ChkTermination(CmdPtr->Trans,OS_MAX_PATH_LEN)==CF_ERROR)
         {           
-            CF_SendEventNoTerm("QuickStatusCmd, Trans parameter");
+            CF_SendEventNoTerm((char*)"QuickStatusCmd, Trans parameter");
             CF_AppData.Hk.ErrCounter++;
             return;
         }
@@ -1955,7 +1955,7 @@ void CF_QuickStatusCmd(CFE_SB_MsgPtr_t MessagePtr)
         /* if parameter has a path/filename (as opposed to a TransId String) */
         if(CmdPtr->Trans[0] == '/')
         {             
-            if(CF_ValidateFilenameReportErr(CmdPtr->Trans,"QuickStatusCmd")==CF_ERROR)
+            if(CF_ValidateFilenameReportErr(CmdPtr->Trans,(char*)"QuickStatusCmd")==CF_ERROR)
             {                                
                 CF_AppData.Hk.ErrCounter++;
                 return;

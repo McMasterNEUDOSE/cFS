@@ -147,7 +147,7 @@ void CF_PlaybackFileCmd(CFE_SB_MsgPtr_t MessagePtr)
         /* check that the filename has forward slash at start, no spaces and */
         /* is properly terminated */
         if(CF_ValidateFilenameReportErr(PlaybackFileCmdPtr->SrcFilename, 
-                                        "PlaybackFileCmd")==CF_ERROR)
+                                        (char*)"PlaybackFileCmd")==CF_ERROR)
         {
             CF_AppData.Hk.ErrCounter++;
             return;
@@ -156,7 +156,7 @@ void CF_PlaybackFileCmd(CFE_SB_MsgPtr_t MessagePtr)
         /* check that the filename has forward slash at start, no spaces and */
         /* is properly terminated */
         if(CF_ValidateFilenameReportErr(PlaybackFileCmdPtr->DstFilename, 
-                                        "PlaybackFileCmd")==CF_ERROR)
+                                        (char*)"PlaybackFileCmd")==CF_ERROR)
         {
             CF_AppData.Hk.ErrCounter++;
             return;
@@ -413,7 +413,7 @@ int32 CF_QueueDirectoryFiles(CF_QueueDirFiles_t  *Ptr)
     if((dirp = OS_opendir(Ptr->SrcPath)) == NULL) /* directory is invalid */
     {
         CFE_EVS_SendEvent(CF_OPEN_DIR_ERR_EID,CFE_EVS_ERROR,
-            "Playback Dir Error %d,cannot open directory %s",dirp,Ptr->SrcPath);
+            "Playback Dir Error,cannot open directory %s",Ptr->SrcPath);
         CFE_ES_PerfLogExit(CF_QDIRFILES_PERF_ID);
         return CF_ERROR;
     }
@@ -428,8 +428,8 @@ int32 CF_QueueDirectoryFiles(CF_QueueDirFiles_t  *Ptr)
         CFE_ES_PerfLogEntry(CF_QDIRFILES_PERF_ID);
     
         /* if file is a 'dot' directory... continue to next file */
-        if((strcmp(direntp->d_name,".") == 0) || 
-           (strcmp(direntp->d_name,"..") == 0))
+        if((strcmp(direntp->FileName,".") == 0) || 
+           (strcmp(direntp->FileName,"..") == 0))
         {
             CFE_ES_PerfLogExit(CF_QDIRFILES_PERF_ID);
             continue;
@@ -458,7 +458,7 @@ int32 CF_QueueDirectoryFiles(CF_QueueDirFiles_t  *Ptr)
             return CF_ERROR;
         }
 
-        if(CF_ChkTermination(direntp->d_name,OS_MAX_PATH_LEN)==CF_ERROR)
+        if(CF_ChkTermination(direntp->FileName,OS_MAX_PATH_LEN)==CF_ERROR)
         {
             CFE_EVS_SendEvent(CF_QDIR_INV_NAME1_EID,CFE_EVS_ERROR,
                 "File not queued from %s,Filename not terminated or too long",Ptr->SrcPath);
@@ -467,7 +467,7 @@ int32 CF_QueueDirectoryFiles(CF_QueueDirFiles_t  *Ptr)
             continue;
         }        
         
-        FilenameLength = strlen(direntp->d_name);
+        FilenameLength = strlen(direntp->FileName);
         
         if(((FilenameLength + SrcPathLength) >= OS_MAX_PATH_LEN) ||
            ((FilenameLength + DstPathLength) >= OS_MAX_PATH_LEN))
@@ -483,11 +483,11 @@ int32 CF_QueueDirectoryFiles(CF_QueueDirFiles_t  *Ptr)
                 
         /* Append filename to src path */ 
         strcat(FullSrcName,Ptr->SrcPath);
-        strcat(FullSrcName,direntp->d_name);
+        strcat(FullSrcName,direntp->FileName);
 
         /* Append filename to dst path */
         strcat(FullDstName,Ptr->DstPath);
-        strcat(FullDstName,direntp->d_name);
+        strcat(FullDstName,direntp->FileName);
                 
         /* check that the file is not already pending or active */            
         if((CF_FileIsOnQueue(Ptr->Chan, CF_PB_PENDINGQ, FullSrcName)==CF_TRUE)||

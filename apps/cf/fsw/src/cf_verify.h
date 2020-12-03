@@ -52,7 +52,7 @@
     #error CF_PIPE_DEPTH must be defined!
 #elif (CF_PIPE_DEPTH  <  1)
     #error CF_PIPE_DEPTH cannot be less than 1!
-#elif (CF_PIPE_DEPTH  >  CFE_SB_MAX_PIPE_DEPTH)
+#elif (CF_PIPE_DEPTH  >  256)
     #error CF_PIPE_DEPTH cannot be greater than CFE_SB_MAX_PIPE_DEPTH!
 #endif
 

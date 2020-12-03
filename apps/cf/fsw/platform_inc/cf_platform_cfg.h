@@ -71,7 +71,7 @@
 **       The maximum size dictated by cFE platform configuration 
 **		 parameter is CFE_SB_MAX_PIPE_DEPTH
 */
-#define CF_PIPE_DEPTH                       40
+#define CF_PIPE_DEPTH                       20
 
 
 /**

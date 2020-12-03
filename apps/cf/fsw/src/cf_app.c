@@ -514,16 +514,16 @@ int32 CF_ChannelInit (void)
 
 
     /* create mem pool */
-    Stat = CFE_ES_PoolCreateEx(&CF_AppData.Mem.PoolHdl, 
+    Stat = CFE_ES_PoolCreateEx((CFE_ES_MemHandle_t*)&CF_AppData.Mem.PoolHdl, 
                                 CF_AppData.Mem.Partition, 
                                 CF_MEMORY_POOL_BYTES, 
                                 CF_MAX_MEMPOOL_BLK_SIZES, 
-                                &CF_MemPoolDefSize[0],
+                                (uint32*)&CF_MemPoolDefSize[0],
                                 CFE_ES_USE_MUTEX);
     
     if(Stat != CFE_SUCCESS){
-        CFE_ES_WriteToSysLog("PoolCreate failed for CF, gave adr 0x%x,size %d,stat=0x%x\n",
-                             CF_AppData.Mem.Partition,CF_MEMORY_POOL_BYTES,Stat);
+        CFE_ES_WriteToSysLog("PoolCreate failed for CF, gave adr 0x%hhu,size %d,stat=0x%x\n",
+                             *CF_AppData.Mem.Partition,CF_MEMORY_POOL_BYTES,Stat);
         return Stat;
     }
     
@@ -605,14 +605,14 @@ int32 CF_ValidateCFConfigTable (void * TblPtr)
 
     for(i=0;i<CF_NUM_INPUT_CHANNELS;i++)
     {        
-        if(Tbl->InCh[0].IncomingPDUMsgId > CFE_SB_HIGHEST_VALID_MSGID)    
+        if(Tbl->InCh[0].IncomingPDUMsgId == CFE_SB_INVALID_MSG_ID)    
         {        
             TblValidationErrs++;
 
             if(TblValidationErrs == 1)
                 CFE_EVS_SendEvent(CF_TBL_VAL_ERR2_EID, CFE_EVS_ERROR,
                     "Cannot set IncomingPDUMsgId 0x%X > CFE_SB_HIGHEST_VALID_MSGID 0x%X",
-                    Tbl->InCh[0].IncomingPDUMsgId,CFE_SB_HIGHEST_VALID_MSGID);          
+                    Tbl->InCh[0].IncomingPDUMsgId,CFE_SB_INVALID_MSG_ID);          
         }
 
     }
@@ -659,14 +659,14 @@ int32 CF_ValidateCFConfigTable (void * TblPtr)
 
 
             /* Validate Downlink MsgId for this channel */
-            if(Tbl->OuCh[i].OutgoingPduMsgId > CFE_SB_HIGHEST_VALID_MSGID)
+            if(Tbl->OuCh[i].OutgoingPduMsgId == CFE_SB_INVALID_MSG_ID)
             {
                 TblValidationErrs++;
 
                 if(TblValidationErrs == 1)
                     CFE_EVS_SendEvent(CF_TBL_VAL_ERR7_EID, CFE_EVS_ERROR,
                         "Cannot set Ch%d OutgoingPduMsgId 0x%X > CFE_SB_HIGHEST_VALID_MSGID 0x%X",
-                        i,Tbl->OuCh[i].OutgoingPduMsgId,CFE_SB_HIGHEST_VALID_MSGID);
+                        i,Tbl->OuCh[i].OutgoingPduMsgId,CFE_SB_INVALID_MSG_ID);
             }
 
                 
@@ -840,19 +840,19 @@ void CF_AppPipe (CFE_SB_MsgPtr_t MessagePtr)
                     break;                                                             
                     
                 case CF_SUSPEND_CC:
-                    CF_CARSCmd(MessagePtr,"Suspend");
+                    CF_CARSCmd(MessagePtr,(char*)"Suspend");
                     break;
                  
                 case CF_RESUME_CC:
-                    CF_CARSCmd(MessagePtr,"Resume");
+                    CF_CARSCmd(MessagePtr,(char*)"Resume");
                     break;                                   
 
                 case CF_CANCEL_CC:                    
-                    CF_CARSCmd(MessagePtr,"Cancel");
+                    CF_CARSCmd(MessagePtr,(char*)"Cancel");
                     break;
 
                 case CF_ABANDON_CC:
-                    CF_CARSCmd(MessagePtr,"Abandon");
+                    CF_CARSCmd(MessagePtr,(char*)"Abandon");
                     break;
 
                 case CF_SET_MIB_PARAM_CC:
@@ -1024,7 +1024,7 @@ void CF_SendPDUToEngine(CFE_SB_MsgPtr_t MessagePtr)
 
     if(CF_AppData.RawPduInputBuf.length > CF_INCOMING_PDU_BUF_SIZE){
         CFE_EVS_SendEvent(CF_PDU_RCV_ERR2_EID, CFE_EVS_ERROR,
-            "PDU Rcv Error:length %d exceeds CF_INCOMING_PDU_BUF_SIZE %d",
+            "PDU Rcv Error:length %ld exceeds CF_INCOMING_PDU_BUF_SIZE %d",
             CF_AppData.RawPduInputBuf.length,CF_INCOMING_PDU_BUF_SIZE);
         CF_AppData.Hk.App.PDUsRejected++; 
         return;
@@ -1100,10 +1100,10 @@ void CF_WakeupProcessing(CFE_SB_MsgPtr_t MessagePtr)
             {
                 for(i=0;i < CF_AutoSuspendCnt;i++)
                 {
-                    sprintf(TransIdBuf,"%s_%lu",CF_AppData.Tbl->FlightEntityId,
+                    sprintf(TransIdBuf,"%s_%u",CF_AppData.Tbl->FlightEntityId,
                                                 CF_AutoSuspendArray[i]);                            
                                     
-                    CF_BuildCmdedRequest("Suspend",&TransIdBuf[0]);
+                    CF_BuildCmdedRequest((char*)"Suspend",&TransIdBuf[0]);
                 
                 }/* end for */
                         

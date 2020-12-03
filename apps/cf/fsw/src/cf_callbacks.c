@@ -96,6 +96,7 @@
 #include "cf_utils.h"
 #include "cf_perfids.h"
 #include <string.h>
+#include <stdio.h>
 
 #ifdef CF_DEBUG
 extern uint32           cfdbg;
@@ -218,7 +219,7 @@ void CF_Indication (INDICATION_TYPE IndType, TRANS_STATUS TransInfo)
                 if(QueueEntryPtr != NULL)
                 {                                    
                     CFE_EVS_SendEvent(CF_OUT_TRANS_START_EID,CFE_EVS_INFORMATION,
-                                    "Outgoing trans started %d.%d_%d,src %s",                                                            
+                                    "Outgoing trans started %d.%d_%ld,src %s",                                                            
                                     TransInfo.trans.source_id.value[0],
                                     TransInfo.trans.source_id.value[1],
                                     TransInfo.trans.number,
@@ -267,7 +268,7 @@ void CF_Indication (INDICATION_TYPE IndType, TRANS_STATUS TransInfo)
             
             /* file-receive transaction */
             CFE_EVS_SendEvent(CF_IN_TRANS_START_EID,CFE_EVS_INFORMATION,
-                                "Incoming trans started %d.%d_%d,dest %s",                                                            
+                                "Incoming trans started %d.%d_%ld,dest %s",                                                            
                                 TransInfo.trans.source_id.value[0],
                                 TransInfo.trans.source_id.value[1],
                                 TransInfo.trans.number,
@@ -310,7 +311,7 @@ void CF_Indication (INDICATION_TYPE IndType, TRANS_STATUS TransInfo)
                     }else{
                     
                         CFE_EVS_SendEvent(CF_TRANS_SUSPEND_OVRFLW_EID,CFE_EVS_ERROR,
-                                    "Out Trans %u not suspended.Buffer overflow, max %u",
+                                    "Out Trans %lu not suspended.Buffer overflow, max %u",
                                     TransInfo.trans.number,CF_AUTOSUSPEND_MAX_TRANS);
     
                     }/* end if CF_AutoSuspendCnt is max'd*/
@@ -373,7 +374,7 @@ void CF_Indication (INDICATION_TYPE IndType, TRANS_STATUS TransInfo)
                     CF_MoveUpNodeActiveToHistory(EntityIdBuf, TransInfo.trans.number);
                 
                     CFE_EVS_SendEvent(CF_IN_TRANS_OK_EID,CFE_EVS_INFORMATION,
-                                "Incoming trans success %d.%d_%d,dest %s",                                                            
+                                "Incoming trans success %d.%d_%ld,dest %s",                                                            
                                 TransInfo.trans.source_id.value[0],
                                 TransInfo.trans.source_id.value[1],
                                 TransInfo.trans.number,
@@ -402,7 +403,7 @@ void CF_Indication (INDICATION_TYPE IndType, TRANS_STATUS TransInfo)
                     CF_MoveDwnNodeActiveToHistory(TransInfo.trans.number);
                 
                     CFE_EVS_SendEvent(CF_OUT_TRANS_OK_EID,CFE_EVS_INFORMATION,
-                                    "Outgoing trans success %d.%d_%d,src %s",                                                            
+                                    "Outgoing trans success %d.%d_%ld,src %s",                                                            
                                     TransInfo.trans.source_id.value[0],
                                     TransInfo.trans.source_id.value[1],
                                     TransInfo.trans.number,
@@ -452,7 +453,7 @@ void CF_Indication (INDICATION_TYPE IndType, TRANS_STATUS TransInfo)
                     CF_MoveUpNodeActiveToHistory(EntityIdBuf, TransInfo.trans.number);                
                     
                     CFE_EVS_SendEvent(CF_IN_TRANS_FAILED_EID,CFE_EVS_ERROR,
-                                "Incoming trans %d.%d_%d %s,CondCode %s,dest %s",                                                            
+                                "Incoming trans %d.%d_%ld %s,CondCode %s,dest %s",                                                            
                                 TransInfo.trans.source_id.value[0],
                                 TransInfo.trans.source_id.value[1],
                                 TransInfo.trans.number,
@@ -484,7 +485,7 @@ void CF_Indication (INDICATION_TYPE IndType, TRANS_STATUS TransInfo)
                     CF_MoveDwnNodeActiveToHistory(TransInfo.trans.number);
                     
                     CFE_EVS_SendEvent(CF_OUT_TRANS_FAILED_EID,CFE_EVS_ERROR,
-                                "Outgoing trans %d.%d_%d %s,CondCode %s,Src %s,Ch %d ",                                                            
+                                "Outgoing trans %d.%d_%ld %s,CondCode %s,Src %s,Ch %d ",                                                            
                                 TransInfo.trans.source_id.value[0],
                                 TransInfo.trans.source_id.value[1],
                                 TransInfo.trans.number,
@@ -517,7 +518,7 @@ void CF_Indication (INDICATION_TYPE IndType, TRANS_STATUS TransInfo)
 
         case IND_ACK_TIMER_EXPIRED:
             CFE_EVS_SendEvent(CF_IND_ACK_TIM_EXP_EID,CFE_EVS_INFORMATION,
-                              "Flight Ack Timer Expired %d.%d_%d,%s",
+                              "Flight Ack Timer Expired %d.%d_%ld,%s",
                               TransInfo.trans.source_id.value[0],
                               TransInfo.trans.source_id.value[1],
                               TransInfo.trans.number,
@@ -527,7 +528,7 @@ void CF_Indication (INDICATION_TYPE IndType, TRANS_STATUS TransInfo)
 
         case IND_INACTIVITY_TIMER_EXPIRED:
             CFE_EVS_SendEvent(CF_IND_INA_TIM_EXP_EID,CFE_EVS_INFORMATION,
-                              "Flight Inactivity Timer Expired %d.%d_%d,%s",
+                              "Flight Inactivity Timer Expired %d.%d_%ld,%s",
                               TransInfo.trans.source_id.value[0],
                               TransInfo.trans.source_id.value[1],
                               TransInfo.trans.number,
@@ -537,7 +538,7 @@ void CF_Indication (INDICATION_TYPE IndType, TRANS_STATUS TransInfo)
 
         case IND_NAK_TIMER_EXPIRED:
             CFE_EVS_SendEvent(CF_IND_NACK_TIM_EXP_EID,CFE_EVS_INFORMATION,
-                              "Flight Nack Timer Expired %d.%d_%d,%s",
+                              "Flight Nack Timer Expired %d.%d_%ld,%s",
                               TransInfo.trans.source_id.value[0],
                               TransInfo.trans.source_id.value[1],
                               TransInfo.trans.number,
@@ -547,7 +548,7 @@ void CF_Indication (INDICATION_TYPE IndType, TRANS_STATUS TransInfo)
 
         case IND_SUSPENDED:
             CFE_EVS_SendEvent(CF_IND_XACT_SUS_EID,CFE_EVS_INFORMATION,
-                              "Transaction Susupended %d.%d_%d,%s",
+                              "Transaction Susupended %d.%d_%ld,%s",
                               TransInfo.trans.source_id.value[0],
                               TransInfo.trans.source_id.value[1],
                               TransInfo.trans.number,
@@ -556,7 +557,7 @@ void CF_Indication (INDICATION_TYPE IndType, TRANS_STATUS TransInfo)
 
         case IND_RESUMED:      
             CFE_EVS_SendEvent(CF_IND_XACT_RES_EID,CFE_EVS_INFORMATION,
-                              "Transaction Resumed %d.%d_%d,%s",
+                              "Transaction Resumed %d.%d_%ld,%s",
                               TransInfo.trans.source_id.value[0],
                               TransInfo.trans.source_id.value[1],
                               TransInfo.trans.number,
@@ -569,7 +570,7 @@ void CF_Indication (INDICATION_TYPE IndType, TRANS_STATUS TransInfo)
         case IND_FAULT:
             /*Fault was generated by the engine*/
             CFE_EVS_SendEvent(CF_IND_XACT_FAU_EID,CFE_EVS_DEBUG,
-                              "Fault %d,%d.%d_%d,%s",
+                              "Fault %d,%d.%d_%ld,%s",
                               TransInfo.condition_code,
                               TransInfo.trans.source_id.value[0],
                               TransInfo.trans.source_id.value[1],
@@ -581,7 +582,7 @@ void CF_Indication (INDICATION_TYPE IndType, TRANS_STATUS TransInfo)
         case IND_ABANDONED:             
 
             CFE_EVS_SendEvent(CF_IND_XACT_ABA_EID,CFE_EVS_INFORMATION,
-                              "Indication:Transaction Abandon %d.%d_%d,%s",
+                              "Indication:Transaction Abandon %d.%d_%ld,%s",
                               TransInfo.trans.source_id.value[0],
                               TransInfo.trans.source_id.value[1],
                               TransInfo.trans.number,
@@ -785,7 +786,7 @@ void CF_PduOutputSend (TRANSACTION TransInfo,ID DestinationId, CFDP_DATA *PduPtr
     {
         /* cannot find channel number for transaction. Drop pdu and report error */ 
         CFE_EVS_SendEvent(CF_OUT_SND_ERR1_EID,CFE_EVS_ERROR,
-            "Dropping PDU,cannot find channel number for TransId %d.%d_%d",            
+            "Dropping PDU,cannot find channel number for TransId %d.%d_%ld",            
             TransInfo.source_id.value[0],
             TransInfo.source_id.value[1],
             TransInfo.number);
@@ -815,7 +816,7 @@ void CF_PduOutputSend (TRANSACTION TransInfo,ID DestinationId, CFDP_DATA *PduPtr
         if(TotalMsgLength > CFE_SB_MAX_SB_MSG_SIZE)
         {
             CFE_EVS_SendEvent(CF_OUT_SND_ERR2_EID,CFE_EVS_ERROR,
-                "Dropping PDU,Ch %d,Msg Size %d > Max %d,TransId %d.%d_%d",            
+                "Dropping PDU,Ch %d,Msg Size %d > Max %d,TransId %d.%d_%ld",            
                 Chan,
                 TotalMsgLength,
                 CFE_SB_MAX_SB_MSG_SIZE,
@@ -843,7 +844,7 @@ void CF_PduOutputSend (TRANSACTION TransInfo,ID DestinationId, CFDP_DATA *PduPtr
     if(CF_AppData.Chan[Chan].ZeroCpyMsgPtr == NULL)
     {
         CFE_EVS_SendEvent(CF_OUT_SND_ERR3_EID,CFE_EVS_ERROR,
-            "Dropping PDU,Ch %d,Failed to get SB buffer %d,TransId %d.%d_%d",            
+            "Dropping PDU,Ch %d,Failed to get SB buffer %d,TransId %d.%d_%ld",            
             Chan,
             TotalMsgLength,
             TransInfo.source_id.value[0],
@@ -1098,7 +1099,9 @@ CFDP_FILE * CF_Fopen(const char *Name, const char *Mode)
         
     CFE_ES_PerfLogExit(CF_FOPEN_PERF_ID);
 
-    return((CFDP_FILE *)FileHandle);
+    long int FH = FileHandle;
+
+    return((CFDP_FILE*)FH);
 
 }/* end of CF_Fopen function */
 
@@ -1137,7 +1140,7 @@ u_int_4 CF_FileSize(const char *Name)
     StatVal = OS_stat(Name,&OsStatBuf);
     if(StatVal >= OS_FS_SUCCESS)
     {
-        FileSize = OsStatBuf.st_size;        
+        FileSize = OsStatBuf.FileSize;        
     }
     else
     {
@@ -1189,7 +1192,7 @@ int CF_Fseek(CFDP_FILE *File, long int Offset, int Whence)
         WhenceVal = OS_SEEK_END;           
     }
     
-    SeekVal = CF_Tmplseek((int32)File,(int32)Offset,WhenceVal);
+    SeekVal = CF_Tmplseek((int64)File,(int32)Offset,WhenceVal);
     
     if(SeekVal == OS_FS_ERROR)
     {
@@ -1233,7 +1236,7 @@ size_t CF_Fread(void *Buffer, size_t Size,size_t Count, CFDP_FILE *File)
     else
     {
     
-       BytesRead = CF_Tmpread((uint32)File,Buffer,(uint32)(Size*Count));
+       BytesRead = CF_Tmpread((uint64)File,Buffer,(uint32)(Size*Count));
        if(BytesRead <= 0)  
        {  /* The OS_read call will return a negative value of failure 
           **  which in an invalid return for the fread call expected by the engine.
@@ -1280,7 +1283,7 @@ size_t CF_Fwrite(const void *Buffer, size_t Size,size_t Count, CFDP_FILE *File)
     }
     else
     {
-       BytesWritten = CF_Tmpwrite((uint32)File,(void*)Buffer,(uint32)(Size*Count));
+       BytesWritten = CF_Tmpwrite((uint64)File,(void*)Buffer,(uint32)(Size*Count));
        if(BytesWritten <= 0)  
        {  /* The OS_read call will return a negative value of failure 
           **  which in an invalid return for the fread call expected by the engine.
@@ -1320,7 +1323,7 @@ int CF_Fclose(CFDP_FILE *File)
     
     CFE_ES_PerfLogEntry(CF_FCLOSE_PERF_ID);
 
-    CloseVal = CF_Tmpclose((uint32)File);
+    CloseVal = CF_Tmpclose((uint64)File);
     
     if(CloseVal != OS_FS_SUCCESS)
     {
@@ -1427,7 +1430,7 @@ int CF_DebugEvent(const char *Format, ...)
 
     Status = CFE_EVS_SendEvent(CF_CFDP_ENGINE_DEB_EID,
                       CFE_EVS_DEBUG,
-                      BigBuf);
+                      "%s",BigBuf);
                         
 
     return(Status);
@@ -1471,7 +1474,7 @@ int CF_InfoEvent(const char *Format, ...)
 
     Status = CFE_EVS_SendEvent(CF_CFDP_ENGINE_INFO_EID,
                                CFE_EVS_DEBUG,
-                               BigBuf);
+                               "%s", BigBuf);
 
     return(Status);
     
@@ -1512,7 +1515,7 @@ int CF_WarningEvent(const char *Format, ...)
 
     Status = CFE_EVS_SendEvent(CF_CFDP_ENGINE_WARN_EID,
                       CFE_EVS_INFORMATION,
-                      BigBuf);            
+                      "%s", BigBuf);            
     
     return(Status);
     
@@ -1553,7 +1556,7 @@ int CF_ErrorEvent(const char *Format, ...)
 
     Status = CFE_EVS_SendEvent(CF_CFDP_ENGINE_ERR_EID,
                       CFE_EVS_ERROR,
-                      BigBuf);            
+                      "%s", BigBuf);            
     
     return(Status);
     
