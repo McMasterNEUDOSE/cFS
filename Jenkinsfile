@@ -4,7 +4,8 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'make'  
+                sh 'make'
+                echo 'Compiled successfully'
             }
         }
     }
