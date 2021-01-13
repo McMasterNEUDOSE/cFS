@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    tools{cmake "cmake"}
+    tools{CMake "cmake"}
 
     stages {
         stage('Build') {
