@@ -4,9 +4,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'make prep'
-                sh 'make'
-                echo 'Compiled successfully'
+                sh 'pwd'
             }
         }
     }
