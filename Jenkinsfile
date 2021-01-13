@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    tools{CMake "cmake"}
+    tools{CMake "InSearchPath"}
 
     stages {
         stage('Build') {
